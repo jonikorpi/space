@@ -1,0 +1,471 @@
+@charset "utf-8";
+@viewport {width: device-width;}
+
+//
+// General variables
+
+$font-size-multiplier: 16/16;
+$line: 1.382rem;
+
+$row-count: 8;
+$col-count: 13;
+$board-fill-ratio: 91;
+$board-height-ratio: $row-count/$col-count;
+$board-angle: 23.6deg;
+$character-angle: 12.4deg;
+
+$x-unit: 100% / $col-count;
+$y-unit: 100% / $row-count;
+
+$grid-border-width: 1px;
+
+$main-easing:        cubic-bezier(0.236, 0.000, 0.236, 1.000);
+$reverse-easing:     cubic-bezier(0.618, 0.000, 0.236, 1.000);
+$loop-easing:        ease-in-out;
+
+$main-time: 200ms;
+$short-time: 124ms;
+$loop-time: $main-time*89;
+
+//
+// Colors
+
+$hue: 45;
+$hue-increment: 1.618;
+
+$hue-1:  $hue + (360/$hue-increment) *  1;
+$hue-2:  $hue + (360/$hue-increment) *  2;
+$hue-3:  $hue + (360/$hue-increment) *  3;
+$hue-4:  $hue + (360/$hue-increment) *  4;
+$hue-5:  $hue + (360/$hue-increment) *  5;
+$hue-6:  $hue + (360/$hue-increment) *  6;
+$hue-7:  $hue + (360/$hue-increment) *  7;
+$hue-8:  $hue + (360/$hue-increment) *  8;
+$hue-9:  $hue + (360/$hue-increment) *  9;
+$hue-10: $hue + (360/$hue-increment) * 10;
+$hue-11: $hue + (360/$hue-increment) * 11;
+$hue-12: $hue + (360/$hue-increment) * 12;
+$hue-13: $hue + (360/$hue-increment) * 13;
+
+$background:      hsl($hue-1, 0%, 5.6%);
+$off-background:  hsl($hue-1, 38.2%, 14.6%);
+$card-background: hsl($hue-1, 50%, 9%);
+
+$bright: hsl($hue, 23.6%, 76.4%);
+$body:   hsl($hue, 5.6%, 61.8%);
+$dim:    hsl($hue, 3.4%, 50%);
+
+$purple-bright: hsl($hue-1, 23.6%, 76.4%);
+$purple-body:   hsl($hue-1, 14.6%, 61.8%);
+$purple-dim:    hsl($hue-1, 9%, 50%);
+
+$yellow: hsl($hue,   50%, 61.8%);
+$orange: hsl($hue-8, 50%, 50%);
+$red:    hsl($hue-3, 38.2%, 50.0%);
+$blue:   hsl($hue-4, 50%, 60%);
+$cyan:   hsl($hue-7, 38.2%, 50.0%);
+$green:  hsl($hue-2, 23.6%, 50.0%);
+$purple: hsl($hue-1, 50.0%, 66.6%);
+
+$shadow: hsl($hue-1, 50%, 5.6%);
+$border: hsl($hue-1, 9%, 41.4%);
+$tile:  hsla($hue-1, 9%, 61.8%, 0.056);
+
+$highlight: hsl($hue, 76.4%, 61.8%);
+$purple-highlight: hsl($hue-1, 38.2%, 50%);
+$blue-highlight: hsl($hue-4, 91%, 66.6%);
+
+$shadow: hsla($hue-1, 50%, 5.6%, 0.236);
+
+//
+// Media queries
+
+$xs2:  "#{317 / 16 * 1em}";
+$xs:   "#{318 / 16 * 1em}";
+$s:    "#{478 / 16 * 1em}";
+$m:    "#{560 / 16 * 1em}";
+$l:    "#{740 / 16 * 1em}";
+$xl:   "#{960 / 16 * 1em}";
+$xl2: "#{1100 / 16 * 1em}";
+$xl3: "#{1200 / 16 * 1em}";
+$xl4: "#{1400 / 16 * 1em}";
+$xl5: "#{1700 / 16 * 1em}";
+$xl6: "#{1900 / 16 * 1em}";
+$xl7: "#{2300 / 16 * 1em}";
+
+$retina: "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)";
+
+//
+// Imports
+
+@import "reset";
+
+//
+// Font families
+
+html {
+  font-family: sans-serif;
+}
+
+//
+// Basic styles
+
+html {
+  font-size: 100% * $font-size-multiplier;
+  line-height: $line / 1rem;
+  background: $background;
+  color: $body;
+  -webkit-tap-highlight-color: hsla($hue-1, 100%, 61.8%, 0.5);
+}
+
+body {
+
+}
+
+a {
+  color: hsl($hue-2, 85.4%, 61.8%);
+  text-decoration: none;
+
+  &:hover {
+    color: hsl($hue-3, 85.4%, 61.8%);
+  }
+
+  &:active {
+    color: hsl($hue-4, 85.4%, 61.8%);
+  }
+}
+
+h1, h2, h3, h4, h5, h6,
+strong, b {
+  color: hsl($hue, 23.6%, 76.4%);
+}
+
+hr {
+  border-color: hsl($hue-1, 9%, 23.6%);
+}
+
+code {
+  color: hsl($hue-1, 14.6%, 61.8%);
+}
+
+::selection {
+  background: hsl($hue-2, 91%, 61.8%);
+}
+
+::placeholder {
+  color: hsl($hue, 9%, 50%);
+}
+
+.absolute-0 {
+  position: absolute;
+  left: 0; top: 0; right: 0; bottom: 0;
+}
+
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+
+html, body {
+  height: 100%;
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.game {
+  perspective: 162vh;
+  margin: 0;
+}
+
+.rows, .cols,
+.character-shadow,
+.character-model {
+  pointer-events: none;
+}
+
+.grid-container {
+  width: $board-fill-ratio * 1vw;
+  max-width: $board-fill-ratio * 1vh / $board-height-ratio;
+  margin: auto;
+}
+
+.grid {
+  transform: rotateX($board-angle);
+  transform-style: preserve-3d;
+  transform-origin: bottom;
+  background: $tile;
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  margin: auto;
+  width: 100%;
+  height: 0;
+  padding-top: 100% * $board-height-ratio;
+}
+
+.row,
+.col {
+  border: solid $background;
+}
+
+.row {
+  height: 100 / $row-count *1%;
+  border-width: $grid-border-width 0;
+}
+
+.col {
+  float: left;
+  width: 100 / $col-count *1%;
+  height: 100%;
+  border-width: 0 $grid-border-width;
+}
+
+//
+// Characters
+
+.character {
+  cursor: pointer;
+  width: $x-unit;
+  height: $y-unit;
+  position: absolute;
+  transition: $main-time $main-easing;
+  transition-property: left, top, right, bottom;
+}
+
+.character-base {
+  border-radius: 50%;
+  border: 1vmin solid $shadow;
+
+  .character[data-team="1"] & {
+    background: $blue;
+  }
+
+  .character[data-team="2"] & {
+    background: $red;
+  }
+
+  .character.selected & {
+    border-color: $bright;
+  }
+}
+
+.character-model,
+.character-shadow {
+  background: url("images/default-character.svg") center bottom no-repeat;
+  background-size: contain;
+  transform-style: preserve-3d;
+}
+
+.character-shadow {
+  -webkit-filter: grayscale(100%) contrast(0.056) brightness(0.236) blur(0.2vmin);
+          filter: grayscale(100%) contrast(0.056) brightness(0.236) blur(0.2vmin);
+  transform-origin: bottom;
+  opacity: 0.382;
+  animation: shadowSway $loop-time $loop-easing infinite alternate;
+  animation-play-state: paused;
+
+  [data-team="2"] & {
+    animation-name: shadowSwayOpposite;
+  }
+}
+
+@keyframes shadowSway {
+  0%, 100% {
+    transform:
+      translateY(-52%)
+      scaleY(0.854)
+      skewX(-$character-angle)
+      rotateX(180deg)
+    ;
+  }
+
+  50% {
+    transform:
+      translateY(-52%)
+      scaleY(1)
+      skewX($character-angle*0.618)
+      rotateX(180deg)
+    ;
+  }
+}
+
+@keyframes shadowSwayOpposite {
+  0%, 100% {
+    transform:
+      translateY(-52%)
+      scaleY(0.854)
+      skewX(-$character-angle)
+      rotateX(180deg)
+      scaleX(-1)
+    ;
+  }
+
+  50% {
+    transform:
+      translateY(-52%)
+      scaleY(1)
+      skewX($character-angle*0.618)
+      rotateX(180deg)
+      scaleX(-1)
+    ;
+  }
+}
+
+.character-model {
+  width: 100%;
+  height: 100%;
+    transform: translateY(-50%) rotateX($board-angle * -1 - $character-angle);
+  transform-origin: bottom;
+  word-break: break-word;
+  font-size: 10px;
+  line-height: 1;
+  // background: $bright;
+  // color: $off-background;
+  color: $bright;
+
+  [data-team="2"] & {
+    transform: translateY(-50%) rotateX($board-angle * -1 - $character-angle) scaleX(-1);
+  }
+
+  .character[data-downed="true"] & {
+    -webkit-filter: grayscale(100%);
+            filter: grayscale(100%);
+  }
+}
+
+.moves-tag {
+  position: absolute;
+  top: 0; bottom: 0; right: 0;
+  margin: auto;
+  text-align: center;
+  background: $green;
+  color: $off-background;
+  border-radius: 50%;
+  width:  $line * 0.854;
+  height: $line * 0.854;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.854rem;
+
+  &.moves-zero {
+    background: $off-background;
+    color: $dim;
+  }
+}
+
+//
+// Character controls
+
+.character-controls-container {
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.character-controls {
+  pointer-events: auto;
+  position: absolute;
+  z-index: 1 !important;
+  width: $x-unit;
+  height: $y-unit;
+  transition: all $main-time $main-easing;
+  transform: scale(0);
+
+  &.active {
+    transform: scale(1);
+  }
+}
+
+button.move {
+  position: absolute;
+  display: block;
+  background: rgba($green, 0.09);
+  color: $green;
+  font-size: 4vmin;
+  width: 100%;
+  height: 100%;
+  transition:
+    transform $main-time $main-easing
+  ;
+
+  &:after {
+    content: "●";
+  }
+
+  &:hover {
+    background: rgba($green, 0.5);
+  }
+}
+
+button.move-left {
+  right: 100%;
+  width: 100%;
+  top: 0;
+
+  @for $i from 0 through $col-count - 1 {
+    &[data-move-x="-#{$i+1}"]  { right: 100% * ($i+1); }
+  }
+}
+
+button.move-right {
+  left:  100%;
+  width: 100%;
+  top: 0;
+
+  @for $i from 0 through $col-count - 1 {
+    &[data-move-x="#{$i+1}"]  { left: 100% * ($i+1); }
+  }
+}
+
+button.move-up {
+  bottom: 100%;
+  height: 100%;
+  left: 0;
+
+  @for $i from 0 through $col-count - 1 {
+    &[data-move-y="-#{$i+1}"]  { bottom: 100% * ($i+1); }
+  }
+}
+
+button.move-down {
+  top: 100%;
+  height: 100%;
+  left: 0;
+
+  @for $i from 0 through $col-count - 1 {
+    &[data-move-y="#{$i+1}"]  { top: 100% * ($i+1); }
+  }
+}
+
+//
+// Positions
+
+@for $i from 0 through $col-count - 1 {
+  [data-x-pos="#{$i+1}"] { left: $i * $x-unit; }
+}
+
+@for $i from 0 through $row-count - 1 {
+  [data-y-pos="#{$i+1}"] { top: $i * $y-unit; z-index: 1 + $i; }
+}
+
+//
+// Move log
+
+.move-log {
+  position: absolute;
+  left: 0; bottom: 0;
+  background: rgba($off-background, 0.382);
+  font-size: 0.75rem;
+  padding: $line;
+  max-width: 23.6vw;
+  max-height: 38.2vh;
+  overflow: auto;
+}
+
+//
+// Game header
+
+.game-header {
+  position: absolute;
+  left: 0; top: 0;
+  z-index: 10;
+}

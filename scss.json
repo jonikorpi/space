@@ -1,0 +1,7 @@
+{
+  "enableAutoprefixer": true,
+  "autoprefixerOptions": {
+      "browsers": ["last 3 versions"],
+      "remove": false
+  }
+}

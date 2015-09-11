@@ -1,0 +1,186 @@
+head
+  meta(charset="utf-8")
+  title Starlifter
+  
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+
+  //link(href="http://www.jonikorpi.com/images/avatar-570316eb.png" rel="icon" type="image/png")
+  //link(rel="apple-touch-icon" type="image/png" href="http://www.jonikorpi.com/images/avatar-570316eb.png")
+  // meta(name="msapplication-TileColor" content="#000000")
+  //meta(name="msapplication-TileImage" content=image_url("avatar.png"))
+  
+  //- "Social icons"
+  //meta(property="og:image"      content=image_url("avatar.png"))
+  //meta(property="twitter:image" content=image_url("avatar.png"))
+
+  //- URLs
+  //meta(property="og:url"      content=current_page_url)
+  //link(rel="canonical"           href=current_page_url)
+  //meta(property="twitter:url" content=current_page_url)
+
+  //- Titles
+  //meta(property="og:title"      content=data.page.title)
+  //meta(property="og:site_name"  content="Joni Korpi")
+  //meta(property="twitter:title" content=data.page.title)
+
+  //- Descriptions
+  // %meta{property: "og:description",      content: ""})
+  // %meta{name: "description",             content: ""})
+  // %meta{property: "twitter:description", content: ""})
+
+  //- Other crap
+  meta(property="og:type"      content="website")
+  meta(property="og:locale"    content="en_GB")
+  meta(content="summary"      property="twitter:card")
+  meta(content="@jonikorpi"   property="twitter:site")
+  meta(name="format-detection" content="telephone=no")
+
+body
+
+template(name="layout")
+  +yield
+  
+template(name="home")
+  h1 
+    a(href="/") Starlifter
+  
+
+template(name="game")
+  .game.absolute-0.no-margins(id=_id)
+    .game-header
+      h1 
+        a(href="/") Warparty
+        span —
+        a(href="/"+ _id) Game ##{_id} 
+      small
+        strong #{currentTurn}
+        span Created on 
+        time #{createdAt}
+    
+      //- 
+      //-  Character selection
+      unless started
+        .class-selection
+          each teams
+            .team(data-team=teamID)
+              h3 #{teamName}
+              each teamSlots
+                select.select-character(data-slot=this)
+                  option(value="") Select…
+                  each characterMap
+                    option(value=_id) #{name}
+
+        hr
+        button.start-game Start game
+      else
+        button.stop-game Stop game
+        button.end-turn End turn
+    
+    .grid-container.no-margins.absolute-0
+      .grid
+        +rowsCols
+        +characterControls
+        each characters
+          if characterID
+            +character
+    
+    if started
+      .move-log
+        ul
+          each moves
+            +move
+    
+template(name="move")
+  li #{this.description}
+  
+template(name="character")
+  .character(data-team=team data-slot=slot data-slotID=slotID data-characterID=characterID data-downed=downed)
+    .character-base.absolute-0
+    .character-shadow.absolute-0
+    .character-model.absolute-0
+    if movesLeft
+      .moves-tag=movesLeft
+    else
+      .moves-tag.moves-zero=movesLeft
+
+template(name="characterControls")
+  .character-controls-container.absolute-0
+    .character-controls
+    
+      button.move.move-left(type="button" data-move-x="-1") 
+      button.move.move-left(type="button" data-move-x="-2") 
+      button.move.move-left(type="button" data-move-x="-3") 
+      button.move.move-left(type="button" data-move-x="-4") 
+      button.move.move-left(type="button" data-move-x="-5") 
+      button.move.move-left(type="button" data-move-x="-6") 
+      button.move.move-left(type="button" data-move-x="-7") 
+      button.move.move-left(type="button" data-move-x="-8") 
+      button.move.move-left(type="button" data-move-x="-9") 
+      button.move.move-left(type="button" data-move-x="-10")
+      button.move.move-left(type="button" data-move-x="-11")
+      button.move.move-left(type="button" data-move-x="-12")
+      
+      button.move.move-right(type="button" data-move-x="1") 
+      button.move.move-right(type="button" data-move-x="2") 
+      button.move.move-right(type="button" data-move-x="3") 
+      button.move.move-right(type="button" data-move-x="4") 
+      button.move.move-right(type="button" data-move-x="5") 
+      button.move.move-right(type="button" data-move-x="6") 
+      button.move.move-right(type="button" data-move-x="7") 
+      button.move.move-right(type="button" data-move-x="8") 
+      button.move.move-right(type="button" data-move-x="9") 
+      button.move.move-right(type="button" data-move-x="10")
+      button.move.move-right(type="button" data-move-x="11")
+      button.move.move-right(type="button" data-move-x="12")
+      
+      button.move.move-up(type="button" data-move-y="-1") 
+      button.move.move-up(type="button" data-move-y="-2") 
+      button.move.move-up(type="button" data-move-y="-3") 
+      button.move.move-up(type="button" data-move-y="-4") 
+      button.move.move-up(type="button" data-move-y="-5") 
+      button.move.move-up(type="button" data-move-y="-6") 
+      button.move.move-up(type="button" data-move-y="-7") 
+      button.move.move-up(type="button" data-move-y="-8") 
+      button.move.move-up(type="button" data-move-y="-9") 
+      button.move.move-up(type="button" data-move-y="-10")
+      button.move.move-up(type="button" data-move-y="-11")
+      button.move.move-up(type="button" data-move-y="-12")
+      
+      button.move.move-down(type="button" data-move-y="1") 
+      button.move.move-down(type="button" data-move-y="2") 
+      button.move.move-down(type="button" data-move-y="3") 
+      button.move.move-down(type="button" data-move-y="4") 
+      button.move.move-down(type="button" data-move-y="5") 
+      button.move.move-down(type="button" data-move-y="6") 
+      button.move.move-down(type="button" data-move-y="7") 
+      button.move.move-down(type="button" data-move-y="8") 
+      button.move.move-down(type="button" data-move-y="9") 
+      button.move.move-down(type="button" data-move-y="10")
+      button.move.move-down(type="button" data-move-y="12")
+      button.move.move-down(type="button" data-move-y="12")
+
+template(name="rowsCols")
+  .rows.absolute-0
+    .row#row-1
+    .row#row-2
+    .row#row-3
+    .row#row-4
+    .row#row-5
+    .row#row-6
+    .row#row-7
+    .row#row-8
+
+  .cols.absolute-0 
+    .col#col-1
+    .col#col-2
+    .col#col-3
+    .col#col-4
+    .col#col-5
+    .col#col-6
+    .col#col-7
+    .col#col-8
+    .col#col-9
+    .col#col-10
+    .col#col-11
+    .col#col-12
+    .col#col-13
