@@ -15,6 +15,11 @@ $board-height-ratio: $row-count/$col-count;
 $x-unit: 100% / $col-count;
 $y-unit: 100% / $row-count;
 
+$star-count: 37;
+$star-step:   1;
+$star-step-1: 2;
+$star-step-2: 3;
+
 $grid-border-width: 1px;
 
 $main-easing:        cubic-bezier(0.236, 0.000, 0.236, 1.000);
@@ -259,24 +264,24 @@ html, body {
 
 .layer-1 {
   $layer-1-gradients: ();
-  @for $i from 1 through 23 {
-    $layer-1-gradients: $layer-1-gradients, radial-gradient(circle 1px at random(100)*1% random(100)*1%, $dim 99%, transparent);
+  @for $i from 1 through $star-count {
+    $layer-1-gradients: $layer-1-gradients, radial-gradient(circle $star-step*1px at random(100)*1% random(100)*1%, $dim 99%, transparent);
   }
   background-image: $layer-1-gradients;
 }
 
 .layer-2 {
   $layer-2-gradients: ();
-  @for $i from 1 through 19 {
-    $layer-2-gradients: $layer-2-gradients, radial-gradient(circle 1.5px at random(100)*1% random(100)*1%, $body 99%, transparent);
+  @for $i from 1 through $star-count/$star-step-1 {
+    $layer-2-gradients: $layer-2-gradients, radial-gradient(circle $star-step-1*1px at random(100)*1% random(100)*1%, $body 99%, transparent);
   }
   background-image: $layer-2-gradients;
 }
 
 .layer-3 {
   $layer-3-gradients: ();
-  @for $i from 1 through 13 {
-    $layer-3-gradients: $layer-3-gradients, radial-gradient(circle 2px at random(100)*1% random(100)*1%, $bright 99%, transparent);
+  @for $i from 1 through $star-count/$star-step-2 {
+    $layer-3-gradients: $layer-3-gradients, radial-gradient(circle $star-step-2*1px at random(100)*1% random(100)*1%, $bright 99%, transparent);
   }
   background-image: $layer-3-gradients;
 }
