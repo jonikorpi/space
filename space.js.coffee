@@ -65,6 +65,31 @@ if Meteor.isClient
   #
   # Non-Meteor methods
 
+  moveBackdrop = (number) ->
+    xPos = Game.xPos * number
+    yPos = Game.yPos * number
+    xPosRounded = Math.ceil(xPos / 100 - 1)
+    yPosRounded = Math.ceil(yPos / 100 - 1)
+
+    transform = "transform: translate( #{-xPos / 3}%, #{-yPos / 3}% );"
+    left = ""
+    top = ""
+
+    if xPos > 100
+      left = "left: #{ 100*xPosRounded}%;"
+    if xPos < -100
+      left = "left: #{ 100*xPosRounded}%;"
+    if yPos > 100
+      top =   "top: #{ 100*yPosRounded}%;"
+    if yPos < -100
+      top =   "top: #{ 100*yPosRounded}%;"
+
+    style = transform + left + top
+
+    return {
+      style: style
+    }
+
   # moveCharacter = (x, y) ->
   #   fleet = $(".fleet.selected")
   #   slotID = character.attr("data-slotID")
@@ -87,13 +112,6 @@ if Meteor.isClient
   #     return false
   #   else
   #     fleet.attr( {"data-x-pos": newX, "data-y-pos": newY} )
-
-  #
-  # Methods on the client
-
-  Meteor.methods
-    routeToFleet: (fleetID) ->
-      Router.go "fleet", _id: fleetID
 
   #
   # Layout
@@ -191,30 +209,16 @@ if Meteor.isClient
   # Backdrop
 
   Template.backdrop.helpers
-
-    backdropPositions: ->
-      xPos = Game.xPos
-      yPos = Game.yPos
-      xPosRounded = Math.ceil(xPos / 100)
-      yPosRounded = Math.ceil(yPos / 100)
-
-      transform = "transform: translate( #{-xPos / 3}%, #{-yPos / 3}% );"
-      left = ""
-      top = ""
-
-      if xPos > 100
-        left = "left: #{ 100*xPosRounded - 100 }%;"
-      if xPos < -100
-        left = "left: #{ 100*xPosRounded - 100 }%;"
-      if yPos > 100
-        top =   "top: #{ 100*yPosRounded - 100 }%;"
-      if yPos < -100
-        top =   "top: #{ 100*yPosRounded - 100 }%;"
-
-      style = transform + left + top
-      return {
-        "style": style
-      }
+    layerOne: ->
+      moveBackdrop(1)
+    layerTwo: ->
+      moveBackdrop(2)
+    layerThree: ->
+      moveBackdrop(3)
+    layerFour: ->
+      moveBackdrop(4)
+    layerFive: ->
+      moveBackdrop(5)
 
   #
   # Fleet

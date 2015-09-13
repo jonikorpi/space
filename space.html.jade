@@ -67,7 +67,13 @@ template(name="game")
         +fleet
         
 template(name="backdrop")
-  .backdrop.abs-all($dyn=backdropPositions)
+  .backdrop.abs-all
+  .dimmer.abs-all
+  .layer.layer-1.abs-all($dyn=layerOne)
+  .layer.layer-2.abs-all($dyn=layerTwo)
+  .layer.layer-3.abs-all($dyn=layerThree)
+  .layer.layer-4.abs-all($dyn=layerFour)
+  .layer.layer-5.abs-all($dyn=layerFive)
   
 template(name="fleet")
   .fleet.abs-all
