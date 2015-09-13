@@ -235,13 +235,15 @@ html, body {
 }
 
 .layer {
+  will-change: transform, left, top;
+  transform: translate3d(0,0,0);
   width: 300%;
   height: 300%;
   left: -100%;
   top: -100%;
   transition:
     all 0ms linear $main-time,
-    transform $main-time*5 $main-easing
+    transform $main-time*8 ease
   ;
 }
 
