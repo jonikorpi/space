@@ -5,8 +5,10 @@ Game = {}
 Game.fleetID = false
 Game.yPos = 0
 Game.xPos = 0
-# Game.movesPerCharacter = 2
-# Game.fleetsPerTeam = 4
+Game.starSpeed = 0.5
+Game.starStep  = 1
+Game.starStep1 = 2
+Game.starStep2 = 3
 
 # Game.bindArrowKeys = ->
 #   $(document).on "keydown", (event) ->
@@ -210,11 +212,11 @@ if Meteor.isClient
 
   Template.backdrop.helpers
     layer1: ->
-      moveBackdrop(0.5)
+      moveBackdrop( Game.starSpeed * Game.starStep )
     layer2: ->
-      moveBackdrop(0.5*1.5)
+      moveBackdrop( Game.starSpeed * Game.starStep1 )
     layer3: ->
-      moveBackdrop(0.5*2)
+      moveBackdrop( Game.starSpeed * Game.starStep2 )
 
   #
   # Fleet

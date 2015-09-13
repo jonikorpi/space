@@ -16,7 +16,7 @@ $x-unit: 100% / $col-count;
 $y-unit: 100% / $row-count;
 
 $star-count: 37;
-$star-step:   1;
+$star-step:   1; // Also in space.js.coffee
 $star-step-1: 2;
 $star-step-2: 3;
 
