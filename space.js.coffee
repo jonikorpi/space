@@ -2,9 +2,9 @@
 # Globals
 
 Game = {}
-# Game.rowCount = 8
-# Game.colCount = 13
 Game.fleetID = false
+Game.yPos = 0
+Game.xPos = 0
 # Game.movesPerCharacter = 2
 # Game.fleetsPerTeam = 4
 
@@ -51,6 +51,8 @@ Router.route "/:_id",
     if targetFleet
       console.log targetFleet
       Game.fleetID = @.params._id
+      Game.xPos = targetFleet.xPos
+      Game.yPos = targetFleet.yPos
       return targetFleet
     else
       return false
@@ -186,6 +188,35 @@ if Meteor.isClient
     #   console.log "setting character #{shipID} in game #{gameID}"
 
   #
+  # Backdrop
+
+  Template.backdrop.helpers
+
+    backdropPositions: ->
+      xPos = Game.xPos
+      yPos = Game.yPos
+      xPosRounded = Math.ceil(xPos / 100)
+      yPosRounded = Math.ceil(yPos / 100)
+
+      transform = "transform: translate( #{-xPos / 3}%, #{-yPos / 3}% );"
+      left = ""
+      top = ""
+
+      if xPos > 100
+        left = "left: #{ 100*xPosRounded - 100 }%;"
+      if xPos < -100
+        left = "left: #{ 100*xPosRounded - 100 }%;"
+      if yPos > 100
+        top =   "top: #{ 100*yPosRounded - 100 }%;"
+      if yPos < -100
+        top =   "top: #{ 100*yPosRounded - 100 }%;"
+
+      style = transform + left + top
+      return {
+        "style": style
+      }
+
+  #
   # Fleet
 
   Template.fleet.helpers
@@ -259,6 +290,7 @@ if Meteor.isClient
   Template.fleetControls.events
 
     "click .move": (event) ->
+      event.stopPropagation()
       button = $(event.target)
       buttonX = button.attr("data-move-x")
       buttonY = button.attr("data-move-y")

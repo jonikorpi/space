@@ -9,10 +9,8 @@ $line: 1.382rem;
 
 $row-count: 8;
 $col-count: 13;
-$board-fill-ratio: 91;
+$board-fill-ratio: 100;
 $board-height-ratio: $row-count/$col-count;
-$board-angle: 23.6deg;
-$character-angle: 12.4deg;
 
 $x-unit: 100% / $col-count;
 $y-unit: 100% / $row-count;
@@ -23,7 +21,7 @@ $main-easing:        cubic-bezier(0.236, 0.000, 0.236, 1.000);
 $reverse-easing:     cubic-bezier(0.618, 0.000, 0.236, 1.000);
 $loop-easing:        ease-in-out;
 
-$main-time: 200ms;
+$main-time: 300ms;
 $short-time: 124ms;
 $loop-time: $main-time*89;
 
@@ -47,7 +45,7 @@ $hue-11: $hue + (360/$hue-increment) * 11;
 $hue-12: $hue + (360/$hue-increment) * 12;
 $hue-13: $hue + (360/$hue-increment) * 13;
 
-$background:      hsl($hue-1, 0%, 5.6%);
+$background:      hsl($hue-1, 14.6%, 5.6%);
 $off-background:  hsl($hue-1, 38.2%, 14.6%);
 $card-background: hsl($hue-1, 50%, 9%);
 
@@ -200,12 +198,9 @@ html, body {
 }
 
 .grid {
-  transform: rotateX($board-angle);
   transform-style: preserve-3d;
   transform-origin: bottom;
   background: $tile;
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
   margin: auto;
   width: 100%;
   height: 0;
@@ -227,6 +222,22 @@ html, body {
   width: 100 / $col-count *1%;
   height: 100%;
   border-width: 0 $grid-border-width;
+}
+
+//
+// Backdrop
+
+.backdrop {
+  background-color: $background;
+  width: 300%;
+  height: 300%;
+  left: -100%;
+  top: -100%;
+  background-image:
+    radial-gradient(white 1%, transparent 2%)
+  ;
+  background-size: 12.5vw 12.5vh;
+  transition: transform $main-time $main-easing;
 }
 
 //
@@ -284,7 +295,6 @@ html, body {
     transform:
       translateY(-52%)
       scaleY(0.854)
-      skewX(-$character-angle)
       rotateX(180deg)
     ;
   }
@@ -293,30 +303,7 @@ html, body {
     transform:
       translateY(-52%)
       scaleY(1)
-      skewX($character-angle*0.618)
       rotateX(180deg)
-    ;
-  }
-}
-
-@keyframes shadowSwayOpposite {
-  0%, 100% {
-    transform:
-      translateY(-52%)
-      scaleY(0.854)
-      skewX(-$character-angle)
-      rotateX(180deg)
-      scaleX(-1)
-    ;
-  }
-
-  50% {
-    transform:
-      translateY(-52%)
-      scaleY(1)
-      skewX($character-angle*0.618)
-      rotateX(180deg)
-      scaleX(-1)
     ;
   }
 }
@@ -324,19 +311,11 @@ html, body {
 .fleet-model {
   width: 100%;
   height: 100%;
-    transform: translateY(-50%) rotateX($board-angle * -1 - $character-angle);
   transform-origin: bottom;
   word-break: break-word;
   font-size: 10px;
   line-height: 1;
-  // background: $bright;
-  // color: $off-background;
   color: $bright;
-
-  // .fleet[data-downed="true"] & {
-  //   -webkit-filter: grayscale(100%);
-  //           filter: grayscale(100%);
-  // }
 }
 
 //

@@ -58,15 +58,16 @@ template(name="game")
       h1 
         a(href="/") Starlifter
         span —
-        a(href=_id) Fleet ##{_id} 
-      small
-        strong #{currentTurn}
-        span Created on 
-        time #{createdAt}
+        a(href=_id) Fleet ##{_id}
+    
+    +backdrop(xPos=xPos yPox=yPos)
     
     .grid-container.no-margins.abs-all
-      .grid
+      .grid.abs-all
         +fleet
+        
+template(name="backdrop")
+  .backdrop.abs-all($dyn=backdropPositions)
   
 template(name="fleet")
   .fleet.abs-all
