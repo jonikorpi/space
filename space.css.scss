@@ -156,10 +156,19 @@ code {
   color: hsl($hue, 9%, 50%);
 }
 
-.absolute-0 {
-  position: absolute;
-  left: 0; top: 0; right: 0; bottom: 0;
-}
+.abs-all   { position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
+
+.abs-left   { position: absolute; top: 0; bottom: 0; left:  0; }
+.abs-right  { position: absolute; top: 0; bottom: 0; right: 0; }
+
+.abs-top    { position: absolute; left: 0; right: 0; top:    0; }
+.abs-bottom { position: absolute; left: 0; right: 0; bottom: 0; }
+
+.abs-top-left   { position: absolute; top: 0; left:  0; }
+.abs-top-right  { position: absolute; top: 0; right: 0; }
+
+.abs-bottom-left   { position: absolute; bottom: 0; left:  0; }
+.abs-bottom-right  { position: absolute; bottom: 0; right: 0; }
 
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
@@ -179,8 +188,8 @@ html, body {
 }
 
 .rows, .cols,
-.character-shadow,
-.character-model {
+.fleet-shadow,
+.fleet-model {
   pointer-events: none;
 }
 
@@ -223,40 +232,41 @@ html, body {
 //
 // Characters
 
-.character {
+.fleet {
+  margin: auto;
   cursor: pointer;
   width: $x-unit;
   height: $y-unit;
-  position: absolute;
   transition: $main-time $main-easing;
   transition-property: left, top, right, bottom;
 }
 
-.character-base {
+.fleet-base {
   border-radius: 50%;
   border: 1vmin solid $shadow;
+  background: $yellow;
 
-  .character[data-team="1"] & {
+  .fleet[data-team="1"] & {
     background: $blue;
   }
 
-  .character[data-team="2"] & {
+  .fleet[data-team="2"] & {
     background: $red;
   }
 
-  .character.selected & {
+  .fleet.selected & {
     border-color: $bright;
   }
 }
 
-.character-model,
-.character-shadow {
+.fleet-model,
+.fleet-shadow {
   background: url("images/default-character.svg") center bottom no-repeat;
   background-size: contain;
   transform-style: preserve-3d;
 }
 
-.character-shadow {
+.fleet-shadow {
   -webkit-filter: grayscale(100%) contrast(0.056) brightness(0.236) blur(0.2vmin);
           filter: grayscale(100%) contrast(0.056) brightness(0.236) blur(0.2vmin);
   transform-origin: bottom;
@@ -311,7 +321,7 @@ html, body {
   }
 }
 
-.character-model {
+.fleet-model {
   width: 100%;
   height: 100%;
     transform: translateY(-50%) rotateX($board-angle * -1 - $character-angle);
@@ -323,50 +333,20 @@ html, body {
   // color: $off-background;
   color: $bright;
 
-  [data-team="2"] & {
-    transform: translateY(-50%) rotateX($board-angle * -1 - $character-angle) scaleX(-1);
-  }
-
-  .character[data-downed="true"] & {
-    -webkit-filter: grayscale(100%);
-            filter: grayscale(100%);
-  }
-}
-
-.moves-tag {
-  position: absolute;
-  top: 0; bottom: 0; right: 0;
-  margin: auto;
-  text-align: center;
-  background: $green;
-  color: $off-background;
-  border-radius: 50%;
-  width:  $line * 0.854;
-  height: $line * 0.854;
-  text-align: center;
-  font-weight: bold;
-  font-size: 0.854rem;
-
-  &.moves-zero {
-    background: $off-background;
-    color: $dim;
-  }
+  // .fleet[data-downed="true"] & {
+  //   -webkit-filter: grayscale(100%);
+  //           filter: grayscale(100%);
+  // }
 }
 
 //
 // Character controls
 
-.character-controls-container {
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.character-controls {
+.fleet-controls {
   pointer-events: auto;
-  position: absolute;
   z-index: 1 !important;
-  width: $x-unit;
-  height: $y-unit;
+  width: 100%;
+  height: 100%;
   transition: all $main-time $main-easing;
   transform: scale(0);
 
@@ -451,8 +431,6 @@ button.move-down {
 // Move log
 
 .move-log {
-  position: absolute;
-  left: 0; bottom: 0;
   background: rgba($off-background, 0.382);
   font-size: 0.75rem;
   padding: $line;
@@ -465,7 +443,5 @@ button.move-down {
 // Game header
 
 .game-header {
-  position: absolute;
-  left: 0; top: 0;
   z-index: 10;
 }

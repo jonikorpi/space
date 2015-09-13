@@ -4,13 +4,13 @@
 Game = {}
 # Game.rowCount = 8
 # Game.colCount = 13
-# Game.gameID = false
+Game.fleetID = false
 # Game.movesPerCharacter = 2
-# Game.charactersPerTeam = 4
+# Game.fleetsPerTeam = 4
 
 # Game.bindArrowKeys = ->
 #   $(document).on "keydown", (event) ->
-#     if $(".character.selected").length > 0
+#     if $(".fleet.selected").length > 0
 #       switch event.which
 #         when 37 # left
 #           moveCharacter("left")
@@ -42,16 +42,18 @@ Router.configure
 Router.route "/",
   template: "home"
   name: "home"
-#
-# Router.route "/:_id",
-#   template: "game"
-#   name: "game"
-#   data: ->
-#     targetGame = Games.findOne _id: @.params._id
-#     console.log "routing to game #{@.params._id}"
-#     console.log targetGame
-#     Game.gameID = @.params._id
-#     return targetGame
+
+Router.route "/:_id",
+  template: "game"
+  name: "game"
+  data: ->
+    targetFleet = Fleets.findOne _id: @.params._id
+    if targetFleet
+      console.log targetFleet
+      Game.fleetID = @.params._id
+      return targetFleet
+    else
+      return false
 
 #
 # Client
@@ -62,11 +64,10 @@ if Meteor.isClient
   # Non-Meteor methods
 
   # moveCharacter = (x, y) ->
-  #   character = $(".character.selected")
+  #   fleet = $(".fleet.selected")
   #   slotID = character.attr("data-slotID")
-  #   movables = $(".character.selected, .character-controls")
-  #   xPos = +character.attr("data-x-pos")
-  #   yPos = +character.attr("data-y-pos")
+  #   xPos = +fleet.attr("data-x-pos")
+  #   yPos = +fleet.attr("data-y-pos")
   #
   #   newX = xPos + x
   #   newY = yPos + y
@@ -83,15 +84,14 @@ if Meteor.isClient
   #   if newX == xPos && newY == yPos
   #     return false
   #   else
-  #     movables.attr( {"data-x-pos": newX, "data-y-pos": newY} )
-  #     Meteor.call "createMove", Game.gameID, slotID, newX, newY, "character #{slotID} moved to #{newX},#{newY}"
+  #     fleet.attr( {"data-x-pos": newX, "data-y-pos": newY} )
 
   #
   # Methods on the client
 
   Meteor.methods
-    # routeToGame: (gameID) ->
-    #   Router.go 'game', _id: gameID
+    routeToFleet: (fleetID) ->
+      Router.go "fleet", _id: fleetID
 
   #
   # Layout
@@ -106,18 +106,18 @@ if Meteor.isClient
   # Home
 
   Template.home.helpers
-    # games: ->
-    #   console.log "getting all games"
-    #   return Games.find({}, {sort: {createdAt: -1}})
-    #
+    fleets: ->
+      console.log "getting all fleets"
+      return Fleets.find({}, {sort: {createdAt: -1}})
+
     # characters: ->
     #   console.log "getting all characters"
     #   return Characters.find({})
 
   Template.home.events
-    # "click .create-game": ->
-    #   console.log "creating a game"
-    #   Meteor.call "createGame"
+    "click .start-fleet": ->
+      console.log "starting a fleet"
+      Meteor.call "startFleet"
 
 
   #
@@ -178,41 +178,41 @@ if Meteor.isClient
     #   select = $(event.target)
     #   team = select.closest(".team").data("team")
     #   slot = select.data("slot")
-    #   characterID = select.val()
+    #   shipID = select.val()
     #   gameID = select.closest(".game").attr("id")
     #
-    #   Meteor.call "setCharacterSlot", gameID, characterID, slot, team
+    #   Meteor.call "setCharacterSlot", gameID, shipID, slot, team
     #
-    #   console.log "setting character #{characterID} in game #{gameID}"
+    #   console.log "setting character #{shipID} in game #{gameID}"
 
   #
-  # Character
+  # Fleet
 
-  Template.character.helpers
+  Template.fleet.helpers
 
-  Template.character.events
+  Template.fleet.events
 
-    # "click .character": (event) ->
-    #   character = $(event.target).closest(".character")
-    #   otherCharacters = $(".character").not(character)
-    #   controls = $(".character-controls")
-    #
-    #   otherCharacters.removeClass("selected")
-    #
-    #   if character.hasClass "selected"
-    #     character.removeClass "selected"
-    #     controls.removeClass("active")
-    #   else
-    #     character.addClass "selected"
-    #     controls
-    #       .attr { "data-x-pos": character.attr("data-x-pos"), "data-y-pos": character.attr("data-y-pos") }
-    #       .addClass("active")
+    "click .fleet": (event) ->
+      fleet = $(event.target).closest(".fleet")
+      otherFleets = $(".fleet").not(fleet)
+      controls = $(".fleet-controls")
 
-  Template.character.onRendered ->
+      otherFleets.removeClass("selected")
+
+      if fleet.hasClass "selected"
+        fleet.removeClass "selected"
+        controls.removeClass "active"
+      else
+        fleet.addClass "selected"
+        controls
+          .attr { "data-x-pos": fleet.attr("data-x-pos"), "data-y-pos": fleet.attr("data-y-pos") }
+          .addClass("active")
+
+  # Template.fleet.onRendered ->
     # self = this
     # slot = self.data.slot
     # team = self.data.team
-    # character = self.$(".character")
+    # character = self.$(".fleet")
     #
     # # Set initial positions
     # switch slot
@@ -254,23 +254,23 @@ if Meteor.isClient
   #
   # Character controls
 
-  Template.characterControls.helpers
+  Template.fleetControls.helpers
 
-  Template.characterControls.events
+  Template.fleetControls.events
 
-    # "click .move": (event) ->
-    #   button = $(event.target)
-    #   buttonX = button.attr("data-move-x")
-    #   buttonY = button.attr("data-move-y")
-    #   moveX = 0
-    #   moveY = 0
-    #
-    #   if buttonX
-    #     moveX = +buttonX
-    #   if buttonY
-    #     moveY = +buttonY
-    #
-    #   moveCharacter(moveX, moveY)
+    "click .move": (event) ->
+      button = $(event.target)
+      buttonX = button.attr("data-move-x")
+      buttonY = button.attr("data-move-y")
+      moveX = 0
+      moveY = 0
+
+      if buttonX
+        moveX = +buttonX
+      if buttonY
+        moveY = +buttonY
+
+      Meteor.call "moveFleet", Game.fleetID, moveX, moveY
 
 #
 # Server
@@ -307,7 +307,7 @@ if Meteor.isServer
 
   Meteor.methods
 
-    # setCharacterSlot: (gameID, characterID, slot, team) ->
+    # setCharacterSlot: (gameID, shipID, slot, team) ->
     #   slotID = "#{team}.#{slot}"
     #   console.log "slotID is #{slotID}"
     #
@@ -315,88 +315,51 @@ if Meteor.isServer
     #     _id: gameID
     #     "characters.slotID": slotID
     #   }, $set:
-    #     "characters.$.characterID": characterID
-    #
-    # createGame: ->
-    #   Games.insert
-    #     createdAt: new Date()
-    #     started: false
-    #     turn: 0
-    #     moves: 0
-    #     characters: [
-    #       {
-    #         slotID: "1.1"
-    #         team: 1
-    #         slot: 1
-    #         characterID: false
-    #         movesLeft: Game.movesPerCharacter
-    #         downed: false
-    #       }
-    #       {
-    #         slotID: "1.2"
-    #         team: 1
-    #         slot: 2
-    #         characterID: false
-    #         movesLeft: Game.movesPerCharacter
-    #         downed: false
-    #       }
-    #       {
-    #         slotID: "1.3"
-    #         team: 1
-    #         slot: 3
-    #         characterID: false
-    #         movesLeft: Game.movesPerCharacter
-    #         downed: false
-    #       }
-    #       {
-    #         slotID: "1.4"
-    #         team: 1
-    #         slot: 4
-    #         characterID: false
-    #         movesLeft: Game.movesPerCharacter
-    #         downed: true
-    #       }
-    #       {
-    #         slotID: "2.1"
-    #         team: 2
-    #         slot: 1
-    #         characterID: false
-    #         movesLeft: Game.movesPerCharacter
-    #         downed: false
-    #       }
-    #       {
-    #         slotID: "2.2"
-    #         team: 2
-    #         slot: 2
-    #         characterID: false
-    #         movesLeft: Game.movesPerCharacter
-    #         downed: false
-    #       }
-    #       {
-    #         slotID: "2.3"
-    #         team: 2
-    #         slot: 3
-    #         characterID: false
-    #         movesLeft: Game.movesPerCharacter
-    #         downed: false
-    #       }
-    #       {
-    #         slotID: "2.4"
-    #         team: 2
-    #         slot: 4
-    #         characterID: false
-    #         movesLeft: Game.movesPerCharacter
-    #         downed: false
-    #       }
-    #     ]
-    #     # , (error, results) ->
-    #       # Meteor.call "routeToGame", results
-    #
-    # startGame: (gameID) ->
-    #   Games.update gameID,
-    #     $set:
-    #       started: true
-    #       turn: 1
+    #     "characters.$.fleetID": shipID
+
+    startFleet: ->
+      Fleets.insert
+        createdAt: new Date()
+        xPos: 0
+        yPos: 0
+        ships: [
+          {
+            slot: 1
+            shipID: false
+          }
+          {
+            slot: 2
+            shipID: false
+          }
+          {
+            slot: 3
+            shipID: false
+          }
+          {
+            slot: 4
+            shipID: false
+          }
+          {
+            slot: 1
+            shipID: false
+          }
+          {
+            slot: 2
+            shipID: false
+          }
+          {
+            slot: 3
+            shipID: false
+          }
+          {
+            slot: 4
+            shipID: false
+          }
+        ]
+        # , (error, results) ->
+        #   console.log results
+        #   console.log error
+
     #
     # stopGame: (gameID) ->
     #   Games.update gameID,
@@ -413,31 +376,10 @@ if Meteor.isServer
     #   #   (error, results) ->
     #   #     console.log "ending turn for team 1"
     #   #     console.log results
-    #
-    # createMove: (gameID, slotID, newX, newY, description) ->
-    #   characterRecord = Games.findOne {
-    #     _id: gameID
-    #     "characters.slotID": slotID
-    #   }, fields: {"characters.$.movesLeft": 1}
-    #
-    #   currentMoves = characterRecord.characters[0].movesLeft
-    #
-    #   if currentMoves == 0
-    #     return
-    #   else
-    #     newMoves = currentMoves - 1
-    #
-    #     Games.update {
-    #       _id: gameID
-    #       "characters.slotID": slotID
-    #     }, $set:
-    #       "characters.$.movesLeft": newMoves
-    #
-    #     Moves.insert
-    #       createdAt: new Date()
-    #       gameID: gameID
-    #       description: description
-    #       slotID: slotID
-    #       type: "move"
-    #       targets:
-    #         [x: newX, y: newY]
+
+    moveFleet: (fleetID, moveX, moveY) ->
+      # console.log "fleet #{fleetID} moving by #{moveX},#{moveY}"
+      Fleets.update fleetID,
+        $inc:
+          xPos: moveX
+          yPos: moveY

@@ -43,144 +43,89 @@ template(name="layout")
 template(name="home")
   h1 
     a(href="/") Starlifter
+    
+  button.start-fleet(type="button") Start a fleet
+  
+  ul
+    each fleets
+      li
+        a(href=_id) #{_id}
   
 
 template(name="game")
-  .game.absolute-0.no-margins(id=_id)
-    .game-header
+  .game.abs-all.no-margins(id=_id)
+    .game-header.abs-top-left
       h1 
-        a(href="/") Warparty
+        a(href="/") Starlifter
         span —
-        a(href="/"+ _id) Game ##{_id} 
+        a(href=_id) Fleet ##{_id} 
       small
         strong #{currentTurn}
         span Created on 
         time #{createdAt}
     
-      //- 
-      //-  Character selection
-      unless started
-        .class-selection
-          each teams
-            .team(data-team=teamID)
-              h3 #{teamName}
-              each teamSlots
-                select.select-character(data-slot=this)
-                  option(value="") Select…
-                  each characterMap
-                    option(value=_id) #{name}
-
-        hr
-        button.start-game Start game
-      else
-        button.stop-game Stop game
-        button.end-turn End turn
-    
-    .grid-container.no-margins.absolute-0
+    .grid-container.no-margins.abs-all
       .grid
-        +rowsCols
-        +characterControls
-        each characters
-          if characterID
-            +character
-    
-    if started
-      .move-log
-        ul
-          each moves
-            +move
-    
-template(name="move")
-  li #{this.description}
+        +fleet
   
-template(name="character")
-  .character(data-team=team data-slot=slot data-slotID=slotID data-characterID=characterID data-downed=downed)
-    .character-base.absolute-0
-    .character-shadow.absolute-0
-    .character-model.absolute-0
-    if movesLeft
-      .moves-tag=movesLeft
-    else
-      .moves-tag.moves-zero=movesLeft
+template(name="fleet")
+  .fleet.abs-all
+    .fleet-base.abs-all
+    .fleet-shadow.abs-all
+    .fleet-model.abs-all #{xPos} #{yPos}
+    +fleetControls
 
-template(name="characterControls")
-  .character-controls-container.absolute-0
-    .character-controls
+template(name="fleetControls")
+  .fleet-controls.abs-all
+  
+    button.move.move-left(type="button" data-move-x="-1") 
+    button.move.move-left(type="button" data-move-x="-2") 
+    button.move.move-left(type="button" data-move-x="-3") 
+    button.move.move-left(type="button" data-move-x="-4") 
+    button.move.move-left(type="button" data-move-x="-5") 
+    button.move.move-left(type="button" data-move-x="-6") 
+    button.move.move-left(type="button" data-move-x="-7") 
+    button.move.move-left(type="button" data-move-x="-8") 
+    button.move.move-left(type="button" data-move-x="-9") 
+    button.move.move-left(type="button" data-move-x="-10")
+    button.move.move-left(type="button" data-move-x="-11")
+    button.move.move-left(type="button" data-move-x="-12")
     
-      button.move.move-left(type="button" data-move-x="-1") 
-      button.move.move-left(type="button" data-move-x="-2") 
-      button.move.move-left(type="button" data-move-x="-3") 
-      button.move.move-left(type="button" data-move-x="-4") 
-      button.move.move-left(type="button" data-move-x="-5") 
-      button.move.move-left(type="button" data-move-x="-6") 
-      button.move.move-left(type="button" data-move-x="-7") 
-      button.move.move-left(type="button" data-move-x="-8") 
-      button.move.move-left(type="button" data-move-x="-9") 
-      button.move.move-left(type="button" data-move-x="-10")
-      button.move.move-left(type="button" data-move-x="-11")
-      button.move.move-left(type="button" data-move-x="-12")
-      
-      button.move.move-right(type="button" data-move-x="1") 
-      button.move.move-right(type="button" data-move-x="2") 
-      button.move.move-right(type="button" data-move-x="3") 
-      button.move.move-right(type="button" data-move-x="4") 
-      button.move.move-right(type="button" data-move-x="5") 
-      button.move.move-right(type="button" data-move-x="6") 
-      button.move.move-right(type="button" data-move-x="7") 
-      button.move.move-right(type="button" data-move-x="8") 
-      button.move.move-right(type="button" data-move-x="9") 
-      button.move.move-right(type="button" data-move-x="10")
-      button.move.move-right(type="button" data-move-x="11")
-      button.move.move-right(type="button" data-move-x="12")
-      
-      button.move.move-up(type="button" data-move-y="-1") 
-      button.move.move-up(type="button" data-move-y="-2") 
-      button.move.move-up(type="button" data-move-y="-3") 
-      button.move.move-up(type="button" data-move-y="-4") 
-      button.move.move-up(type="button" data-move-y="-5") 
-      button.move.move-up(type="button" data-move-y="-6") 
-      button.move.move-up(type="button" data-move-y="-7") 
-      button.move.move-up(type="button" data-move-y="-8") 
-      button.move.move-up(type="button" data-move-y="-9") 
-      button.move.move-up(type="button" data-move-y="-10")
-      button.move.move-up(type="button" data-move-y="-11")
-      button.move.move-up(type="button" data-move-y="-12")
-      
-      button.move.move-down(type="button" data-move-y="1") 
-      button.move.move-down(type="button" data-move-y="2") 
-      button.move.move-down(type="button" data-move-y="3") 
-      button.move.move-down(type="button" data-move-y="4") 
-      button.move.move-down(type="button" data-move-y="5") 
-      button.move.move-down(type="button" data-move-y="6") 
-      button.move.move-down(type="button" data-move-y="7") 
-      button.move.move-down(type="button" data-move-y="8") 
-      button.move.move-down(type="button" data-move-y="9") 
-      button.move.move-down(type="button" data-move-y="10")
-      button.move.move-down(type="button" data-move-y="12")
-      button.move.move-down(type="button" data-move-y="12")
-
-template(name="rowsCols")
-  .rows.absolute-0
-    .row#row-1
-    .row#row-2
-    .row#row-3
-    .row#row-4
-    .row#row-5
-    .row#row-6
-    .row#row-7
-    .row#row-8
-
-  .cols.absolute-0 
-    .col#col-1
-    .col#col-2
-    .col#col-3
-    .col#col-4
-    .col#col-5
-    .col#col-6
-    .col#col-7
-    .col#col-8
-    .col#col-9
-    .col#col-10
-    .col#col-11
-    .col#col-12
-    .col#col-13
+    button.move.move-right(type="button" data-move-x="1") 
+    button.move.move-right(type="button" data-move-x="2") 
+    button.move.move-right(type="button" data-move-x="3") 
+    button.move.move-right(type="button" data-move-x="4") 
+    button.move.move-right(type="button" data-move-x="5") 
+    button.move.move-right(type="button" data-move-x="6") 
+    button.move.move-right(type="button" data-move-x="7") 
+    button.move.move-right(type="button" data-move-x="8") 
+    button.move.move-right(type="button" data-move-x="9") 
+    button.move.move-right(type="button" data-move-x="10")
+    button.move.move-right(type="button" data-move-x="11")
+    button.move.move-right(type="button" data-move-x="12")
+    
+    button.move.move-up(type="button" data-move-y="-1") 
+    button.move.move-up(type="button" data-move-y="-2") 
+    button.move.move-up(type="button" data-move-y="-3") 
+    button.move.move-up(type="button" data-move-y="-4") 
+    button.move.move-up(type="button" data-move-y="-5") 
+    button.move.move-up(type="button" data-move-y="-6") 
+    button.move.move-up(type="button" data-move-y="-7") 
+    button.move.move-up(type="button" data-move-y="-8") 
+    button.move.move-up(type="button" data-move-y="-9") 
+    button.move.move-up(type="button" data-move-y="-10")
+    button.move.move-up(type="button" data-move-y="-11")
+    button.move.move-up(type="button" data-move-y="-12")
+    
+    button.move.move-down(type="button" data-move-y="1") 
+    button.move.move-down(type="button" data-move-y="2") 
+    button.move.move-down(type="button" data-move-y="3") 
+    button.move.move-down(type="button" data-move-y="4") 
+    button.move.move-down(type="button" data-move-y="5") 
+    button.move.move-down(type="button" data-move-y="6") 
+    button.move.move-down(type="button" data-move-y="7") 
+    button.move.move-down(type="button" data-move-y="8") 
+    button.move.move-down(type="button" data-move-y="9") 
+    button.move.move-down(type="button" data-move-y="10")
+    button.move.move-down(type="button" data-move-y="12")
+    button.move.move-down(type="button" data-move-y="12")
