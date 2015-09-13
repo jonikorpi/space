@@ -231,45 +231,54 @@ html, body {
 }
 
 .dimmer {
-  background-color: rgba($background, 0.91);
+  background-color: rgba($background, 0.854);
 }
 
 .layer {
   will-change: transform, left, top;
   transform: translate3d(0,0,0);
-  width: 300%;
-  height: 300%;
-  left: -100%;
-  top: -100%;
+  width: 100%;
+  height: 100%;
   transition:
-    all 0ms linear $main-time,
+    all 0ms linear,
     transform $main-time*8 ease
   ;
+  background-size: 100% 100%;
 }
 
+.layer-left   { margin-left: -100vw; }
+.layer-right  { margin-left:  100vw; }
+.layer-top    { margin-top:  -100vh; }
+.layer-bottom { margin-top:   100vh; }
+
+.layer-top-left  { margin-top: -100vh; margin-left: -100vw; }
+.layer-top-right { margin-top: -100vh; margin-left:  100vw; }
+
+.layer-bottom-left  { margin-top: 100vh; margin-left: -100vw; }
+.layer-bottom-right { margin-top: 100vh; margin-left:  100vw; }
+
 .layer-1 {
-  background-image: radial-gradient($red 1%, transparent 2%);
-  background-size: 100/11*1vw 100/11*1vh;
+  $layer-1-gradients: ();
+  @for $i from 1 through 23 {
+    $layer-1-gradients: $layer-1-gradients, radial-gradient(circle 1px at random(100)*1% random(100)*1%, $dim 99%, transparent);
+  }
+  background-image: $layer-1-gradients;
 }
 
 .layer-2 {
-  background-image: radial-gradient($orange 1%, transparent 2%);
-  background-size: 100/7*1vw 100/7*1vh;
+  $layer-2-gradients: ();
+  @for $i from 1 through 19 {
+    $layer-2-gradients: $layer-2-gradients, radial-gradient(circle 1.5px at random(100)*1% random(100)*1%, $body 99%, transparent);
+  }
+  background-image: $layer-2-gradients;
 }
 
 .layer-3 {
-  background-image: radial-gradient($yellow 1%, transparent 2%);
-  background-size: 100/5*1vw 100/5*1vh;
-}
-
-.layer-4 {
-  background-image: radial-gradient($cyan 1%, transparent 2%);
-  background-size: 100/3*1vw 100/3*1vh;
-}
-
-.layer-5 {
-  background-image: radial-gradient($bright 1%, transparent 2%);
-  background-size: 100/2*1vw 100/2*1vh;
+  $layer-3-gradients: ();
+  @for $i from 1 through 13 {
+    $layer-3-gradients: $layer-3-gradients, radial-gradient(circle 2px at random(100)*1% random(100)*1%, $bright 99%, transparent);
+  }
+  background-image: $layer-3-gradients;
 }
 
 //
@@ -298,7 +307,7 @@ html, body {
   }
 
   .fleet.selected & {
-    border-color: $bright;
+    border-color: $blue;
   }
 }
 

@@ -68,21 +68,21 @@ if Meteor.isClient
   moveBackdrop = (number) ->
     xPos = Game.xPos * number
     yPos = Game.yPos * number
-    xPosRounded = Math.ceil(xPos / 100 - 1)
-    yPosRounded = Math.ceil(yPos / 100 - 1)
+    xPosRounded = Math.ceil(xPos / 100)
+    yPosRounded = Math.ceil(yPos / 100)
 
-    transform = "transform: translate( #{-xPos / 3}%, #{-yPos / 3}% );"
+    transform = "transform: translate( #{-xPos}vw, #{-yPos}vh );"
     left = ""
     top = ""
 
     if xPos > 100
-      left = "left: #{ 100*xPosRounded}%;"
+      left = "left: #{ 100*xPosRounded - 100 }vw;"
     if xPos < -100
-      left = "left: #{ 100*xPosRounded}%;"
+      left = "left: #{ 100*xPosRounded }vw;"
     if yPos > 100
-      top =   "top: #{ 100*yPosRounded}%;"
+      top =   "top: #{ 100*yPosRounded - 100 }vh;"
     if yPos < -100
-      top =   "top: #{ 100*yPosRounded}%;"
+      top =   "top: #{ 100*yPosRounded }vh;"
 
     style = transform + left + top
 
@@ -209,16 +209,12 @@ if Meteor.isClient
   # Backdrop
 
   Template.backdrop.helpers
-    layerOne: ->
-      moveBackdrop(1)
-    layerTwo: ->
-      moveBackdrop(2)
-    layerThree: ->
-      moveBackdrop(3)
-    layerFour: ->
-      moveBackdrop(4)
-    layerFive: ->
-      moveBackdrop(5)
+    layer1: ->
+      moveBackdrop(0.5)
+    layer2: ->
+      moveBackdrop(0.5*1.5)
+    layer3: ->
+      moveBackdrop(0.5*2)
 
   #
   # Fleet
