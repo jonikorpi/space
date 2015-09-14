@@ -294,8 +294,8 @@ html, body {
   cursor: pointer;
   width: $x-unit;
   height: $y-unit;
-  transition: $main-time $main-easing;
-  transition-property: left, top, right, bottom;
+  transition: transform $main-time*8 $main-easing;
+  position: absolute;
 }
 
 .fleet-base {

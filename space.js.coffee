@@ -242,47 +242,19 @@ if Meteor.isClient
           .addClass("active")
 
   # Template.fleet.onRendered ->
-    # self = this
-    # slot = self.data.slot
-    # team = self.data.team
-    # character = self.$(".fleet")
-    #
-    # # Set initial positions
-    # switch slot
-    #   when 1
-    #     switch team
-    #       when 1
-    #         xPos = 1
-    #         yPos = 1
-    #       when 2
-    #         xPos = Game.colCount
-    #         yPos = Game.rowCount
-    #   when 2
-    #     switch team
-    #       when 1
-    #         xPos = 1
-    #         yPos = 2
-    #       when 2
-    #         xPos = Game.colCount
-    #         yPos = Game.rowCount-1
-    #   when 3
-    #     switch team
-    #       when 1
-    #         xPos = 1
-    #         yPos = 3
-    #       when 2
-    #         xPos = Game.colCount
-    #         yPos = Game.rowCount-2
-    #   when 4
-    #     switch team
-    #       when 1
-    #         xPos = 1
-    #         yPos = 4
-    #       when 2
-    #         xPos = Game.colCount
-    #         yPos = Game.rowCount-3
-    #
-    # character.attr { "data-x-pos": xPos, "data-y-pos": yPos }
+
+  Template.otherFleets.helpers
+
+    otherFleets: ->
+      return Fleets.find({}, {sort: {createdAt: -1}})
+
+    offsetPositions: ->
+      offsetX = @xPos - Game.xPos
+      offsetY = @yPos - Game.yPos
+
+      return {
+        "style": "transform: translate3d(#{offsetX*100}%, #{offsetY*100}%, 0)"
+      }
 
   #
   # Character controls
