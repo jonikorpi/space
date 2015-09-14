@@ -137,9 +137,16 @@ if Meteor.isClient
     #   return Characters.find({})
 
   Template.home.events
+
+
+  Template.header.events
     "click .start-fleet": ->
       console.log "starting a fleet"
-      Meteor.call "startFleet"
+      Meteor.call "startFleet", (error, results) ->
+        if error
+          console.log error
+        else
+          Router.go "/" + results
 
 
   #

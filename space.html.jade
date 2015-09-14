@@ -40,25 +40,26 @@ body
 template(name="layout")
   +yield
   
-template(name="home")
+template(name="header")
   h1 
     a(href="/") Starlifter
-    
-  button.start-fleet(type="button") Start a fleet
+  button.start-fleet Start a fleet
   
-  ul
-    each fleets
-      li
-        a(href=_id) #{_id}
+template(name="home")
+  +header
+  //- 
+  //- p All fleets:
+  //- 
+  //- ul
+  //-   each fleets
+  //-     li
+  //-       a(href=_id) #{_id}
   
 
 template(name="game")
   .game.abs-all.no-margins(id=_id)
     .game-header.abs-top-left
-      h1 
-        a(href="/") Starlifter
-        span —
-        a(href=_id) Fleet ##{_id}
+      +header
     
     +backdrop(xPos=xPos yPox=yPos)
     
