@@ -2,9 +2,14 @@
 # Globals
 
 Game = {}
+
+Game.rowCount = 9;
+Game.colCount = 13;
+
 Game.fleetID = false
 Game.yPos = 0
 Game.xPos = 0
+
 Game.starSpeed = 0.5
 Game.starStep  = 1
 Game.starStep1 = 2
@@ -51,6 +56,7 @@ Router.route "/:_id",
   data: ->
     targetFleet = Fleets.findOne _id: @.params._id
     if targetFleet
+      console.log "setting page data to fleet:"
       console.log targetFleet
       Game.fleetID = @.params._id
       Game.xPos = targetFleet.xPos
@@ -184,6 +190,35 @@ if Meteor.isClient
 
   Template.game.events
 
+    "click .move": (event) ->
+      event.stopPropagation()
+      playerFleet = $(".player-fleet")
+
+      button = $(event.target)
+      buttonX = button.attr("data-move-x")
+      buttonY = button.attr("data-move-y")
+      moveX = 0
+      moveY = 0
+
+      if buttonX
+        moveX = +buttonX
+      if buttonY
+        moveY = +buttonY
+
+      Meteor.call "moveFleet", Game.fleetID, moveX, moveY, (error, results) ->
+        if error
+          console.log error
+        else
+          playerFleet
+            .attr("style", "transform: translate3d(#{moveX*100}%, #{moveY*100}%, 0)")
+            .addClass("warp")
+            .on "transitionEnd webkitTransitionEnd", (event) ->
+              if $(event.target).is(@)
+                playerFleet
+                  .attr("style", "")
+                  .removeClass("warp")
+                  .off "transitionEnd webkitTransitionEnd"
+
     # "click .start-game": ->
     #   console.log "starting game #{@_id}"
     #   Meteor.call "startGame", @_id
@@ -214,6 +249,14 @@ if Meteor.isClient
     #
     #   console.log "setting character #{shipID} in game #{gameID}"
 
+  Template.game.onRendered ->
+    movementControls = $(".movement-controls")
+
+    for x in [1..Game.colCount]
+      for y in [1..Game.rowCount]
+        movementControls.append "<button class='move' type='button' data-x-pos='#{x}' data-y-pos='#{y}' data-move-x='#{x - (Game.colCount+1)/2}' data-move-y='#{y - (Game.rowCount+1)/2}'></button>"
+
+
   #
   # Backdrop
 
@@ -232,61 +275,39 @@ if Meteor.isClient
 
   Template.fleet.events
 
-    "click .fleet": (event) ->
-      fleet = $(event.target).closest(".fleet")
-      otherFleets = $(".fleet").not(fleet)
-      controls = $(".fleet-controls")
-
-      otherFleets.removeClass("selected")
-
-      if fleet.hasClass "selected"
-        fleet.removeClass "selected"
-        controls.removeClass "active"
-      else
-        fleet.addClass "selected"
-        controls
-          .attr { "data-x-pos": fleet.attr("data-x-pos"), "data-y-pos": fleet.attr("data-y-pos") }
-          .addClass("active")
-
-  # Template.fleet.onRendered ->
+    # "click .fleet": (event) ->
+    #   fleet = $(event.target).closest(".fleet")
+    #   otherFleets = $(".fleet").not(fleet)
+    #   controls = $(".fleet-controls")
+    #
+    #   otherFleets.removeClass("selected")
+    #
+    #   if fleet.hasClass "selected"
+    #     fleet.removeClass "selected"
+    #     controls.removeClass "active"
+    #   else
+    #     fleet.addClass "selected"
+    #     controls
+    #       .attr { "data-x-pos": fleet.attr("data-x-pos"), "data-y-pos": fleet.attr("data-y-pos") }
+    #       .addClass("active")
 
   Template.otherFleets.helpers
 
     otherFleets: ->
+      console.log "finding other fleets"
       return Fleets.find({
         _id:
           $not: Game.fleetID
       }, {sort: {createdAt: -1}})
 
     offsetPositions: ->
+      console.log "setting offset positions for other fleets"
       offsetX = @xPos - Game.xPos
       offsetY = @yPos - Game.yPos
 
       return {
         "style": "transform: translate3d(#{offsetX*100}%, #{offsetY*100}%, 0)"
       }
-
-  #
-  # Character controls
-
-  Template.fleetControls.helpers
-
-  Template.fleetControls.events
-
-    "click .move": (event) ->
-      event.stopPropagation()
-      button = $(event.target)
-      buttonX = button.attr("data-move-x")
-      buttonY = button.attr("data-move-y")
-      moveX = 0
-      moveY = 0
-
-      if buttonX
-        moveX = +buttonX
-      if buttonY
-        moveY = +buttonY
-
-      Meteor.call "moveFleet", Game.fleetID, moveX, moveY
 
 #
 # Server
@@ -338,6 +359,10 @@ if Meteor.isServer
         createdAt: new Date()
         xPos: 0
         yPos: 0
+        movedFromX: 0
+        movedFromY: 0
+        movedToX: 0
+        movedToY: 0
         ships: [
           {
             slot: 1

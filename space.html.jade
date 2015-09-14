@@ -65,6 +65,7 @@ template(name="game")
     
     .grid-container.no-margins.abs-all
       .grid.abs-all
+        .movement-controls
         +otherFleets
         +fleet
         
@@ -103,11 +104,10 @@ template(name="backdrop")
   .layer.layer-3.abs-top-left.layer-bottom-right($dyn=layer3)
   
 template(name="fleet")
-  .fleet.abs-all
+  .fleet.player-fleet.abs-all
     .fleet-base.abs-all
     .fleet-shadow.abs-all
     .fleet-model.abs-all #{xPos} #{yPos}
-    +fleetControls
     
 template(name="otherFleets")
   each otherFleets
@@ -115,58 +115,3 @@ template(name="otherFleets")
       .fleet-base.abs-all
       .fleet-shadow.abs-all
       .fleet-model.abs-all #{xPos} #{yPos}
-
-template(name="fleetControls")
-  .fleet-controls.abs-all
-  
-    button.move.move-left(type="button" data-move-x="-1") 
-    button.move.move-left(type="button" data-move-x="-2") 
-    button.move.move-left(type="button" data-move-x="-3") 
-    button.move.move-left(type="button" data-move-x="-4") 
-    button.move.move-left(type="button" data-move-x="-5") 
-    button.move.move-left(type="button" data-move-x="-6") 
-    button.move.move-left(type="button" data-move-x="-7") 
-    button.move.move-left(type="button" data-move-x="-8") 
-    button.move.move-left(type="button" data-move-x="-9") 
-    button.move.move-left(type="button" data-move-x="-10")
-    button.move.move-left(type="button" data-move-x="-11")
-    button.move.move-left(type="button" data-move-x="-12")
-    
-    button.move.move-right(type="button" data-move-x="1") 
-    button.move.move-right(type="button" data-move-x="2") 
-    button.move.move-right(type="button" data-move-x="3") 
-    button.move.move-right(type="button" data-move-x="4") 
-    button.move.move-right(type="button" data-move-x="5") 
-    button.move.move-right(type="button" data-move-x="6") 
-    button.move.move-right(type="button" data-move-x="7") 
-    button.move.move-right(type="button" data-move-x="8") 
-    button.move.move-right(type="button" data-move-x="9") 
-    button.move.move-right(type="button" data-move-x="10")
-    button.move.move-right(type="button" data-move-x="11")
-    button.move.move-right(type="button" data-move-x="12")
-    
-    button.move.move-up(type="button" data-move-y="-1") 
-    button.move.move-up(type="button" data-move-y="-2") 
-    button.move.move-up(type="button" data-move-y="-3") 
-    button.move.move-up(type="button" data-move-y="-4") 
-    button.move.move-up(type="button" data-move-y="-5") 
-    button.move.move-up(type="button" data-move-y="-6") 
-    button.move.move-up(type="button" data-move-y="-7") 
-    button.move.move-up(type="button" data-move-y="-8") 
-    button.move.move-up(type="button" data-move-y="-9") 
-    button.move.move-up(type="button" data-move-y="-10")
-    button.move.move-up(type="button" data-move-y="-11")
-    button.move.move-up(type="button" data-move-y="-12")
-    
-    button.move.move-down(type="button" data-move-y="1") 
-    button.move.move-down(type="button" data-move-y="2") 
-    button.move.move-down(type="button" data-move-y="3") 
-    button.move.move-down(type="button" data-move-y="4") 
-    button.move.move-down(type="button" data-move-y="5") 
-    button.move.move-down(type="button" data-move-y="6") 
-    button.move.move-down(type="button" data-move-y="7") 
-    button.move.move-down(type="button" data-move-y="8") 
-    button.move.move-down(type="button" data-move-y="9") 
-    button.move.move-down(type="button" data-move-y="10")
-    button.move.move-down(type="button" data-move-y="12")
-    button.move.move-down(type="button" data-move-y="12")

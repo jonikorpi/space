@@ -7,7 +7,7 @@
 $font-size-multiplier: 16/16;
 $line: 1.382rem;
 
-$row-count: 8;
+$row-count: 9;
 $col-count: 13;
 $board-fill-ratio: 100;
 $board-height-ratio: $row-count/$col-count;
@@ -204,7 +204,7 @@ html, body {
 .grid {
   transform-style: preserve-3d;
   transform-origin: bottom;
-  border: 1px solid $border;
+  outline: 1px solid $border;
   margin: auto;
   width: 100%;
   height: 0;
@@ -246,7 +246,7 @@ html, body {
   height: 100%;
   transition:
     all 0ms linear,
-    transform $main-time*8 ease
+    transform $main-time*3 $main-easing $main-time
   ;
   background-size: 100% 100%;
 }
@@ -291,28 +291,32 @@ html, body {
 
 .fleet {
   margin: auto;
-  cursor: pointer;
   width: $x-unit;
   height: $y-unit;
-  transition: transform $main-time*8 $main-easing;
+  will-change: transform;
+  transition: transform $main-time*3 $main-easing $main-time;
   position: absolute;
+  color: $bright;
+
+  &.warp {
+    transition: transform $main-time $main-easing;
+  }
+}
+
+.player-fleet {
+  transition-delay: 0ms;
 }
 
 .fleet-base {
   border-radius: 50%;
-  border: 1vmin solid $shadow;
-  background: $yellow;
+  background: $purple;
+  transition: all $short-time $main-easing;
+  will-change: transform;
+  transform: scale(1);
 
-  .fleet[data-team="1"] & {
-    background: $blue;
-  }
-
-  .fleet[data-team="2"] & {
-    background: $red;
-  }
-
-  .fleet.selected & {
-    border-color: $blue;
+  .warp & {
+    background: $bright;
+    transform: scale(0.146);
   }
 }
 
@@ -365,79 +369,22 @@ html, body {
 }
 
 //
-// Character controls
-
-.fleet-controls {
-  pointer-events: auto;
-  z-index: 1 !important;
-  width: 100%;
-  height: 100%;
-  transition: all $main-time $main-easing;
-  transform: scale(0);
-
-  &.active {
-    transform: scale(1);
-  }
-}
+// Fleet controls
 
 button.move {
   position: absolute;
   display: block;
-  background: rgba($green, 0.09);
-  color: $green;
-  font-size: 4vmin;
-  width: 100%;
-  height: 100%;
-  transition:
-    transform $main-time $main-easing
-  ;
-
-  &:after {
-    content: "●";
-  }
+  // border: 1px solid rgba($green, 0.09);
+  width: $x-unit;
+  height: $y-unit;
+  outline: none;
 
   &:hover {
-    background: rgba($green, 0.5);
+    border: 2px solid rgba($green, 0.854);
   }
-}
 
-button.move-left {
-  right: 100%;
-  width: 100%;
-  top: 0;
-
-  @for $i from 0 through $col-count - 1 {
-    &[data-move-x="-#{$i+1}"]  { right: 100% * ($i+1); }
-  }
-}
-
-button.move-right {
-  left:  100%;
-  width: 100%;
-  top: 0;
-
-  @for $i from 0 through $col-count - 1 {
-    &[data-move-x="#{$i+1}"]  { left: 100% * ($i+1); }
-  }
-}
-
-button.move-up {
-  bottom: 100%;
-  height: 100%;
-  left: 0;
-
-  @for $i from 0 through $col-count - 1 {
-    &[data-move-y="-#{$i+1}"]  { bottom: 100% * ($i+1); }
-  }
-}
-
-button.move-down {
-  top: 100%;
-  height: 100%;
-  left: 0;
-
-  @for $i from 0 through $col-count - 1 {
-    &[data-move-y="#{$i+1}"]  { top: 100% * ($i+1); }
+  &:active {
+    border-color: transparent;
   }
 }
 
