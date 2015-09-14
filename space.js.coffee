@@ -253,7 +253,10 @@ if Meteor.isClient
   Template.otherFleets.helpers
 
     otherFleets: ->
-      return Fleets.find({}, {sort: {createdAt: -1}})
+      return Fleets.find({
+        _id:
+          $not: Game.fleetID
+      }, {sort: {createdAt: -1}})
 
     offsetPositions: ->
       offsetX = @xPos - Game.xPos
