@@ -1,20 +1,3 @@
-#
-# Globals
-
-Game = {}
-
-Game.rowCount = 9;
-Game.colCount = 13;
-
-Game.fleetID = false
-Game.yPos = 0
-Game.xPos = 0
-
-Game.starSpeed = 0.5
-Game.starStep  = 1
-Game.starStep1 = 2
-Game.starStep2 = 3
-
 # Game.bindArrowKeys = ->
 #   $(document).on "keydown", (event) ->
 #     if $(".fleet.selected").length > 0
@@ -37,33 +20,36 @@ Game.starStep2 = 3
 #
 # Collections
 
-Objects = new Mongo.Collection("objects")
-Fleets = new Mongo.Collection("fleets")
+@Objects = new Mongo.Collection("objects")
+@Fleets = new Mongo.Collection("fleets")
 
 #
 # Routes
 
 Router.configure
   layoutTemplate: "layout"
+  notFoundTemplate: "notFound"
 
 Router.route "/",
   template: "home"
   name: "home"
 
-Router.route "/:_id",
+Router.route "/secret-link/:secretUrl",
   template: "game"
   name: "game"
   data: ->
-    targetFleet = Fleets.findOne _id: @.params._id
+    targetFleet = Fleets.findOne {secretUrl: @.params.secretUrl}
     if targetFleet
       console.log "setting page data to fleet:"
       console.log targetFleet
-      Game.fleetID = @.params._id
+      Game.fleetID = targetFleet._id
       Game.xPos = targetFleet.xPos
       Game.yPos = targetFleet.yPos
       return targetFleet
     else
       return false
+
+Router.onBeforeAction "dataNotFound", only: "game"
 
 #
 # Client
@@ -148,11 +134,13 @@ if Meteor.isClient
   Template.header.events
     "click .start-fleet": ->
       console.log "starting a fleet"
+      # TODO: loading indicator
       Meteor.call "startFleet", (error, results) ->
         if error
           console.log error
         else
-          Router.go "/" + results
+          targetFleet = Fleets.findOne _id: results
+          Router.go "/secret-link/" + targetFleet.secretUrl
 
 
   #
@@ -356,6 +344,7 @@ if Meteor.isServer
 
     startFleet: ->
       Fleets.insert
+        secretUrl: Random.id()
         createdAt: new Date()
         xPos: 0
         yPos: 0

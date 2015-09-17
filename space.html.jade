@@ -40,9 +40,12 @@ body
 template(name="layout")
   +yield
   
+template(name="notFound")
+  h1 Fleet not found
+  
 template(name="header")
   h1 
-    a(href="/") Starlifter
+    a(href=pathFor "home") Starlifter
   button.start-fleet Start a fleet
   
 template(name="home")
