@@ -43,6 +43,9 @@ template(name="layout")
 template(name="notFound")
   h1 Fleet not found
   
+template(name="loading")
+  h1 Loading…
+  
 template(name="header")
   h1 
     a(href=pathFor "home") Starlifter
@@ -110,11 +113,11 @@ template(name="fleet")
   .fleet.player-fleet.abs-all
     .fleet-base.abs-all
     .fleet-shadow.abs-all
-    .fleet-model.abs-all #{xPos} #{yPos}
+    .fleet-model.abs-all
     
 template(name="otherFleets")
   each otherFleets
     .fleet.abs-all($dyn=offsetPositions)
       .fleet-base.abs-all
       .fleet-shadow.abs-all
-      .fleet-model.abs-all #{xPos} #{yPos}
+      .fleet-model.abs-all

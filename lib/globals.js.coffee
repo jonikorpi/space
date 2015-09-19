@@ -4,7 +4,7 @@
 @Game = {}
 
 Game.rowCount = 9;
-Game.colCount = 16;
+Game.colCount = 17;
 
 Game.fleetID = false
 Game.yPos = 0
