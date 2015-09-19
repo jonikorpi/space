@@ -7,7 +7,7 @@ Game.rowCount = 9;
 Game.colCount = 16;
 
 Game.fleetID = false
-Game.yPos = 0§
+Game.yPos = 0
 Game.xPos = 0
 
 Game.starSpeed = 0.5
