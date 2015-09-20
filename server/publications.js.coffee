@@ -2,13 +2,22 @@ Meteor.publish 'nearbyFleets', (yPos, xPos) ->
   # check options,
   #   sort: Object
   #   limit: Number
+
+  halfY = Game.rowCount*0.5
+  halfX = Game.colCount*0.5
+
   foundFleets = Fleets.find
     loc:
       $geoWithin:
-        $center: [
-          [yPos, xPos]
-          Game.colCount*0.62
-        ]
+        $geometry:
+          type: "Polygon"
+          coordinates: [[
+            [yPos-(halfY), xPos-(halfX)]
+            [yPos-(halfY), xPos+(halfX)]
+            [yPos+(halfY), xPos+(halfX)]
+            [yPos+(halfY), xPos-(halfX)]
+            [yPos-(halfY), xPos-(halfX)]
+          ]]
   ,
     createdAt: 0
     secretUrl: 0
