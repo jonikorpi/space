@@ -21,6 +21,7 @@ Meteor.methods
     Fleets.insert
       secretUrl: newSecretUrl
       createdAt: new Date()
+      lastMove: new Date()
       loc:
         x: x
         y: y
@@ -64,6 +65,8 @@ Meteor.methods
 
   moveFleet: (fleetID, moveX, moveY) ->
     Fleets.update fleetID,
+      $set:
+        lastMove: new Date()
       $inc:
         "loc.x": moveX
         "loc.y": moveY

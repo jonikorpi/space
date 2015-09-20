@@ -98,22 +98,22 @@ Template.game.events
       if error
         console.log error
       else
-        playerFleet
-          # .attr("style", "transform: translate3d(#{moveX*100}%, #{moveY*100}%, 0); -webkit-transform: translate3d(#{moveX*100}%, #{moveY*100}%, 0)")
-          .addClass("warp")
-          .on "transitionEnd webkitTransitionEnd", (event) ->
-            if $(event.target).is(@)
-              playerFleet
-                # .attr("style", "")
-                .removeClass("warp")
-                .off "transitionEnd webkitTransitionEnd"
+        gameElement = $(".game")
+        gameElement.addClass("warp")
+        playerFleet.on "transitionEnd webkitTransitionEnd", (event) ->
+          if $(event.target).is(@)
+            gameElement.removeClass("warp")
+            playerFleet.off "transitionEnd webkitTransitionEnd"
 
 Template.game.onRendered ->
-  movementControls = $(".movement-controls")
+  movementControls = @.$(".movement-controls")
 
-  for x in [1..Game.colCount]
-    for y in [1..Game.rowCount]
-      movementControls.append "<button class='move' type='button' data-x-pos='#{x}' data-y-pos='#{y}' data-move-x='#{x - (Game.colCount+1)/2}' data-move-y='#{y - (Game.rowCount+1)/2}'></button>"
+  for x in [1..Game.colCount*3]
+    for y in [1..Game.rowCount*3]
+      offsetX = x - (Game.colCount*3+1)/2
+      offsetY = y - (Game.rowCount*3+1)/2
+      unless offsetX == 0 && offsetY == 0
+        movementControls.append "<button style='left: #{offsetX*100}%; top: #{offsetY*100}%' class='move' type='button' data-move-x='#{offsetX}' data-move-y='#{offsetY}'></button>"
 
 
 #
@@ -146,7 +146,7 @@ Template.otherFleet.helpers
     }
 
 Template.otherFleet.onRendered ->
-  @.$(".rendering-in").removeClass("rendering-in")
+  # @.$(".rendering-in").removeClass("rendering-in")
 
 #
 # Objects
@@ -198,8 +198,8 @@ Template.star.helpers
       lightness =   50 * (1 + @color/2)
 
     return {
-      "style": "transform: scale(#{sizeFactor}); -webkit-transform: scale(#{sizeFactor}); background-color: hsl(#{hue}, #{saturation}%, #{lightness}%);"
+      "style": "transform: scale(#{sizeFactor}); -webkit-transform: scale(#{sizeFactor}); background-color: hsl(#{hue}, #{saturation}%, #{lightness}%); color: hsl(#{hue}, #{saturation}%, #{lightness}%);"
     }
 
 Template.star.onRendered ->
-  @.$(".rendering-in").removeClass("rendering-in")
+  # @.$(".rendering-in").removeClass("rendering-in")

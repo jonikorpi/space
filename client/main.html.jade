@@ -69,11 +69,11 @@ template(name="game")
     .game-header.abs-top-left
       +header
     
-    +backdrop(xPos=xPos yPox=yPos)
+    .backdrop.abs-all
+      +backdrop(xPos=xPos yPox=yPos)
     
     .grid-container.no-margins.abs-all
       .grid.abs-all
-        .movement-controls
         .stars.abs-all
           each stars
             +star
@@ -81,52 +81,56 @@ template(name="game")
           each otherFleets
             +otherFleet
           +fleet
+        .movement-controls.abs-all
         
 template(name="backdrop")
-  .backdrop.abs-all
-  .dimmer.abs-all
+  .backdrop-color.abs-all
   
-  .layer.layer-1.abs-top-left($dyn=layer1)
-  .layer.layer-1.abs-top-left.layer-left($dyn=layer1)
-  .layer.layer-1.abs-top-left.layer-right($dyn=layer1)
-  .layer.layer-1.abs-top-left.layer-top($dyn=layer1)
-  .layer.layer-1.abs-top-left.layer-bottom($dyn=layer1)
-  .layer.layer-1.abs-top-left.layer-top-left($dyn=layer1)
-  .layer.layer-1.abs-top-left.layer-top-right($dyn=layer1)
-  .layer.layer-1.abs-top-left.layer-bottom-left($dyn=layer1)
-  .layer.layer-1.abs-top-left.layer-bottom-right($dyn=layer1)
-  
-  .layer.layer-2.abs-top-left($dyn=layer2)
-  .layer.layer-2.abs-top-left.layer-left($dyn=layer2)
-  .layer.layer-2.abs-top-left.layer-right($dyn=layer2)
-  .layer.layer-2.abs-top-left.layer-top($dyn=layer2)
-  .layer.layer-2.abs-top-left.layer-bottom($dyn=layer2)
-  .layer.layer-2.abs-top-left.layer-top-left($dyn=layer2)
-  .layer.layer-2.abs-top-left.layer-top-right($dyn=layer2)
-  .layer.layer-2.abs-top-left.layer-bottom-left($dyn=layer2)
-  .layer.layer-2.abs-top-left.layer-bottom-right($dyn=layer2)
-  
-  .layer.layer-3.abs-top-left($dyn=layer3)
-  .layer.layer-3.abs-top-left.layer-left($dyn=layer3)
-  .layer.layer-3.abs-top-left.layer-right($dyn=layer3)
-  .layer.layer-3.abs-top-left.layer-top($dyn=layer3)
-  .layer.layer-3.abs-top-left.layer-bottom($dyn=layer3)
-  .layer.layer-3.abs-top-left.layer-top-left($dyn=layer3)
-  .layer.layer-3.abs-top-left.layer-top-right($dyn=layer3)
-  .layer.layer-3.abs-top-left.layer-bottom-left($dyn=layer3)
-  .layer.layer-3.abs-top-left.layer-bottom-right($dyn=layer3)
+  .layers.abs-all
+    .layer.layer-1.abs-top-left($dyn=layer1)
+    .layer.layer-1.abs-top-left.layer-left($dyn=layer1)
+    .layer.layer-1.abs-top-left.layer-right($dyn=layer1)
+    .layer.layer-1.abs-top-left.layer-top($dyn=layer1)
+    .layer.layer-1.abs-top-left.layer-bottom($dyn=layer1)
+    .layer.layer-1.abs-top-left.layer-top-left($dyn=layer1)
+    .layer.layer-1.abs-top-left.layer-top-right($dyn=layer1)
+    .layer.layer-1.abs-top-left.layer-bottom-left($dyn=layer1)
+    .layer.layer-1.abs-top-left.layer-bottom-right($dyn=layer1)
+    
+    .layer.layer-2.abs-top-left($dyn=layer2)
+    .layer.layer-2.abs-top-left.layer-left($dyn=layer2)
+    .layer.layer-2.abs-top-left.layer-right($dyn=layer2)
+    .layer.layer-2.abs-top-left.layer-top($dyn=layer2)
+    .layer.layer-2.abs-top-left.layer-bottom($dyn=layer2)
+    .layer.layer-2.abs-top-left.layer-top-left($dyn=layer2)
+    .layer.layer-2.abs-top-left.layer-top-right($dyn=layer2)
+    .layer.layer-2.abs-top-left.layer-bottom-left($dyn=layer2)
+    .layer.layer-2.abs-top-left.layer-bottom-right($dyn=layer2)
+    
+    .layer.layer-3.abs-top-left($dyn=layer3)
+    .layer.layer-3.abs-top-left.layer-left($dyn=layer3)
+    .layer.layer-3.abs-top-left.layer-right($dyn=layer3)
+    .layer.layer-3.abs-top-left.layer-top($dyn=layer3)
+    .layer.layer-3.abs-top-left.layer-bottom($dyn=layer3)
+    .layer.layer-3.abs-top-left.layer-top-left($dyn=layer3)
+    .layer.layer-3.abs-top-left.layer-top-right($dyn=layer3)
+    .layer.layer-3.abs-top-left.layer-bottom-left($dyn=layer3)
+    .layer.layer-3.abs-top-left.layer-bottom-right($dyn=layer3)
   
 template(name="fleet")
   .fleet.entity.player-fleet.abs-all
     .fleet-model.abs-all
-    .debug-dialog
+    .debug-dialog 
       strong PLAYER FLEET
       .debug-line
         strong Secret
         span #{secretUrl}
+      .debug-line
+        strong Started
+        span #{createdAt}
         .debug-line
-          strong Started
-          span #{createdAt}
+          strong Last Move
+          span #{lastMove}
       .debug-line
         strong ID
         span #{_id}

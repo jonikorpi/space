@@ -34,6 +34,7 @@ Meteor.publish "nearbyFleets", (secretUrl, xPos, yPos) ->
     fields:
       secretUrl: 0
       createdAt: 0
+      lastMove: 0
 
 #
 # Nearby objects
