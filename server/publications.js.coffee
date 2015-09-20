@@ -19,8 +19,9 @@ Meteor.publish 'nearbyFleets', (yPos, xPos) ->
             [yPos-(halfY), xPos-(halfX)]
           ]]
   ,
-    createdAt: 0
-    secretUrl: 0
+    fields:
+      secretUrl: 0
+      createdAt: 0
   return foundFleets
 
 Meteor.publish 'thisFleet', (secretUrl) ->
