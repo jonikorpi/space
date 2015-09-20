@@ -14,9 +14,9 @@ Meteor.methods
 
   startFleet: (newSecretUrl, x, y) ->
     unless x
-      x = 64196 + _.random(-5, 5)
+      x = 64196 + _.random(-7, 7)
     unless y
-      y = 1611 + _.random(-5, 5)
+      y = 1611 + _.random(-7, 7)
 
     Fleets.insert
       secretUrl: newSecretUrl
