@@ -7,7 +7,7 @@ moveBackdrop = (number) ->
   xPosRounded = Math.ceil(xPos / 100)
   yPosRounded = Math.ceil(yPos / 100)
 
-  transform = "transform: translate( #{-xPos}vw, #{-yPos}vh );"
+  transform = "transform: translate( #{-xPos}vw, #{-yPos}vh ); -webkit-transform: translate( #{-xPos}vw, #{-yPos}vh );"
   left = ""
   top = ""
 
@@ -88,7 +88,7 @@ Template.game.events
         console.log error
       else
         playerFleet
-          .attr("style", "transform: translate3d(#{moveX*100}%, #{moveY*100}%, 0)")
+          .attr("style", "transform: translate3d(#{moveX*100}%, #{moveY*100}%, 0); -webkit-transform: translate3d(#{moveX*100}%, #{moveY*100}%, 0)")
           .addClass("warp")
           .on "transitionEnd webkitTransitionEnd", (event) ->
             if $(event.target).is(@)
@@ -138,5 +138,5 @@ Template.otherFleets.helpers
     offsetY = @loc.coordinates[0] - Game.yPos
 
     return {
-      "style": "transform: translate3d(#{offsetX*100}%, #{offsetY*100}%, 0)"
+      "style": "transform: translate3d(#{offsetX*100}%, #{offsetY*100}%, 0); -webkit-transform: translate3d(#{offsetX*100}%, #{offsetY*100}%, 0)"
     }
