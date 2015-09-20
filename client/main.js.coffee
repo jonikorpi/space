@@ -66,6 +66,17 @@ Template.header.events
 
 Template.game.helpers
 
+  otherFleets: ->
+    console.log "finding other fleets"
+    return Fleets.find({
+      _id:
+        $not: Game.fleetID
+    }, {sort: {createdAt: -1}})
+
+  stars: ->
+    console.log "finding objects"
+    return Objects.find({})
+
 Template.game.events
 
   "click .move": (event) ->
@@ -88,12 +99,12 @@ Template.game.events
         console.log error
       else
         playerFleet
-          .attr("style", "transform: translate3d(#{moveX*100}%, #{moveY*100}%, 0); -webkit-transform: translate3d(#{moveX*100}%, #{moveY*100}%, 0)")
+          # .attr("style", "transform: translate3d(#{moveX*100}%, #{moveY*100}%, 0); -webkit-transform: translate3d(#{moveX*100}%, #{moveY*100}%, 0)")
           .addClass("warp")
           .on "transitionEnd webkitTransitionEnd", (event) ->
             if $(event.target).is(@)
               playerFleet
-                .attr("style", "")
+                # .attr("style", "")
                 .removeClass("warp")
                 .off "transitionEnd webkitTransitionEnd"
 
@@ -123,20 +134,72 @@ Template.fleet.helpers
 
 Template.fleet.events
 
-Template.otherFleets.helpers
+Template.otherFleet.helpers
 
-  otherFleets: ->
-    console.log "finding other fleets"
-    return Fleets.find({
-      _id:
-        $not: Game.fleetID
-    }, {sort: {createdAt: -1}})
-
-  offsetPositions: ->
+  fleetAttributes: ->
     console.log "setting offset positions for other fleets"
-    offsetX = @loc.coordinates[1] - Game.xPos
-    offsetY = @loc.coordinates[0] - Game.yPos
+    offsetX = @loc.x - Game.xPos
+    offsetY = @loc.y - Game.yPos
 
     return {
       "style": "transform: translate3d(#{offsetX*100}%, #{offsetY*100}%, 0); -webkit-transform: translate3d(#{offsetX*100}%, #{offsetY*100}%, 0)"
     }
+
+Template.otherFleet.onRendered ->
+  @.$(".rendering-in").removeClass("rendering-in")
+
+#
+# Objects
+
+Template.star.helpers
+
+  starAttributes: ->
+    console.log "setting offset positions for stars"
+    offsetX = @loc.x - Game.xPos
+    offsetY = @loc.y - Game.yPos
+
+    return {
+      "style": "transform: translate3d(#{offsetX*100}%, #{offsetY*100}%, 0); -webkit-transform: translate3d(#{offsetX*100}%, #{offsetY*100}%, 0)"
+    }
+
+  starModelAttributes: ->
+    console.log "setting star model attributes"
+    sizeFactor = @size/2
+
+    if @color < 0
+      # Blues
+      hue =        220 * (1 + @color/-5)
+      saturation = 100 * (1 - @color/-2)
+      lightness =   50 * (1 + @color/-1)
+    else if @color < 0.31
+      # Whites
+      hue =         45
+      saturation = 100 * (0 + @color/5)
+      lightness =   50 * (1 + @color)
+    else if @color < 0.7
+      # Yellows
+      hue =         45 * (1 + @color/10)
+      saturation = 100 * (1 - @color/10)
+      lightness =   50 * (1 + @color)
+    else if @color < 1.0
+      # Oranges
+      hue =         25 * (1 + @color/10)
+      saturation = 100 * (1 - @color/10)
+      lightness =   50 * (1 + @color/2)
+    else if @color < 1.5
+      # Reds
+      hue =         10 * (1 + @color/10)
+      saturation = 100 * (1 - @color/10)
+      lightness =   50 * (1 + @color/2)
+    else if @color >= 1.5
+      # Really reds
+      hue =          1 * (1 + @color/10)
+      saturation = 100 * (1 - @color/10)
+      lightness =   50 * (1 + @color/2)
+
+    return {
+      "style": "transform: scale(#{sizeFactor}); -webkit-transform: scale(#{sizeFactor}); background-color: hsl(#{hue}, #{saturation}%, #{lightness}%);"
+    }
+
+Template.star.onRendered ->
+  @.$(".rendering-in").removeClass("rendering-in")

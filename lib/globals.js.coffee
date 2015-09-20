@@ -14,3 +14,7 @@ Game.starSpeed = 0.5
 Game.starStep  = 1
 Game.starStep1 = 2
 Game.starStep2 = 3
+
+Game.starLocMultiplier = 5
+Game.starEnergyMultiplier = 10000
+# Game.coordinateMultiplier = 1/10/10/10/10

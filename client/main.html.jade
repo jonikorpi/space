@@ -41,14 +41,16 @@ template(name="layout")
   +yield
   
 template(name="notFound")
+  +header
   h1 Fleet not found
   
 template(name="loading")
+  +header
   h1 Loading…
   
 template(name="header")
   h1 
-    a(href=pathFor "home") Starlifter
+    a(href="/") Starlifter
   button.start-fleet Start a fleet
   
 template(name="home")
@@ -72,8 +74,13 @@ template(name="game")
     .grid-container.no-margins.abs-all
       .grid.abs-all
         .movement-controls
-        +otherFleets
-        +fleet
+        .stars.abs-all
+          each stars
+            +star
+        .fleets.abs-all
+          each otherFleets
+            +otherFleet
+          +fleet
         
 template(name="backdrop")
   .backdrop.abs-all
@@ -110,14 +117,58 @@ template(name="backdrop")
   .layer.layer-3.abs-top-left.layer-bottom-right($dyn=layer3)
   
 template(name="fleet")
-  .fleet.player-fleet.abs-all
-    .fleet-base.abs-all
-    .fleet-shadow.abs-all
+  .fleet.entity.player-fleet.abs-all
     .fleet-model.abs-all
+    .debug-dialog
+      strong PLAYER FLEET
+      .debug-line
+        strong Secret
+        span #{secretUrl}
+        .debug-line
+          strong Started
+          span #{createdAt}
+      .debug-line
+        strong ID
+        span #{_id}
+      .debug-line
+        strong Loc 
+        span #{loc.x}
+        span #{loc.y}
     
-template(name="otherFleets")
-  each otherFleets
-    .fleet.abs-all($dyn=offsetPositions)
-      .fleet-base.abs-all
-      .fleet-shadow.abs-all
-      .fleet-model.abs-all
+template(name="otherFleet")
+  .fleet.entity.abs-all.rendering-in($dyn=fleetAttributes)
+    .fleet-model.abs-all
+    .debug-dialog
+      strong FLEET
+      .debug-line
+        strong ID
+        span #{_id}
+      .debug-line
+        strong Loc 
+        span #{loc.x}
+        span #{loc.y}
+      
+template(name="star")
+  .star.entity.abs-all.rendering-in($dyn=starAttributes)
+    .star-model($dyn=starModelAttributes)
+    .debug-dialog
+      strong STAR
+      .debug-line
+        strong Name 
+        span #{name}
+      .debug-line
+        strong ID
+        span #{_id}
+      .debug-line
+        strong Loc
+        span #{loc.x}
+        span #{loc.y}
+      .debug-line
+        strong Size 
+        span #{size}
+      .debug-line
+        strong Color 
+        span #{color}
+      .debug-line
+        strong Energy 
+        span #{energy}

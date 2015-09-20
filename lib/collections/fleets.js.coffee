@@ -12,18 +12,18 @@ Meteor.methods
   #   }, $set:
   #     "characters.$.fleetID": shipID
 
-  startFleet: (newSecretUrl, long, lat) ->
-    unless long
-      long = 0
-    unless lat
-      lat = 0
+  startFleet: (newSecretUrl, x, y) ->
+    unless x
+      x = 64196 + _.random(-5, 5)
+    unless y
+      y = 1611 + _.random(-5, 5)
 
     Fleets.insert
       secretUrl: newSecretUrl
       createdAt: new Date()
       loc:
-        type: "Point"
-        coordinates: [long, lat]
+        x: x
+        y: y
       # ships: [
       #   {
       #     slot: 1
@@ -65,5 +65,5 @@ Meteor.methods
   moveFleet: (fleetID, moveX, moveY) ->
     Fleets.update fleetID,
       $inc:
-        "loc.coordinates.1": moveX
-        "loc.coordinates.0": moveY
+        "loc.x": moveX
+        "loc.y": moveY

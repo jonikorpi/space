@@ -1,1 +1,1 @@
-Loot = new Mongo.Collection("loot")
+@Loot = new Mongo.Collection("loot")

@@ -1,54 +1,70 @@
-Meteor.publish 'nearbyFleets', (secretUrl, yPos, xPos) ->
-  # check options,
-  #   sort: Object
-  #   limit: Number
+halfY = Game.rowCount * 0.5
+halfX = Game.colCount * 0.5
 
-  halfY = Game.rowCount*0.5
-  halfX = Game.colCount*0.5
+#
+# Player fleet
 
-  playerFleet = Fleets.findOne
-    secretUrl: secretUrl
-
-  unless yPos == playerFleet.loc.coordinates[0] && xPos == playerFleet.loc.coordinates[1]
-    return
-
-  foundFleets = Fleets.find
-    loc:
-      $geoWithin:
-        $geometry:
-          type: "Polygon"
-          coordinates: [[
-            [yPos-(halfY), xPos-(halfX)]
-            [yPos-(halfY), xPos+(halfX)]
-            [yPos+(halfY), xPos+(halfX)]
-            [yPos+(halfY), xPos-(halfX)]
-            [yPos-(halfY), xPos-(halfX)]
-          ]]
-  ,
-    fields:
-      secretUrl: 0
-      createdAt: 0
-  return foundFleets
-
-Meteor.publish 'thisFleet', (secretUrl) ->
+Meteor.publish "thisFleet", (secretUrl) ->
   return Fleets.find {
     secretUrl: secretUrl
   }
 
+#
+# Nearby fleets
+
+Meteor.publish "nearbyFleets", (secretUrl, xPos, yPos) ->
+  # check options,
+  #   sort: Object
+  #   limit: Number
+
+  playerFleet = Fleets.findOne
+    secretUrl: secretUrl
+
+  unless xPos == playerFleet.loc.x && yPos == playerFleet.loc.y
+    return
+
+  return Fleets.find
+    "loc.x":
+      $gte: xPos - halfX
+      $lte: xPos + halfX
+    "loc.y":
+      $gte: yPos - halfY
+      $lte: yPos + halfY
+  ,
+    fields:
+      secretUrl: 0
+      createdAt: 0
+
+#
+# Nearby objects
+
+Meteor.publish "nearbyObjects", (secretUrl, xPos, yPos) ->
+  playerFleet = Fleets.findOne
+    secretUrl: secretUrl
+
+  unless xPos == playerFleet.loc.x && yPos == playerFleet.loc.y
+    return
+
+  return Objects.find
+    "loc.x":
+      $gte: xPos - halfX
+      $lte: xPos + halfX
+    "loc.y":
+      $gte: yPos - halfY
+      $lte: yPos + halfY
+  # ,
+  #   fields:
+  #     energy: 0
+
+#
+# Indexing
+
 Meteor.startup ->
   Fleets._ensureIndex
-    "loc": "2dsphere"
+    "loc": 1
     "secretUrl": 1
+    "_id": 1
 
-# Meteor.publish 'singlePost', (id) ->
-#   check id, String
-#   Posts.find id
-#
-# Meteor.publish 'comments', (postId) ->
-#   check postId, String
-#   Comments.find postId: postId
-#
-# Meteor.publish 'notifications', ->
-#   Notifications.find
-#     userId: @userId
-#     read: false
+  Objects._ensureIndex
+    "loc": 1
+    "_id": 1

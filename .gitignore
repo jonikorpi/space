@@ -1,2 +1,4 @@
 server/seeds.*
 server/kadira.js
+
+private/stars.json
