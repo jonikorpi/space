@@ -18,10 +18,10 @@ Router.route "/secret-link/:secretUrl",
     targetFleet = Fleets.findOne {secretUrl: @.params.secretUrl}
     if targetFleet
       Game.fleetID = targetFleet._id
-      Game.secretUrl = targetFleet.secretUrl
-      Game.xPos = targetFleet.loc.coordinates[1]
+      Game.secretUrl = @.params.secretUrl
       Game.yPos = targetFleet.loc.coordinates[0]
-      Meteor.subscribe "nearbyFleets", Game.yPos, Game.xPos
+      Game.xPos = targetFleet.loc.coordinates[1]
+      Meteor.subscribe "nearbyFleets", Game.secretUrl, Game.yPos, Game.xPos
       return targetFleet
     else
       return false
