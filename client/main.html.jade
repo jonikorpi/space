@@ -153,8 +153,8 @@ template(name="otherFleet")
         span #{loc}
       
 template(name="star")
-  .star.entity.abs-all.rendering-in($dyn=starAttributes)
-    .star-model($dyn=starModelAttributes)
+  .star.abs-all.entity.rendering-in($dyn=starAttributes)
+    .star-model.abs-top-left($dyn=starModelAttributes)
     .debug-dialog
       strong STAR
       .debug-line

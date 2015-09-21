@@ -164,7 +164,7 @@ Template.star.helpers
 
   starModelAttributes: ->
     console.log "setting star model attributes"
-    sizeFactor = @size/2
+    sizeFactor = @size
 
     if @color < 0
       # Blues
@@ -198,7 +198,7 @@ Template.star.helpers
       lightness =   50 * (1 + @color/2)
 
     return {
-      "style": "transform: scale(#{sizeFactor}); -webkit-transform: scale(#{sizeFactor}); background-color: hsl(#{hue}, #{saturation}%, #{lightness}%); color: hsl(#{hue}, #{saturation}%, #{lightness}%);"
+      "style": "width: #{50*sizeFactor}%; height: #{50*sizeFactor}%; background-color: hsl(#{hue}, #{saturation}%, #{lightness}%); color: hsl(#{hue}, #{saturation}%, #{lightness}%);"
     }
 
 Template.star.onRendered ->
