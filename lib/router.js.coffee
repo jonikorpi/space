@@ -26,6 +26,7 @@ Router.route "/secret-link/:secretUrl",
       console.log "subscribing to nearby objects [#{Game.xPos},#{Game.yPos}]…"
       Meteor.subscribe "nearbyObjects", Game.secretUrl, Game.xPos, Game.yPos
       Game.bindArrowKeys()
+      Game.body = $("body")
       return targetFleet
     else
       return false

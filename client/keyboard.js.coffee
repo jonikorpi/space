@@ -20,6 +20,8 @@ Game.bindArrowKeys = ->
       $(".zoom-out").trigger "click"
     "space":->
       $(".zoom-in").trigger "click"
+    ".": ->
+      Game.body.toggleClass("debug")
   , "keyup"
 
 Game.resumeArrowKeys = ->

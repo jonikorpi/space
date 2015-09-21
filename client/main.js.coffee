@@ -7,13 +7,12 @@ Game.moveFleet = (secretUrl, moveX, moveY) ->
     if error
       console.log error
     else
-      gameElement = $(".game")
-      playerFleet = $(".player-fleet")
-      gameElement.addClass("warp")
-      playerFleet.on "transitionEnd webkitTransitionEnd", (event) ->
+      playerFleet = $("[data-player-fleet]")
+      Game.body.addClass("warp")
+      playerFleet.on "animationEnd webkitAnimationEnd", (event) ->
         if $(event.target).is(@)
-          gameElement.removeClass("warp")
-          playerFleet.off "transitionEnd webkitTransitionEnd"
+          Game.body.removeClass("warp")
+          playerFleet.off "animationEnd webkitAnimationEnd"
 
 Game.moveBackdrop = (number) ->
   xPos = Game.xPos * number
@@ -66,7 +65,7 @@ Template.header.events
   "click .start-fleet": ->
     console.log "starting a fleet"
     # TODO: loading indicator
-    newSecretUrl = Random.id()
+    newSecretUrl = Random.secret()
     Meteor.call "startFleet", newSecretUrl, (error, results) ->
       if error
         console.log error
@@ -108,10 +107,10 @@ Template.game.events
     Game.moveFleet Game.secretUrl, moveX, moveY
 
   "click .zoom-in": (event) ->
-    $("body").addClass("zoomed-in")
+    Game.body.addClass("zoomed-in")
 
   "click .zoom-out": (event) ->
-    $("body").removeClass("zoomed-in")
+    Game.body.removeClass("zoomed-in")
 
 Template.game.onRendered ->
   movementControls = @.$(".movement-controls")
@@ -142,19 +141,25 @@ Template.fleet.helpers
 
 Template.fleet.events
 
-Template.otherFleet.helpers
+Template.fleet.helpers
 
   fleetAttributes: ->
-    console.log "setting offset positions for other fleets"
-    offsetX = @loc[0] - Game.xPos
-    offsetY = @loc[1] - Game.yPos
+    if Game.secretUrl == this.secretUrl
+      return {
+        "data-player-fleet": true
+      }
+    else
+      offsetX = @loc[0] - Game.xPos
+      offsetY = @loc[1] - Game.yPos
 
+      return {
+        "style": "transform: translate3d(#{offsetX*100}%, #{offsetY*100}%, 0); -webkit-transform: translate3d(#{offsetX*100}%, #{offsetY*100}%, 0)"
+      }
+
+  shipAttributes: ->
     return {
-      "style": "transform: translate3d(#{offsetX*100}%, #{offsetY*100}%, 0); -webkit-transform: translate3d(#{offsetX*100}%, #{offsetY*100}%, 0)"
+      "data-fleet-id": this.index
     }
-
-Template.otherFleet.onRendered ->
-  # @.$(".rendering-in").removeClass("rendering-in")
 
 #
 # Objects
@@ -170,10 +175,14 @@ Template.star.helpers
       "style": "transform: translate3d(#{offsetX*100}%, #{offsetY*100}%, 0); -webkit-transform: translate3d(#{offsetX*100}%, #{offsetY*100}%, 0)"
     }
 
-  starModelAttributes: ->
-    console.log "setting star model attributes"
+  starScaling: ->
     sizeFactor = @energy/4000
 
+    return {
+      "style": "transform: scale(#{1+1*sizeFactor}); -webkit-transform: scale(#{1+1*sizeFactor});"
+    }
+
+  starColors: ->
     if @energy < 1000
       # Blues
       hue =        215 + (1 + @energy/100000)
@@ -201,7 +210,7 @@ Template.star.helpers
       lightness =   76 * (1 - @energy/100000)
 
     return {
-      "style": "width: #{100*sizeFactor}%; height: #{100*sizeFactor}%; background-color: hsl(#{hue}, #{saturation}%, #{lightness}%); color: hsl(#{hue}, #{saturation}%, #{lightness}%);"
+      "style": "background-color: hsl(#{hue}, #{saturation}%, #{lightness}%); color: hsl(#{hue}, #{saturation}%, #{lightness}%);"
     }
 
 Template.star.onRendered ->

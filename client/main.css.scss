@@ -51,9 +51,9 @@ $hue-11: $hue + (360/$hue-increment) * 11;
 $hue-12: $hue + (360/$hue-increment) * 12;
 $hue-13: $hue + (360/$hue-increment) * 13;
 
-$background:      hsl($hue-1, 14.6%, 5.6%);
+$background:      #000;
 $off-background:  hsl($hue-1, 38.2%, 14.6%);
-$card-background: hsl($hue-1, 50%, 9%);
+$backdrop-color:  hsl($hue-4, 23.6%, 5.6%);
 
 $bright: hsl($hue, 23.6%, 76.4%);
 $body:   hsl($hue, 5.6%, 61.8%);
@@ -126,7 +126,7 @@ body {
 }
 
 a {
-  color: hsl($hue-2, 85.4%, 61.8%);
+  color: $bright;
   text-decoration: none;
 
   &:hover {
@@ -173,6 +173,8 @@ code {
 .abs-bottom-left   { position: absolute; bottom: 0; left:  0; }
 .abs-bottom-right  { position: absolute; bottom: 0; right: 0; }
 
+.abs-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
@@ -194,19 +196,30 @@ html, body {
   width: $board-fill-ratio * 1vw;
   max-width: $board-fill-ratio * 1vh / $board-height-ratio;
   margin: auto;
-
-  .zoomed-in & {
-    transform: scale($row-count);
-  }
 }
 
 .grid {
-  transform-style: preserve-3d;
-  transform-origin: bottom;
   margin: auto;
   width: 100%;
   height: 0;
   padding-top: 100% * $board-height-ratio;
+  transition: transform $main-time $main-easing;
+
+  .zoomed-in & {
+    transform: scale($row-count);
+  }
+
+  // background-image:
+  //   radial-gradient( ellipse closest-side, transparent 0%, transparent 76.4%, $backdrop-color 100% ),
+  //   linear-gradient(        rgba($bright, 0.056) 1px, transparent 1px ),
+  //   linear-gradient( 90deg, rgba($bright, 0.056) 1px, transparent 1px ),
+  // ;
+  // background-position: center center;
+  // background-size:
+  //   100% 100%,
+  //   $x-unit $y-unit,
+  //   $x-unit $y-unit,
+  // ;
 }
 
 //
@@ -214,6 +227,11 @@ html, body {
 
 .layers {
   // animation: starSway $loop-time $loop-easing infinite;
+  transition: transform $main-time $main-easing;
+
+  .zoomed-in & {
+    transform: scale3d(1.09, 1.09, 1.09);
+  }
 }
 
 @keyframes starSway {
@@ -232,7 +250,7 @@ html, body {
 }
 
 .backdrop-color {
-  background-color: rgba(blue, 0.056);
+  background-color: $backdrop-color;
 }
 
 .layer {
@@ -302,31 +320,57 @@ html, body {
   }
 }
 
-.player-fleet {
-  transition-duration: $short-time;
-  transform: scale(1);
-
+[data-player-fleet] {
   .warp & {
-    transform: scale(0.146);
+    animation: warp $main-time $main-easing;
+    border-radius: 50%;
+    overflow: hidden;
   }
+}
+
+@keyframes warp {
+  0%, 100% { background: transparent; }
+  50% { background: $blue; }
 }
 
 .fleet-model {
   margin: auto;
-  width: 20%;
-  height: 20%;
-  background: $purple;
-  transition: all $short-time $main-easing;
-  will-change: transform;
-  transform: scale(1);
+  width: 100%;
+  height: 100%;
+  transform: scale(0.09);
+}
 
-  .player-fleet & {
-    background: $red;
+.fleet-name {
+  position: absolute;
+  top: 61.8%; left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 0.625rem;
+  transition: transform $main-time $main-easing;
+
+  .zoomed-in & {
+    // transform: translateX(-50%) scale(0.236);
+  }
+}
+
+.ship {
+  float: left;
+  width: 33.333%;
+  height: 50%;
+  padding: 1px;
+
+  &:first-child {
+    margin-left: 33.333 * 0.5%;
   }
 
-  .warp .player-fleet & {
-    background: $bright;
+  &:nth-child(3) {
+    clear: left;
   }
+}
+
+.module {
+  height: 33.333%;
+  background: $bright;
 }
 
 .star {
@@ -334,10 +378,8 @@ html, body {
 }
 
 .star-model {
-  width: 50%;
-  height: 50%;
-  left: 50%; top: 50%;
-  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   box-shadow:
     0 0 16vmin currentcolor,
@@ -345,6 +387,14 @@ html, body {
     0 0 6vmin currentcolor,
   ;
   background-image: radial-gradient(circle, transparent 61.8%, hsla(0,0%,100%, 0.618));
+}
+
+.star-name {
+  color: $dim;
+  font-weight: bold;
+  font-size: 1.5rem;
+  top: -9%;
+  white-space: nowrap;
 }
 
 //
@@ -381,7 +431,7 @@ button.move {
   outline: none;
 
   &:hover {
-    border: 2px solid $green;
+    border: 2px solid $blue;
   }
 
   &:active {
@@ -416,6 +466,7 @@ button.move {
   left: 61.8%; top: 61.8%;
   width: 261.8%;
   font-size: 0.625rem;
+  display: none;
   text-shadow:
      1px  1px 1px rgba(#000, 0.5),
     -1px -1px 1px rgba(#000, 0.5),
@@ -427,8 +478,8 @@ button.move {
      1px  0px 1px rgba(#000, 0.5)
   ;
 
-  .zoomed-in & {
-    display: none;
+  .debug & {
+    display: block;
   }
 }
 
@@ -439,8 +490,10 @@ button.move {
 //
 // Game header
 
-.game-header {
+.header {
   z-index: 10;
+  padding: $line*0.5;
+  font-size: 0.75rem;
 }
 
 //

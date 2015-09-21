@@ -2,7 +2,7 @@
 
 Meteor.methods
 
-  # setCharacterSlot: (gameID, shipID, slot, team) ->
+  # setCharactership: (gameID, shipID, slot, team) ->
   #   slotID = "#{team}.#{slot}"
   #   console.log "slotID is #{slotID}"
   #
@@ -19,45 +19,20 @@ Meteor.methods
       y = 0 + _.random(-7, 7)
 
     Fleets.insert
+      loc: [x, y]
       secretUrl: newSecretUrl
+      secretInvite: Random.secret()
       createdAt: new Date()
       lastMove: new Date()
-      loc: [x, y]
-      secretInvite: Random.id()
-      # ships: [
-      #   {
-      #     slot: 1
-      #     shipID: false
-      #   }
-      #   {
-      #     slot: 2
-      #     shipID: false
-      #   }
-      #   {
-      #     slot: 3
-      #     shipID: false
-      #   }
-      #   {
-      #     slot: 4
-      #     shipID: false
-      #   }
-      #   {
-      #     slot: 1
-      #     shipID: false
-      #   }
-      #   {
-      #     slot: 2
-      #     shipID: false
-      #   }
-      #   {
-      #     slot: 3
-      #     shipID: false
-      #   }
-      #   {
-      #     slot: 4
-      #     shipID: false
-      #   }
-      # ]
+      name: "Fleet ID-#{_.random(10000, 99999)}"
+      ships: [
+        [1, 2, false]
+        [1, 2, false]
+        [1, 2, false]
+        [1, 2, false]
+        [1, 2, false]
+      ]
+
       # , (error, results, ) ->
       #   console.log results
       #   console.log error

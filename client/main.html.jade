@@ -49,9 +49,11 @@ template(name="loading")
   h1 Loading…
   
 template(name="header")
-  h1 
-    a(href="/") Starlifter
-  button.button.start-fleet(type="button") Start a fleet
+  .header.abs-top-left.no-margins
+    strong
+      a(href="/") Starlifter
+    button.button.start-fleet(type="button") New fleet
+    a(href=pathFor "game") Secret link to this fleet
   
 template(name="home")
   +header
@@ -65,9 +67,8 @@ template(name="home")
   
 
 template(name="game")
+  +header
   .game.abs-all.no-margins(id=_id)
-    .game-header.abs-top-left
-      +header
     
     .backdrop.abs-all
       +backdrop(xPos=xPos yPox=yPos)
@@ -79,7 +80,7 @@ template(name="game")
             +star
         .fleets.abs-all
           each otherFleets
-            +otherFleet
+            +fleet
           +fleet
         .movement-controls.abs-all
           button.zoom-in(type="button")
@@ -122,10 +123,16 @@ template(name="backdrop")
     .layer.layer-3.abs-top-left.layer-bottom-right($dyn=layer3)
   
 template(name="fleet")
-  .fleet.entity.player-fleet.abs-all
+  .fleet.entity.abs-all.rendering-in($dyn=fleetAttributes)
+    .fleet-name #{name}
     .fleet-model.abs-all
+      .ships.abs-all
+        each ships
+          .ship
+            each this
+              .module(data-module-id=this)
     .debug-dialog 
-      strong PLAYER FLEET
+      strong #{name}
       .debug-line
         strong Secret
         span #{secretUrl}
@@ -144,27 +151,14 @@ template(name="fleet")
       .debug-line
         strong Loc 
         span #{loc}
-    
-template(name="otherFleet")
-  .fleet.entity.abs-all.rendering-in($dyn=fleetAttributes)
-    .fleet-model.abs-all
-    .debug-dialog
-      strong FLEET
-      .debug-line
-        strong ID
-        span #{_id}
-      .debug-line
-        strong Loc 
-        span #{loc}
       
 template(name="star")
   .star.abs-all.entity.rendering-in($dyn=starAttributes)
-    .star-model.abs-top-left($dyn=starModelAttributes)
+    .star-scaler.abs-all($dyn=starScaling)
+      .star-name.abs-center #{name}
+      .star-model.abs-all($dyn=starColors)
     .debug-dialog
-      strong STAR
-      .debug-line
-        strong Name 
-        span #{name}
+      strong #{name}
       .debug-line
         strong ID
         span #{_id}
