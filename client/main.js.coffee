@@ -164,7 +164,7 @@ Template.star.helpers
 
   starModelAttributes: ->
     console.log "setting star model attributes"
-    sizeFactor = @energy/2000
+    sizeFactor = @energy/4000
 
     if @energy < 1000
       # Blues

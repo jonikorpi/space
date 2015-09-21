@@ -16,8 +16,7 @@ Game.starStep1 = 2
 Game.starStep2 = 3
 
 Game.starLocMultiplier = 5
-Game.starEnergyMultiplier = 100
-Game.coordinateMultiplier = 100
 
-Game.galaxyBoundX = 18000
-Game.galaxyBoundY = 9000
+Game.coordinateMultiplier = 40
+Game.galaxyBoundX = 180 * Game.coordinateMultiplier
+Game.galaxyBoundY =  90 * Game.coordinateMultiplier
