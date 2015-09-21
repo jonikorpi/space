@@ -23,6 +23,7 @@ Meteor.methods
       createdAt: new Date()
       lastMove: new Date()
       loc: [x, y]
+      secretInvite: Random.id()
       # ships: [
       #   {
       #     slot: 1
