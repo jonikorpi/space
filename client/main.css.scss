@@ -403,3 +403,26 @@ button.move {
 .game-header {
   z-index: 10;
 }
+
+//
+// Cheats
+
+.cheats {
+  padding: $line*0.5;
+}
+
+button.button {
+  font-size: 0.75rem;
+  border: 1px solid currentcolor;
+  padding: $line*0.125 $line*0.25;
+  border-radius: $line*0.125;
+  outline: none;
+
+  &:hover {
+    color: $green;
+  }
+
+  &:active {
+    color: $bright;
+  }
+}

@@ -18,3 +18,4 @@ Game.starStep2 = 3
 Game.starLocMultiplier = 5
 Game.starEnergyMultiplier = 10000
 Game.coordinateMultiplier = 100
+Game.galaxyBound = 100000

@@ -83,6 +83,8 @@ template(name="game")
           +fleet
         .movement-controls.abs-all
         
+    +cheats
+        
 template(name="backdrop")
   .backdrop-color.abs-all
   
@@ -173,3 +175,8 @@ template(name="star")
       .debug-line
         strong Energy 
         span #{energy}
+
+template(name="cheats")
+  .cheats.abs-top-right
+    button.button.random-star(type="button") Random star
+    button.button.random-spot(type="button") Random spot

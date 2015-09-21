@@ -94,7 +94,7 @@ Template.game.events
     if buttonY
       moveY = +buttonY
 
-    Meteor.call "moveFleet", Game.fleetID, moveX, moveY, (error, results) ->
+    Meteor.call "moveFleet", Game.secretUrl, moveX, moveY, (error, results) ->
       if error
         console.log error
       else
@@ -203,3 +203,14 @@ Template.star.helpers
 
 Template.star.onRendered ->
   # @.$(".rendering-in").removeClass("rendering-in")
+
+#
+# Cheats
+
+Template.cheats.events
+
+  "click .random-star": (event) ->
+    Meteor.call "moveToRandomStar", Game.secretUrl
+
+  "click .random-spot": (event) ->
+    Meteor.call "moveToRandomSpot", Game.secretUrl

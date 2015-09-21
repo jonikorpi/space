@@ -13,6 +13,7 @@ Meteor.methods
         Math.round(star.geometry.coordinates[1] * Game.coordinateMultiplier)
         Math.round(star.geometry.coordinates[0] * Game.coordinateMultiplier)
       ]
+      
       name: nameToSet
       size: star.properties.mag
       color: star.properties.bv
