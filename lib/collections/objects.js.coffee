@@ -8,15 +8,20 @@ Meteor.methods
     else
       nameToSet = star.properties.name
 
+    if star.properties.bv == ""
+      colorToSet = 0
+    else
+      colorToSet = star.properties.bv
+
     starObject =
       loc: [
-        Math.round(star.geometry.coordinates[1] * Game.coordinateMultiplier)
         Math.round(star.geometry.coordinates[0] * Game.coordinateMultiplier)
+        Math.round(star.geometry.coordinates[1] * Game.coordinateMultiplier)
       ]
 
       name: nameToSet
       size: Math.abs( 1 + star.properties.bv )
-      color: star.properties.bv
-      energy: Math.abs( Math.round(star.properties.mag * star.properties.bv * Game.starEnergyMultiplier) )
+      color: colorToSet
+      energy: Math.abs( Math.round((1+star.properties.mag) * (1+star.properties.bv) * Game.starEnergyMultiplier) )
 
     Objects.insert starObject
