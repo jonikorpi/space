@@ -4,7 +4,7 @@ Meteor.methods
 
   createStar: (star) ->
     if star.properties.name == ""
-      nameToSet = "SID-#{star.properties.desig}"
+      nameToSet = "ID-#{star.properties.desig}"
     else
       nameToSet = star.properties.name
 
@@ -13,15 +13,15 @@ Meteor.methods
     else
       colorToSet = star.properties.bv
 
+    energy = 500 + Math.abs(Math.round((1+star.properties.mag*10) * (1+star.properties.bv*100)) )
+
     starObject =
       loc: [
         Math.round(star.geometry.coordinates[0] * Game.coordinateMultiplier)
         Math.round(star.geometry.coordinates[1] * Game.coordinateMultiplier)
       ]
-
       name: nameToSet
-      size: Math.abs( 1 + star.properties.bv )
-      color: colorToSet
-      energy: Math.abs( Math.round((1+star.properties.mag) * (1+star.properties.bv) * Game.starEnergyMultiplier) )
+      energy: energy
+      maxEnergy: energy
 
     Objects.insert starObject

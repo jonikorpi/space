@@ -335,8 +335,12 @@ html, body {
   left: 50%; top: 50%;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  box-shadow: 0 0 5vmin currentcolor;
-  background-image: radial-gradient(circle, transparent 50%, hsla(0,0%,100%, 0.5));
+  box-shadow:
+    0 0 16vmin currentcolor,
+    0 0 10vmin currentcolor,
+    0 0 6vmin currentcolor,
+  ;
+  background-image: radial-gradient(circle, transparent 61.8%, hsla(0,0%,100%, 0.618));
 }
 
 //

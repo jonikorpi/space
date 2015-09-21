@@ -164,33 +164,33 @@ Template.star.helpers
 
   starModelAttributes: ->
     console.log "setting star model attributes"
-    sizeFactor = @size*2
+    sizeFactor = @energy/2000
 
-    if @color < 0
+    if @energy < 1000
       # Blues
-      hue =        220 * (1 + @color/-5)
-      saturation = 100 * (1 - @color/-2)
-      lightness =   50 * (1 + @color/-1)
-    else if @color < 0.31
+      hue =        215 + (1 + @energy/100000)
+      saturation =  91 * (1 + @energy/100000)
+      lightness =   62 * (1 + @energy/100000)
+    else if @energy < 3000
       # Whites
-      hue =         45
-      saturation = 100 * (0 + @color/1)
-      lightness =  100 - (1 + @color*100)
-    else if @color < 0.7
+      hue =         45 - (1 + @energy/100000)
+      saturation =  14 * (1 - @energy/100000)
+      lightness =   91 * (1 - @energy/100000)
+    else if @energy < 6000
       # Yellows
-      hue =         45 * (1 + @color/1)
-      saturation = 100 * (1 - @color/10)
-      lightness =   50 * (1 + @color)
-    else if @color < 1.0
+      hue =         50 - (1 + @energy/100000)
+      saturation =  91 * (1 - @energy/100000)
+      lightness =   85 * (1 - @energy/100000)
+    else if @energy < 8000
       # Oranges
-      hue =         25 * (1 + @color/1)
-      saturation = 100 * (1 - @color/10)
-      lightness =   50 * (1 + @color/2)
-    else if @color >= 1.0
+      hue =         25 - (1 + @energy/100000)
+      saturation =  91 * (1 - @energy/100000)
+      lightness =   76 * (1 - @energy/100000)
+    else if @energy >= 8000
       # Reds
-      hue =          1 * (1 + @color/1)
-      saturation = 100 * (1 - @color/10)
-      lightness =   50 * (1 + @color/3)
+      hue =         10 - (1 + @energy/100000)
+      saturation = 100 * (1 - @energy/100000)
+      lightness =   76 * (1 - @energy/100000)
 
     return {
       "style": "width: #{100*sizeFactor}%; height: #{100*sizeFactor}%; background-color: hsl(#{hue}, #{saturation}%, #{lightness}%); color: hsl(#{hue}, #{saturation}%, #{lightness}%);"
