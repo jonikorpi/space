@@ -190,7 +190,7 @@ Template.star.helpers
       # Reds
       hue =          1 * (1 + @color/1)
       saturation = 100 * (1 - @color/10)
-      lightness =   50 * (1 + @color/10)
+      lightness =   50 * (1 + @color/3)
 
     return {
       "style": "width: #{100*sizeFactor}%; height: #{100*sizeFactor}%; background-color: hsl(#{hue}, #{saturation}%, #{lightness}%); color: hsl(#{hue}, #{saturation}%, #{lightness}%);"
