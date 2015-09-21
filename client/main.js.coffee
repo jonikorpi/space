@@ -174,28 +174,23 @@ Template.star.helpers
     else if @color < 0.31
       # Whites
       hue =         45
-      saturation = 100 * (0 + @color/5)
+      saturation = 100 * (0 + @color/1)
       lightness =  100 - (1 + @color*100)
     else if @color < 0.7
       # Yellows
-      hue =         45 * (1 + @color/10)
+      hue =         45 * (1 + @color/1)
       saturation = 100 * (1 - @color/10)
       lightness =   50 * (1 + @color)
     else if @color < 1.0
       # Oranges
-      hue =         25 * (1 + @color/10)
+      hue =         25 * (1 + @color/1)
       saturation = 100 * (1 - @color/10)
       lightness =   50 * (1 + @color/2)
-    else if @color < 1.5
+    else if @color >= 1.0
       # Reds
-      hue =         10 * (1 + @color/10)
+      hue =          1 * (1 + @color/1)
       saturation = 100 * (1 - @color/10)
-      lightness =   50 * (1 + @color/2)
-    else if @color >= 1.5
-      # Really reds
-      hue =          1 * (1 + @color/10)
-      saturation = 100 * (1 - @color/10)
-      lightness =   50 * (1 + @color/2)
+      lightness =   50 * (1 + @color/10)
 
     return {
       "style": "width: #{100*sizeFactor}%; height: #{100*sizeFactor}%; background-color: hsl(#{hue}, #{saturation}%, #{lightness}%); color: hsl(#{hue}, #{saturation}%, #{lightness}%);"
