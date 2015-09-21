@@ -1,18 +1,29 @@
-# Game.bindArrowKeys = ->
-#   $(document).on "keydown", (event) ->
-#     if $(".fleet.selected").length > 0
-#       switch event.which
-#         when 37 # left
-#           moveCharacter("left")
-#         when 38 # up
-#           moveCharacter("up")
-#         when 39 # right
-#           moveCharacter("right")
-#         when 40 # down
-#           moveCharacter("down")
-#         else
-#           return
-#       event.preventDefault()
-#
-# Game.unbindArrowKeys = ->
-#   $(document).off "keydown"
+Game.bindArrowKeys = ->
+  Mousetrap.bind
+    "left": ->
+      Game.moveFleet Game.secretUrl, -1,  0
+    "a":    ->
+      Game.moveFleet Game.secretUrl, -1,  0
+    "up":   ->
+      Game.moveFleet Game.secretUrl,  0, -1
+    "w":    ->
+      Game.moveFleet Game.secretUrl,  0, -1
+    "right":->
+      Game.moveFleet Game.secretUrl,  1,  0
+    "d":    ->
+      Game.moveFleet Game.secretUrl,  1,  0
+    "down": ->
+      Game.moveFleet Game.secretUrl,  0,  1
+    "s":    ->
+      Game.moveFleet Game.secretUrl,  0,  1
+    "esc":  ->
+      $(".zoom-out").trigger "click"
+    "space":->
+      $(".zoom-in").trigger "click"
+  , "keyup"
+
+Game.resumeArrowKeys = ->
+  Mousetrap.unpause();
+
+Game.pauseArrowKeys = ->
+  Mousetrap.pause();

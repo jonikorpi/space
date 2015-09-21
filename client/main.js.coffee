@@ -1,7 +1,21 @@
 #
 # Non-Meteor methods
 
-moveBackdrop = (number) ->
+Game.moveFleet = (secretUrl, moveX, moveY) ->
+  console.log "moveFleet by #{moveX}, #{moveY}"
+  Meteor.call "moveFleet", secretUrl, moveX, moveY, (error, results) ->
+    if error
+      console.log error
+    else
+      gameElement = $(".game")
+      playerFleet = $(".player-fleet")
+      gameElement.addClass("warp")
+      playerFleet.on "transitionEnd webkitTransitionEnd", (event) ->
+        if $(event.target).is(@)
+          gameElement.removeClass("warp")
+          playerFleet.off "transitionEnd webkitTransitionEnd"
+
+Game.moveBackdrop = (number) ->
   xPos = Game.xPos * number
   yPos = Game.yPos * number
   xPosRounded = Math.ceil(xPos / 100)
@@ -80,9 +94,6 @@ Template.game.helpers
 Template.game.events
 
   "click .move": (event) ->
-    event.stopPropagation()
-    playerFleet = $(".player-fleet")
-
     button = $(event.target)
     buttonX = button.attr("data-move-x")
     buttonY = button.attr("data-move-y")
@@ -94,16 +105,13 @@ Template.game.events
     if buttonY
       moveY = +buttonY
 
-    Meteor.call "moveFleet", Game.secretUrl, moveX, moveY, (error, results) ->
-      if error
-        console.log error
-      else
-        gameElement = $(".game")
-        gameElement.addClass("warp")
-        playerFleet.on "transitionEnd webkitTransitionEnd", (event) ->
-          if $(event.target).is(@)
-            gameElement.removeClass("warp")
-            playerFleet.off "transitionEnd webkitTransitionEnd"
+    Game.moveFleet Game.secretUrl, moveX, moveY
+
+  "click .zoom-in": (event) ->
+    $("body").addClass("zoomed-in")
+
+  "click .zoom-out": (event) ->
+    $("body").removeClass("zoomed-in")
 
 Template.game.onRendered ->
   movementControls = @.$(".movement-controls")
@@ -121,11 +129,11 @@ Template.game.onRendered ->
 
 Template.backdrop.helpers
   layer1: ->
-    moveBackdrop( Game.starSpeed * Game.starStep )
+    Game.moveBackdrop( Game.starSpeed * Game.starStep )
   layer2: ->
-    moveBackdrop( Game.starSpeed * Game.starStep1 )
+    Game.moveBackdrop( Game.starSpeed * Game.starStep1 )
   layer3: ->
-    moveBackdrop( Game.starSpeed * Game.starStep2 )
+    Game.moveBackdrop( Game.starSpeed * Game.starStep2 )
 
 #
 # Fleet

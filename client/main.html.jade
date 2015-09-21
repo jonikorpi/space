@@ -51,7 +51,7 @@ template(name="loading")
 template(name="header")
   h1 
     a(href="/") Starlifter
-  button.start-fleet Start a fleet
+  button.button.start-fleet(type="button") Start a fleet
   
 template(name="home")
   +header
@@ -82,6 +82,8 @@ template(name="game")
             +otherFleet
           +fleet
         .movement-controls.abs-all
+          button.zoom-in(type="button")
+    button.zoom-out.button(type="button") ESC
         
     +cheats
         
