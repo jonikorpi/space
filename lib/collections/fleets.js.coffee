@@ -14,17 +14,15 @@ Meteor.methods
 
   startFleet: (newSecretUrl, x, y) ->
     unless x
-      x = 64196 + _.random(-7, 7)
+      x = 6420 + _.random(-7, 7)
     unless y
-      y = 1611 + _.random(-7, 7)
+      y = 161 + _.random(-7, 7)
 
     Fleets.insert
       secretUrl: newSecretUrl
       createdAt: new Date()
       lastMove: new Date()
-      loc:
-        x: x
-        y: y
+      loc: [x, y]
       # ships: [
       #   {
       #     slot: 1
@@ -68,5 +66,5 @@ Meteor.methods
       $set:
         lastMove: new Date()
       $inc:
-        "loc.x": moveX
-        "loc.y": moveY
+        "loc.0": moveX
+        "loc.1": moveY

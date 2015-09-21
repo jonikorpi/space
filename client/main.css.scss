@@ -352,7 +352,7 @@ html, body {
   height: $y-unit;
   margin: auto;
   visibility: visible;
-  transition: visibility 0ms linear $warp-time;
+  transition: visibility 0ms linear $main-time;
 
   .warp & {
     visibility: hidden;
@@ -363,7 +363,7 @@ html, body {
 button.move {
   position: absolute;
   display: block;
-  border: 1px solid rgba($green, 0.056);
+  // border: 1px solid rgba($green, 0.056);
   width: 100%;
   height: 100%;
   outline: none;

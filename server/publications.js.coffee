@@ -20,16 +20,21 @@ Meteor.publish "nearbyFleets", (secretUrl, xPos, yPos) ->
   playerFleet = Fleets.findOne
     secretUrl: secretUrl
 
-  unless xPos == playerFleet.loc.x && yPos == playerFleet.loc.y
+  unless xPos == playerFleet.loc[0] && yPos == playerFleet.loc[1]
     return
 
   return Fleets.find
-    "loc.x":
-      $gte: xPos - halfX
-      $lte: xPos + halfX
-    "loc.y":
-      $gte: yPos - halfY
-      $lte: yPos + halfY
+    secretUrl:
+      $ne: secretUrl
+    loc:
+      $geoWithin:
+        $polygon: [
+          [ xPos - halfX, yPos - halfY ]
+          [ xPos + halfX, yPos - halfY ]
+          [ xPos + halfX, yPos + halfY ]
+          [ xPos - halfX, yPos + halfY ]
+          [ xPos - halfX, yPos - halfY ]
+        ]
   ,
     fields:
       secretUrl: 0
@@ -43,16 +48,19 @@ Meteor.publish "nearbyObjects", (secretUrl, xPos, yPos) ->
   playerFleet = Fleets.findOne
     secretUrl: secretUrl
 
-  unless xPos == playerFleet.loc.x && yPos == playerFleet.loc.y
+  unless xPos == playerFleet.loc[0] && yPos == playerFleet.loc[1]
     return
 
   return Objects.find
-    "loc.x":
-      $gte: xPos - halfX
-      $lte: xPos + halfX
-    "loc.y":
-      $gte: yPos - halfY
-      $lte: yPos + halfY
+    loc:
+      $geoWithin:
+        $polygon: [
+          [ xPos - halfX, yPos - halfY ]
+          [ xPos + halfX, yPos - halfY ]
+          [ xPos + halfX, yPos + halfY ]
+          [ xPos - halfX, yPos + halfY ]
+          [ xPos - halfX, yPos - halfY ]
+        ]
   # ,
   #   fields:
   #     energy: 0
@@ -62,10 +70,16 @@ Meteor.publish "nearbyObjects", (secretUrl, xPos, yPos) ->
 
 Meteor.startup ->
   Fleets._ensureIndex
-    "loc": 1
-    "secretUrl": 1
-    "_id": 1
+    loc: "2d"
+    secretUrl: 1
+    _id: 1
+  ,
+    min: -100000
+    max:  100000
 
   Objects._ensureIndex
-    "loc": 1
-    "_id": 1
+    loc: "2d"
+    _id: 1
+  ,
+    min: -100000
+    max:  100000

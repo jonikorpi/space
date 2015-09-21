@@ -138,8 +138,8 @@ Template.otherFleet.helpers
 
   fleetAttributes: ->
     console.log "setting offset positions for other fleets"
-    offsetX = @loc.x - Game.xPos
-    offsetY = @loc.y - Game.yPos
+    offsetX = @loc[0] - Game.xPos
+    offsetY = @loc[1] - Game.yPos
 
     return {
       "style": "transform: translate3d(#{offsetX*100}%, #{offsetY*100}%, 0); -webkit-transform: translate3d(#{offsetX*100}%, #{offsetY*100}%, 0)"
@@ -155,8 +155,8 @@ Template.star.helpers
 
   starAttributes: ->
     console.log "setting offset positions for stars"
-    offsetX = @loc.x - Game.xPos
-    offsetY = @loc.y - Game.yPos
+    offsetX = @loc[0] - Game.xPos
+    offsetY = @loc[1] - Game.yPos
 
     return {
       "style": "transform: translate3d(#{offsetX*100}%, #{offsetY*100}%, 0); -webkit-transform: translate3d(#{offsetX*100}%, #{offsetY*100}%, 0)"

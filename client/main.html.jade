@@ -136,8 +136,7 @@ template(name="fleet")
         span #{_id}
       .debug-line
         strong Loc 
-        span #{loc.x}
-        span #{loc.y}
+        span #{loc}
     
 template(name="otherFleet")
   .fleet.entity.abs-all.rendering-in($dyn=fleetAttributes)
@@ -149,8 +148,7 @@ template(name="otherFleet")
         span #{_id}
       .debug-line
         strong Loc 
-        span #{loc.x}
-        span #{loc.y}
+        span #{loc}
       
 template(name="star")
   .star.entity.abs-all.rendering-in($dyn=starAttributes)
@@ -165,8 +163,7 @@ template(name="star")
         span #{_id}
       .debug-line
         strong Loc
-        span #{loc.x}
-        span #{loc.y}
+        span #{loc}
       .debug-line
         strong Size 
         span #{size}

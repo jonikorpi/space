@@ -4,20 +4,18 @@ Meteor.methods
 
   createStar: (star) ->
     if star.properties.name == ""
-      nameToSet = "S-" + star.properties.desig
+      nameToSet = star.properties.desig
     else
       nameToSet = star.properties.name
 
     starObject =
-      loc:
-        x: Math.round(star.geometry.coordinates[1]*1000)
-        y: Math.round(star.geometry.coordinates[0]*1000)
+      loc: [
+        Math.round(star.geometry.coordinates[1] * Game.coordinateMultiplier)
+        Math.round(star.geometry.coordinates[0] * Game.coordinateMultiplier)
+      ]
       name: nameToSet
       size: star.properties.mag
       color: star.properties.bv
       energy: Math.round(star.properties.mag * Game.starEnergyMultiplier)
-
-    console.log "Creating star:"
-    console.log starObject
 
     Objects.insert starObject

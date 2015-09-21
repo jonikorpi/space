@@ -6,6 +6,7 @@ Meteor.startup ->
 
   if Objects.find().count() == 0
     console.log "Creating seed stars"
-    stars = JSON.parse Assets.getText("stars.json")
+    stars = JSON.parse Assets.getText("stars.6.json")
+    console.log "Creating #{stars.features.size} stars"
     for index, star of stars.features
       Meteor.call "createStar", star
