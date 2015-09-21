@@ -326,7 +326,7 @@ html, body {
 }
 
 .star {
-  
+
 }
 
 .star-model {
@@ -387,16 +387,20 @@ button.move {
   left: 61.8%; top: 61.8%;
   width: 261.8%;
   font-size: 0.625rem;
+  text-shadow:
+     1px  1px 1px rgba(#000, 0.5),
+    -1px -1px 1px rgba(#000, 0.5),
+    -1px  1px 1px rgba(#000, 0.5),
+     1px -1px 1px rgba(#000, 0.5),
+     0px -1px 1px rgba(#000, 0.5),
+     0px  1px 1px rgba(#000, 0.5),
+    -1px  0px 1px rgba(#000, 0.5),
+     1px  0px 1px rgba(#000, 0.5)
+  ;
 }
 
 .debug-line {
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-shadow:
-    1px 1px 0 #000,
-    -1px 1px 0 #000
-  ;
 }
 
 //

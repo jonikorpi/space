@@ -164,7 +164,7 @@ Template.star.helpers
 
   starModelAttributes: ->
     console.log "setting star model attributes"
-    sizeFactor = @size
+    sizeFactor = @size*2
 
     if @color < 0
       # Blues
@@ -175,7 +175,7 @@ Template.star.helpers
       # Whites
       hue =         45
       saturation = 100 * (0 + @color/5)
-      lightness =   50 * (1 + @color)
+      lightness =  100 - (1 + @color*100)
     else if @color < 0.7
       # Yellows
       hue =         45 * (1 + @color/10)
@@ -198,7 +198,7 @@ Template.star.helpers
       lightness =   50 * (1 + @color/2)
 
     return {
-      "style": "width: #{50*sizeFactor}%; height: #{50*sizeFactor}%; background-color: hsl(#{hue}, #{saturation}%, #{lightness}%); color: hsl(#{hue}, #{saturation}%, #{lightness}%);"
+      "style": "width: #{100*sizeFactor}%; height: #{100*sizeFactor}%; background-color: hsl(#{hue}, #{saturation}%, #{lightness}%); color: hsl(#{hue}, #{saturation}%, #{lightness}%);"
     }
 
 Template.star.onRendered ->
