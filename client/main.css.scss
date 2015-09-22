@@ -102,12 +102,13 @@ $retina: "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)";
 // Imports
 
 @import "reset";
+@import "fonts";
 
 //
 // Font families
 
 html {
-  font-family: sans-serif;
+  font-family: "Fira Sans", sans-serif;
 }
 
 //
