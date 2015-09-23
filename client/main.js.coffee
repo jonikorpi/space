@@ -1,4 +1,10 @@
 #
+# Init/Ready
+
+$ ->
+  FastClick.attach document.body
+
+#
 # Non-Meteor methods
 
 Game.moveFleet = (secretUrl, moveX, moveY) ->
@@ -87,8 +93,12 @@ Template.game.helpers
     }, {sort: {createdAt: -1}})
 
   stars: ->
-    console.log "finding objects"
-    return Objects.find({})
+    console.log "finding stars"
+    return Objects.find({type: "star"})
+
+  planets: ->
+    console.log "finding planets"
+    return Objects.find({type: "planet"})
 
 Template.game.events
 
@@ -167,7 +177,6 @@ Template.fleet.helpers
 Template.star.helpers
 
   starAttributes: ->
-    console.log "setting offset positions for stars"
     offsetX = @loc[0] - Game.xPos
     offsetY = @loc[1] - Game.yPos
 
@@ -176,13 +185,14 @@ Template.star.helpers
     }
 
   starScaling: ->
-    sizeFactor = @energy/4000
+    sizeFactor = @energy/2000
+    scale = 1+1*sizeFactor
 
     return {
-      "style": "transform: scale(#{1+1*sizeFactor}); -webkit-transform: scale(#{1+1*sizeFactor});"
+      "style": "transform: scale(#{scale}); -webkit-transform: scale(#{scale});"
     }
 
-  starColors: ->
+  starModel: ->
     if @energy < 1000
       # Blues
       hue =        215 + (1 + @energy/100000)
@@ -213,13 +223,53 @@ Template.star.helpers
       "style": "background-color: hsl(#{hue}, #{saturation}%, #{lightness}%); color: hsl(#{hue}, #{saturation}%, #{lightness}%);"
     }
 
-Template.star.onRendered ->
+# Template.star.onRendered ->
   # @.$(".rendering-in").removeClass("rendering-in")
+
+Template.planet.helpers
+
+  planetAttributes: ->
+    offsetX = @loc[0] - Game.xPos
+    offsetY = @loc[1] - Game.yPos
+
+    return {
+      "style": "transform: translate3d(#{offsetX*100}%, #{offsetY*100}%, 0); -webkit-transform: translate3d(#{offsetX*100}%, #{offsetY*100}%, 0)"
+    }
+
+  planetScaling: ->
+    sizeFactor = @resources/10000
+    scale = 0.5+1*sizeFactor
+
+    return {
+      "style": "transform: scale(#{scale}); -webkit-transform: scale(#{scale});"
+    }
+
+  planetModel: ->
+    offX = @offsetLoc[0]
+    offY = @offsetLoc[1]
+
+    if offX < 0 && offY < 0
+      rotate = 270
+    else if offX >= 0 && offY < 0
+      rotate = 0
+    else if offX >= 0 && offY >= 0
+      rotate = 45
+    else if offX <  0 && offY >= 0
+      rotate = 180
+
+    rotate += Game.rightAngle(offX, offY)
+
+    return {
+      "style": "transform: rotate(#{rotate}deg); -webkit-transform: rotate(#{rotate}deg);"
+    }
 
 #
 # Cheats
 
 Template.cheats.events
+
+  "click .random-planet": (event) ->
+    Meteor.call "moveToRandomPlanet", Game.secretUrl
 
   "click .random-star": (event) ->
     Meteor.call "moveToRandomStar", Game.secretUrl

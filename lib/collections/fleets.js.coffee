@@ -62,10 +62,13 @@ Meteor.methods
     Meteor.call "jumpFleet", secretUrl, newX, newY
 
   moveToRandomStar: (secretUrl) ->
-    newX = _.random( Game.galaxyBoundX * -1, Game.galaxyBoundX * 1 )
-    newY = _.random( Game.galaxyBoundY * -1, Game.galaxyBoundY * 1 )
+    randomStar = Objects.findOne {type: "star"},
+      skip: _.random(1, 4550)
 
-    randomStar = Objects.findOne {},
-      skip: _.random(1, 4559)
+    Meteor.call "jumpFleet", secretUrl, randomStar.loc[0]+3, randomStar.loc[1]+1
 
-    Meteor.call "jumpFleet", secretUrl, randomStar.loc[0]-3, randomStar.loc[1]+1
+  moveToRandomPlanet: (secretUrl) ->
+    randomPlanet = Objects.findOne { type: "planet"},
+      skip: _.random(1, 21980)
+
+    Meteor.call "jumpFleet", secretUrl, randomPlanet.loc[0]+3, randomPlanet.loc[1]+1

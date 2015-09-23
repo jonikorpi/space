@@ -75,13 +75,13 @@ template(name="game")
     
     .grid-container.no-margins.abs-all
       .grid.abs-all
-        .stars.abs-all
-          each stars
-            +star
-        .fleets.abs-all
-          each otherFleets
-            +fleet
+        each stars
+          +star
+        each planets
+          +planet
+        each otherFleets
           +fleet
+        +fleet
         .movement-controls.abs-all
           button.zoom-in(type="button")
     button.zoom-out.button(type="button") ESC
@@ -156,7 +156,7 @@ template(name="star")
   .star.abs-all.entity.rendering-in($dyn=starAttributes)
     .star-scaler.abs-all($dyn=starScaling)
       .star-name.abs-center #{name}
-      .star-model.abs-all($dyn=starColors)
+      .star-model.abs-all($dyn=starModel)
     .debug-dialog
       strong #{name}
       .debug-line
@@ -171,8 +171,29 @@ template(name="star")
       .debug-line
         strong Max energy 
         span #{maxEnergy}
+        
+template(name="planet")
+  .planet.abs-all.entity.rendering-in($dyn=planetAttributes)
+    .planet-scaler.abs-all($dyn=planetScaling)
+      .planet-name.abs-center #{name}
+      .planet-model.abs-all($dyn=planetModel)
+    .debug-dialog
+      strong #{name}
+      .debug-line
+        strong ID
+        span #{_id}
+      .debug-line
+        strong Loc
+        span #{loc}
+      .debug-line
+        strong Resources 
+        span #{resources}
+      .debug-line
+        strong Max resources 
+        span #{maxResources}
 
 template(name="cheats")
   .cheats.abs-top-right
+    button.button.random-planet(type="button") Random planet
     button.button.random-star(type="button") Random star
     button.button.random-spot(type="button") Random spot
