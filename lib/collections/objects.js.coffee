@@ -17,7 +17,7 @@ Meteor.methods
     planetAmount = 1 + ( Math.abs( Math.round(energy / 1000) ) )
 
     if star.properties.name == ""
-      nameToSet = "#{star.properties.desig}-#{energyModifier}"
+      nameToSet = "#{star.properties.desig}-#{star.id}"
     else
       nameToSet = star.properties.name
 
