@@ -3,8 +3,8 @@
 
 @Game = {}
 
-Game.rowCount = 9;
-Game.colCount = 17;
+Game.ySize = 9;
+Game.xSize = 17;
 
 Game.fleetID = false
 Game.yPos = 0
@@ -24,8 +24,11 @@ Game.galaxyBoundY =  90 * Game.coordinateMultiplier
 Game.sinToDegrees = (sin) ->
   return Math.asin(sin) * 180/Math.PI
 
+Game.hypotenuse = (a, b) ->
+  return Math.sqrt(a*a + b*b)
+
 Game.rightAngle = (a, b) ->
-  c = Math.sqrt(a*a + b*b)
+  c = Game.hypotenuse(a, b)
   sin = b/c
   return Game.sinToDegrees(sin)
 

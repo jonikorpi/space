@@ -1,8 +1,21 @@
 #
+# Globals
+
+Game.body = $("body")
+Game.movementPointer = $(".movement-pointer")
+Game.cursorX = 0
+Game.cursorY = 0
+
+#
 # Init/Ready
 
 $ ->
   FastClick.attach document.body
+
+  $(document).on "mousemove", (event) ->
+    Game.cursorX = event.pageX
+    Game.cursorY = event.pageY
+    requestAnimationFrame(Game.movePointer)
 
 #
 # Non-Meteor methods
@@ -44,6 +57,37 @@ Game.moveBackdrop = (number) ->
   return {
     style: style
   }
+
+Game.movePointer = ->
+  docWidth = $(document).width()
+  docHeight = $(document).height()
+
+  x = Game.cursorX - docWidth * 0.5
+  y = Game.cursorY - docHeight * 0.5
+
+  if x == 0 && y == 0
+    return
+
+  angle = Game.rightAngle(x, y)
+
+  # Should've paid more attention in maths class…
+  if x < 0 && y < 0
+    rotate = 270 - angle
+  else if x >= 0 && y < 0
+    rotate = 90 + angle
+  else if x >= 0 && y >= 0
+    rotate = 90 + angle
+  else if x <  0 && y >= 0
+    rotate = 270 - angle
+
+  rotate = rotate
+  scale = Game.hypotenuse(x, y)
+
+  console.log "rotating #{x}, #{y} to #{rotate}deg"
+
+  $(".movement-pointer").css
+    "transform":         "rotateZ(#{rotate}deg) scaleY(#{scale}) "
+    "-webkit-transform": "rotateZ(#{rotate}deg) scaleY(#{scale}) "
 
 #
 # Layout
@@ -125,12 +169,13 @@ Template.game.events
 Template.game.onRendered ->
   movementControls = @.$(".movement-controls")
 
-  for x in [1..Game.colCount*3]
-    for y in [1..Game.rowCount*3]
-      offsetX = x - (Game.colCount*3+1)/2
-      offsetY = y - (Game.rowCount*3+1)/2
+  for x in [1..Game.xSize*3]
+    for y in [1..Game.ySize*3]
+      offsetX = x - (Game.xSize*3+1)/2
+      offsetY = y - (Game.ySize*3+1)/2
+      movementCost = Math.abs(offsetX) + Math.abs(offsetY)
       unless offsetX == 0 && offsetY == 0
-        movementControls.append "<button style='left: #{offsetX*100}%; top: #{offsetY*100}%' class='move' type='button' data-move-x='#{offsetX}' data-move-y='#{offsetY}'></button>"
+        movementControls.append "<button style='left: #{offsetX*100}%; top: #{offsetY*100}%' class='move' type='button' data-move-x='#{offsetX}' data-move-y='#{offsetY}'>#{movementCost}</button>"
 
 
 #
@@ -253,7 +298,7 @@ Template.planet.helpers
     else if offX >= 0 && offY < 0
       rotate = 0
     else if offX >= 0 && offY >= 0
-      rotate = 45
+      rotate = 90
     else if offX <  0 && offY >= 0
       rotate = 180
 

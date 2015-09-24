@@ -1,5 +1,5 @@
-halfY = Game.rowCount * 1.5
-halfX = Game.colCount * 1.5
+halfY = Game.ySize * 1.5
+halfX = Game.xSize * 1.5
 
 #
 # Player fleet
