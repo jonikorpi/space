@@ -417,8 +417,8 @@ html, body {
   border-radius: 50%;
   background: $blue;
   background-image:
-    radial-gradient(circle at 50% 9%, transparent 61.8%, hsla(0,0%,0%, 0.5)),
-    radial-gradient(circle at 50% 5.6%, transparent 61.8%, hsla(0,0%,0%, 0.5)),
+    // radial-gradient(circle at 50% 9%, transparent 61.8%, hsla(0,0%,0%, 0.5)),
+    // radial-gradient(circle at 50% 5.6%, transparent 61.8%, hsla(0,0%,0%, 0.5)),
     radial-gradient(circle at 50% 38.2%, darken($green, 9%) 23.6%, transparent 23.6%)
   ;
 }
