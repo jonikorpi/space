@@ -24,7 +24,8 @@ Meteor.methods
       secretInvite: Random.secret()
       createdAt: new Date()
       lastMove: new Date()
-      name: "Fleet ID-#{_.random(10000, 99999)}"
+      name: "Fleet ID-#{Random.id()}"
+      animation: false
       ships: [
         [1, 2, false]
         [1, 2, false]

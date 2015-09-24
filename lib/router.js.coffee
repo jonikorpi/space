@@ -2,6 +2,7 @@ Router.configure
   layoutTemplate: "layout"
   notFoundTemplate: "notFound"
   loadingTemplate: "loading"
+  trackPageView: true
 
 Router.route "/",
   template: "home"
