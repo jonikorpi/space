@@ -18,7 +18,8 @@ Game.bindArrowKeys = ->
       Game.moveFleet Game.secretUrl,  0,  1
     "esc":  ->
       $(".zoom-out").trigger "click"
-    "space":->
+    "space": (event) ->
+      event.preventDefault()
       $(".zoom-in").trigger "click"
     ".": ->
       Game.body.toggleClass("debug")
