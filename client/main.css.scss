@@ -323,8 +323,11 @@ html, body {
   width: $x-unit;
   height: $y-unit;
   will-change: transform, opacity;
-  transition: transform $warp-time $main-easing;
   transform: translate3d(-50%, -50%, 0);
+  transition:
+    transform $warp-time $main-easing,
+    opacity $main-time*2 $main-easing
+  ;
 }
 
 //
@@ -466,14 +469,14 @@ html, body {
 // Rendering effects
 
 .rendering-in {
-  // opacity: 0;
+  opacity: 0;
 }
 
 //
 // Fleet controls
 
 .movement-controls {
-
+  outline: 2px solid red;
 }
 
 .movement-pointer {

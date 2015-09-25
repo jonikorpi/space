@@ -92,6 +92,9 @@ Game.movePointer = ->
     "transform":         "rotateZ(#{rotate}deg) scaleY(#{scale}) "
     "-webkit-transform": "rotateZ(#{rotate}deg) scaleY(#{scale}) "
 
+Game.renderEntitiesIn = ->
+  $(".rendering-in").removeClass("rendering-in")
+
 #
 # Layout
 
@@ -205,6 +208,9 @@ Template.fleet.helpers
       "data-fleet-id": this.index
     }
 
+Template.fleet.onRendered ->
+  requestAnimationFrame(Game.renderEntitiesIn)
+
 #
 # Objects
 
@@ -257,6 +263,9 @@ Template.star.helpers
       "style": "background-color: hsl(#{hue}, #{saturation}%, #{lightness}%); color: hsl(#{hue}, #{saturation}%, #{lightness}%);"
     }
 
+Template.star.onRendered ->
+  requestAnimationFrame(Game.renderEntitiesIn)
+
 # Template.star.onRendered ->
   # @.$(".rendering-in").removeClass("rendering-in")
 
@@ -296,6 +305,9 @@ Template.planet.helpers
     return {
       "style": "transform: rotate(#{rotate}deg); -webkit-transform: rotate(#{rotate}deg);"
     }
+
+Template.planet.onRendered ->
+  requestAnimationFrame(Game.renderEntitiesIn)
 
 #
 # Cheats
