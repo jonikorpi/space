@@ -314,7 +314,7 @@ html, body {
 }
 
 //
-// Offsettable objects
+// Entities
 
 .entity {
   position: absolute;
@@ -326,8 +326,19 @@ html, body {
   transform: translate3d(-50%, -50%, 0);
   transition:
     transform $warp-time $main-easing,
-    opacity $main-time*2 $main-easing
+    opacity $main-time*2 $main-easing,
+    filter $main-time*2 $main-easing,
+    -webkit-filter $main-time*2 $main-easing,
   ;
+}
+
+//
+// Rendering effects
+
+.rendering-in {
+  opacity: 0;
+          filter: grayscale(100%) blur(2vmin);
+  -webkit-filter: grayscale(100%) blur(2vmin);
 }
 
 //
@@ -466,17 +477,10 @@ html, body {
 }
 
 //
-// Rendering effects
-
-.rendering-in {
-  opacity: 0;
-}
-
-//
 // Fleet controls
 
 .movement-controls {
-  
+
 }
 
 .movement-pointer {
