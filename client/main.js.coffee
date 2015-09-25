@@ -17,12 +17,20 @@ $ ->
     Game.cursorY = event.pageY
     requestAnimationFrame(Game.movePointer)
 
+  $(window).on "resize", (event) ->
+    requestAnimationFrame(Game.setCoordinateScales)
+
 #
 # Non-Meteor methods
 
+Game.setCoordinateScales = ->
+  Game.docWidth = $(window).width()
+  Game.docHeight = $(window).height()
+  Game.coordinateScale = $("#sizer-entity").width()
+
 Game.moveFleet = (secretUrl, moveX, moveY) ->
   console.log "moveFleet by #{moveX}, #{moveY}"
-  Meteor.call "moveFleet", secretUrl, moveX, moveY, (error, results) ->
+  Meteor.call "moveFleet", secretUrl, moveX, moveY, Game.xPos, Game.yPos, (error, results) ->
     if error
       console.log error
     else
@@ -59,11 +67,8 @@ Game.moveBackdrop = (number) ->
   }
 
 Game.movePointer = ->
-  docWidth = $(document).width()
-  docHeight = $(document).height()
-
-  x = Game.cursorX - docWidth * 0.5
-  y = Game.cursorY - docHeight * 0.5
+  x = Game.cursorX - Game.docWidth * 0.5
+  y = Game.cursorY - Game.docHeight * 0.5
 
   if x == 0 && y == 0
     return
@@ -82,8 +87,6 @@ Game.movePointer = ->
 
   rotate = rotate
   scale = Game.hypotenuse(x, y)
-
-  console.log "rotating #{x}, #{y} to #{rotate}deg"
 
   $(".movement-pointer").css
     "transform":         "rotateZ(#{rotate}deg) scaleY(#{scale}) "
@@ -146,37 +149,23 @@ Template.game.helpers
 
 Template.game.events
 
-  "click .move": (event) ->
-    button = $(event.target)
-    buttonX = button.attr("data-move-x")
-    buttonY = button.attr("data-move-y")
-    moveX = 0
-    moveY = 0
-
-    if buttonX
-      moveX = +buttonX
-    if buttonY
-      moveY = +buttonY
-
-    Game.moveFleet Game.secretUrl, moveX, moveY
-
-  "click .zoom-in": (event) ->
+  "click [data-player-fleet] .fleet-model": (event) ->
     Game.body.addClass("zoomed-in")
 
   "click .zoom-out": (event) ->
     Game.body.removeClass("zoomed-in")
 
+  "click .movement-controls": (event) ->
+    x = Game.cursorX - Game.docWidth * 0.5
+    y = Game.cursorY - Game.docHeight * 0.5
+
+    moveX = x / Game.coordinateScale
+    moveY = y / Game.coordinateScale
+
+    Game.moveFleet Game.secretUrl, moveX, moveY
+
 Template.game.onRendered ->
-  movementControls = @.$(".movement-controls")
-
-  for x in [1..Game.xSize*3]
-    for y in [1..Game.ySize*3]
-      offsetX = x - (Game.xSize*3+1)/2
-      offsetY = y - (Game.ySize*3+1)/2
-      movementCost = Math.abs(offsetX) + Math.abs(offsetY)
-      unless offsetX == 0 && offsetY == 0
-        movementControls.append "<button style='left: #{offsetX*100}%; top: #{offsetY*100}%' class='move' type='button' data-move-x='#{offsetX}' data-move-y='#{offsetY}'>#{movementCost}</button>"
-
+  Game.setCoordinateScales()
 
 #
 # Backdrop

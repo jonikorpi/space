@@ -20,7 +20,7 @@ Game.bindArrowKeys = ->
       $(".zoom-out").trigger "click"
     "space": (event) ->
       event.preventDefault()
-      $(".zoom-in").trigger "click"
+      $("[data-player-fleet] .fleet-model").trigger "click"
     ".": ->
       Game.body.toggleClass("debug")
   , "keyup"

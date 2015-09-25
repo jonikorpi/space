@@ -316,6 +316,7 @@ html, body {
 // Offsettable objects
 
 .entity {
+  pointer-events: none;
   position: absolute;
   left: 50%; top: 50%;
   margin: auto;
@@ -335,7 +336,21 @@ html, body {
   }
 }
 
-[data-player-fleet] {
+.fleet-model {
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  transform: scale(0.09);
+  pointer-events: all;
+}
+
+[data-player-fleet] .fleet-model {
+  cursor: zoom-in;
+
+  .zoomed-in & {
+    cursor: auto;
+  }
+
   .warp & {
     // animation: warp $main-time $main-easing;
   }
@@ -346,12 +361,6 @@ html, body {
 //   50% {      transform: scale(0); }
 // }
 
-.fleet-model {
-  margin: auto;
-  width: 100%;
-  height: 100%;
-  transform: scale(0.09);
-}
 
 .fleet-name {
   position: absolute;
@@ -395,6 +404,7 @@ html, body {
 }
 
 .star-model {
+  pointer-events: all;
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -428,6 +438,7 @@ html, body {
 }
 
 .planet-model {
+  pointer-events: all;
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -462,9 +473,7 @@ html, body {
 // Fleet controls
 
 .movement-controls {
-  width: $x-unit;
-  height: $y-unit;
-  margin: auto;
+
 }
 
 .movement-pointer {
@@ -479,8 +488,7 @@ html, body {
   will-change: opacity;
   transition: opacity $main-time $main-easing $short-time;
 
-  .zoomed-in &,
-  .zoom-in:hover + & {
+  .zoomed-in & {
     opacity: 0;
     transition-delay: 0ms;
   }
@@ -506,20 +514,6 @@ button.move {
 
   &:active {
     border-color: transparent;
-  }
-
-  .zoomed-in & { display: none; }
-}
-
-button.zoom-in {
-  width: 100%;
-  height: 100%;
-  cursor: zoom-in;
-  outline: none;
-  transition: all $short-time $main-easing;
-
-  &:hover {
-    background: rgba($green, 0.236);
   }
 
   .zoomed-in & { display: none; }

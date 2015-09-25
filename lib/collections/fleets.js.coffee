@@ -38,12 +38,15 @@ Meteor.methods
       #   console.log results
       #   console.log error
 
-  moveFleet: (secretUrl, moveX, moveY) ->
+  moveFleet: (secretUrl, moveX, moveY, originalX, originalY) ->
+    # TODO: check current position matches
+
     Fleets.update
       secretUrl: secretUrl
     ,
       $set:
         lastMove: new Date()
+        lastLoc: [originalX, originalY]
       $inc:
         "loc.0": moveX
         "loc.1": moveY
@@ -54,6 +57,8 @@ Meteor.methods
     ,
       $set:
         lastMove: new Date()
+        "lastLoc.0": newX
+        "lastLoc.1": newY
         "loc.0": newX
         "loc.1": newY
 

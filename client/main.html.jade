@@ -79,6 +79,9 @@ template(name="game")
     
     .grid-container.no-margins.abs-all
       .grid.abs-all
+        .entity#sizer-entity
+        .movement-pointer
+        .movement-controls.abs-all
         each stars
           +star
         each planets
@@ -86,9 +89,7 @@ template(name="game")
         each otherFleets
           +fleet
         +fleet
-        .movement-controls.abs-all
-          button.zoom-in(type="button")
-          .movement-pointer
+        //- button.zoom-in(type="button")
     button.zoom-out.button(type="button") ESC
         
     +cheats
