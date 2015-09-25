@@ -77,11 +77,12 @@ template(name="game")
     .backdrop.abs-all
       +backdrop(xPos=xPos yPox=yPos)
     
+    .movement-controls.abs-all
+    
     .grid-container.no-margins.abs-all
       .grid.abs-all
-        .entity#sizer-entity
         .movement-pointer
-        .movement-controls.abs-all
+        .entity#sizer-entity
         each stars
           +star
         each planets
