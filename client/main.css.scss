@@ -316,11 +316,14 @@ html, body {
 // Offsettable objects
 
 .entity {
+  position: absolute;
+  left: 50%; top: 50%;
   margin: auto;
   width: $x-unit;
   height: $y-unit;
   will-change: transform, opacity;
   transition: transform $warp-time $main-easing;
+  transform: translate3d(-50%, -50%, 0);
 }
 
 //
@@ -334,14 +337,14 @@ html, body {
 
 [data-player-fleet] {
   .warp & {
-    animation: warp $main-time $main-easing;
+    // animation: warp $main-time $main-easing;
   }
 }
 
-@keyframes warp {
-  0%, 100% { transform: scale(1) }
-  50% { transform: scale(0)d }
-}
+// @keyframes warp {
+//   0%, 100% { transform: scale(1) }
+//   50% {      transform: scale(0); }
+// }
 
 .fleet-model {
   margin: auto;
@@ -395,11 +398,11 @@ html, body {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  box-shadow:
-    // 0 0 10vmin currentcolor,
-    // 0 0 6vmin currentcolor,
-    0 0 4vmin currentcolor,
-  ;
+  // box-shadow:
+  //   // 0 0 10vmin currentcolor,
+  //   // 0 0 6vmin currentcolor,
+  //   // 0 0 4vmin currentcolor,
+  // ;
   background-image: radial-gradient(circle, transparent 61.8%, hsla(0,0%,100%, 0.618));
 }
 
@@ -473,7 +476,8 @@ html, body {
   transform-origin: bottom;
   pointer-events: none;
   opacity: 1;
-  transition: opacity $short-time $main-easing $short-time;
+  will-change: opacity;
+  transition: opacity $main-time $main-easing $short-time;
 
   .zoomed-in &,
   .zoom-in:hover + & {

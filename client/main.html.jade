@@ -97,38 +97,38 @@ template(name="backdrop")
   .backdrop-color.abs-all
   
   .layers.abs-all
-    .layer.layer-1.abs-top-left($dyn=layer1)
-    .layer.layer-1.abs-top-left.layer-left($dyn=layer1)
-    .layer.layer-1.abs-top-left.layer-right($dyn=layer1)
-    .layer.layer-1.abs-top-left.layer-top($dyn=layer1)
-    .layer.layer-1.abs-top-left.layer-bottom($dyn=layer1)
-    .layer.layer-1.abs-top-left.layer-top-left($dyn=layer1)
-    .layer.layer-1.abs-top-left.layer-top-right($dyn=layer1)
-    .layer.layer-1.abs-top-left.layer-bottom-left($dyn=layer1)
-    .layer.layer-1.abs-top-left.layer-bottom-right($dyn=layer1)
-    
-    .layer.layer-2.abs-top-left($dyn=layer2)
-    .layer.layer-2.abs-top-left.layer-left($dyn=layer2)
-    .layer.layer-2.abs-top-left.layer-right($dyn=layer2)
-    .layer.layer-2.abs-top-left.layer-top($dyn=layer2)
-    .layer.layer-2.abs-top-left.layer-bottom($dyn=layer2)
-    .layer.layer-2.abs-top-left.layer-top-left($dyn=layer2)
-    .layer.layer-2.abs-top-left.layer-top-right($dyn=layer2)
-    .layer.layer-2.abs-top-left.layer-bottom-left($dyn=layer2)
-    .layer.layer-2.abs-top-left.layer-bottom-right($dyn=layer2)
-    
-    .layer.layer-3.abs-top-left($dyn=layer3)
-    .layer.layer-3.abs-top-left.layer-left($dyn=layer3)
-    .layer.layer-3.abs-top-left.layer-right($dyn=layer3)
-    .layer.layer-3.abs-top-left.layer-top($dyn=layer3)
-    .layer.layer-3.abs-top-left.layer-bottom($dyn=layer3)
-    .layer.layer-3.abs-top-left.layer-top-left($dyn=layer3)
-    .layer.layer-3.abs-top-left.layer-top-right($dyn=layer3)
-    .layer.layer-3.abs-top-left.layer-bottom-left($dyn=layer3)
-    .layer.layer-3.abs-top-left.layer-bottom-right($dyn=layer3)
+    //- .layer.layer-1.abs-top-left($dyn=layer1)
+    //- .layer.layer-1.abs-top-left.layer-left($dyn=layer1)
+    //- .layer.layer-1.abs-top-left.layer-right($dyn=layer1)
+    //- .layer.layer-1.abs-top-left.layer-top($dyn=layer1)
+    //- .layer.layer-1.abs-top-left.layer-bottom($dyn=layer1)
+    //- .layer.layer-1.abs-top-left.layer-top-left($dyn=layer1)
+    //- .layer.layer-1.abs-top-left.layer-top-right($dyn=layer1)
+    //- .layer.layer-1.abs-top-left.layer-bottom-left($dyn=layer1)
+    //- .layer.layer-1.abs-top-left.layer-bottom-right($dyn=layer1)
+    //- 
+    //- .layer.layer-2.abs-top-left($dyn=layer2)
+    //- .layer.layer-2.abs-top-left.layer-left($dyn=layer2)
+    //- .layer.layer-2.abs-top-left.layer-right($dyn=layer2)
+    //- .layer.layer-2.abs-top-left.layer-top($dyn=layer2)
+    //- .layer.layer-2.abs-top-left.layer-bottom($dyn=layer2)
+    //- .layer.layer-2.abs-top-left.layer-top-left($dyn=layer2)
+    //- .layer.layer-2.abs-top-left.layer-top-right($dyn=layer2)
+    //- .layer.layer-2.abs-top-left.layer-bottom-left($dyn=layer2)
+    //- .layer.layer-2.abs-top-left.layer-bottom-right($dyn=layer2)
+    //- 
+    //- .layer.layer-3.abs-top-left($dyn=layer3)
+    //- .layer.layer-3.abs-top-left.layer-left($dyn=layer3)
+    //- .layer.layer-3.abs-top-left.layer-right($dyn=layer3)
+    //- .layer.layer-3.abs-top-left.layer-top($dyn=layer3)
+    //- .layer.layer-3.abs-top-left.layer-bottom($dyn=layer3)
+    //- .layer.layer-3.abs-top-left.layer-top-left($dyn=layer3)
+    //- .layer.layer-3.abs-top-left.layer-top-right($dyn=layer3)
+    //- .layer.layer-3.abs-top-left.layer-bottom-left($dyn=layer3)
+    //- .layer.layer-3.abs-top-left.layer-bottom-right($dyn=layer3)
   
 template(name="fleet")
-  .fleet.entity.abs-all.rendering-in($dyn=fleetAttributes)
+  .fleet.entity.rendering-in($dyn=fleetAttributes)
     .fleet-name #{name}
     .fleet-model.abs-all
       .ships.abs-all
@@ -158,7 +158,7 @@ template(name="fleet")
         span #{loc}
       
 template(name="star")
-  .star.abs-all.entity.rendering-in($dyn=starAttributes)
+  .star.entity.rendering-in($dyn=starAttributes)
     .star-scaler.abs-all($dyn=starScaling)
       .star-name.abs-center #{name}
       .star-model.abs-all($dyn=starModel)
@@ -178,7 +178,7 @@ template(name="star")
         span #{maxEnergy}
         
 template(name="planet")
-  .planet.abs-all.entity.rendering-in($dyn=planetAttributes)
+  .planet.entity.rendering-in($dyn=planetAttributes)
     .planet-scaler.abs-all($dyn=planetScaling)
       .planet-name.abs-center #{name}
       .planet-model.abs-all($dyn=planetModel)
