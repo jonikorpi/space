@@ -29,7 +29,7 @@ $loop-easing:        ease-in-out;
 $main-time: 300ms;
 $short-time: 124ms;
 $loop-time: $main-time*144;
-$warp-time: $main-time*2;
+$warp-time: $main-time*5;
 
 //
 // Colors
@@ -354,8 +354,8 @@ html, body {
   margin: auto;
   width: 100%;
   height: 100%;
-  transform: scale(0.09);
   pointer-events: all;
+  transition: transform $warp-time*0.2 $main-easing;
 }
 
 [data-player-fleet] .fleet-model {
@@ -388,6 +388,10 @@ html, body {
   .zoomed-in & {
     // transform: translateX(-50%) scale(0.236);
   }
+}
+
+.ships {
+  transform: scale(0.236);
 }
 
 .ship {

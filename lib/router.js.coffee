@@ -22,6 +22,8 @@ Router.route "/secret-link/:secretUrl",
       Game.secretUrl = @.params.secretUrl
       Game.xPos = targetFleet.loc[0]
       Game.yPos = targetFleet.loc[1]
+      Game.lastXPos = targetFleet.lastLoc[0]
+      Game.lastYPos = targetFleet.lastLoc[1]
       console.log "subscribing to nearby fleets [#{Game.xPos},#{Game.yPos}]…"
       Meteor.subscribe "nearbyFleets", Game.secretUrl, Game.xPos, Game.yPos
       console.log "subscribing to nearby objects [#{Game.xPos},#{Game.yPos}]…"

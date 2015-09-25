@@ -191,10 +191,13 @@ Template.fleet.events
 Template.fleet.helpers
 
   fleetAttributes: ->
+    # Player fleet
     if Game.secretUrl == this.secretUrl
       return {
         "data-player-fleet": true
       }
+
+    # Other fleets
     else
       offsetX = @loc[0] - Game.xPos
       offsetY = @loc[1] - Game.yPos
@@ -202,6 +205,31 @@ Template.fleet.helpers
       return {
         "style": "transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0); -webkit-transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0)"
       }
+
+  fleetModelAttributes: ->
+    rotate = 0
+    x = this.loc[0] - this.lastLoc[0]
+    y = this.loc[1] - this.lastLoc[1]
+
+    angle = Game.rightAngle(x, y)
+
+    # Should've paid more attention in maths class…
+    if x < 0 && y < 0
+      rotate = 270 - angle
+    else if x >= 0 && y < 0
+      rotate = 90 + angle
+    else if x >= 0 && y >= 0
+      rotate = 90 + angle
+    else if x <  0 && y >= 0
+      rotate = 270 - angle
+
+    rotate = rotate# - Game.lastRotation
+    #Game.lastRotation = rotate
+    # scale = Game.hypotenuse(x, y)
+
+    return {
+      "style": "transform: rotate(#{rotate}deg); -webkit-transform: rotate(#{rotate}deg)"
+    }
 
   shipAttributes: ->
     return {

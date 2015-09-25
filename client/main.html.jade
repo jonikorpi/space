@@ -132,7 +132,7 @@ template(name="backdrop")
 template(name="fleet")
   .fleet.entity.rendering-in($dyn=fleetAttributes)
     .fleet-name #{name}
-    .fleet-model.abs-all
+    .fleet-model.abs-all($dyn=fleetModelAttributes)
       .ships.abs-all
         each ships
           .ship
@@ -155,6 +155,9 @@ template(name="fleet")
       .debug-line
         strong ID
         span #{_id}
+      .debug-line
+        strong lastLoc 
+        span #{lastLoc}
       .debug-line
         strong Loc 
         span #{loc}

@@ -9,6 +9,9 @@ Game.xSize = 17;
 Game.fleetID = false
 Game.yPos = 0
 Game.xPos = 0
+Game.lastYPos = 0
+Game.lastYPos = 0
+Game.lastRotation = 0
 
 Game.starSpeed = 0.146
 Game.starStep  = 1
