@@ -1,5 +1,5 @@
-halfY = Game.ySize * 2
-halfX = Game.xSize * 2
+halfY = Game.ySize * 3
+halfX = Game.xSize * 3
 
 #
 # Player fleet
