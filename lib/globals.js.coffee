@@ -3,8 +3,8 @@
 
 @Game = {}
 
-Game.ySize = 9;
-Game.xSize = 17;
+Game.ySize = 17;
+Game.xSize = 33;
 
 Game.starSpeed = 0.146
 Game.starStep  = 1

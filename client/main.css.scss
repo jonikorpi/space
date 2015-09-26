@@ -7,8 +7,8 @@
 $font-size-multiplier: 16/16;
 $line: 1.382rem;
 
-$y-size: 9;
-$x-size: 17;
+$y-size: 17;
+$x-size: 33;
 $board-fill-ratio: 100;
 $board-height-ratio: $y-size/$x-size;
 
@@ -484,7 +484,7 @@ html, body {
 // Loot
 
 .loot {
-  
+
 }
 
 .loot-model {
@@ -499,7 +499,7 @@ html, body {
 // Fleet controls
 
 .movement-controls {
-
+  cursor: crosshair;
 }
 
 .movement-pointer {
