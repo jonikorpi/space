@@ -12,16 +12,14 @@ Meteor.publish "thisFleet", (secretUrl) ->
 #
 # Nearby fleets
 
-Meteor.publish "nearbyFleets", (secretUrl, xPos, yPos) ->
-  # check options,
-  #   sort: Object
-  #   limit: Number
+Meteor.publish "nearbyFleets", (secretUrl) ->
+  # TODO: checks
 
   playerFleet = Fleets.findOne
     secretUrl: secretUrl
 
-  unless xPos == playerFleet.loc[0] && yPos == playerFleet.loc[1]
-    return
+  xPos = playerFleet.loc[0]
+  yPos = playerFleet.loc[1]
 
   return Fleets.find
     secretUrl:
@@ -44,12 +42,14 @@ Meteor.publish "nearbyFleets", (secretUrl, xPos, yPos) ->
 #
 # Nearby objects
 
-Meteor.publish "nearbyObjects", (secretUrl, xPos, yPos) ->
+Meteor.publish "nearbyObjects", (secretUrl) ->
+  # TODO: checks
+
   playerFleet = Fleets.findOne
     secretUrl: secretUrl
 
-  unless xPos == playerFleet.loc[0] && yPos == playerFleet.loc[1]
-    return
+  xPos = playerFleet.loc[0]
+  yPos = playerFleet.loc[1]
 
   return Objects.find
     loc:
@@ -61,9 +61,29 @@ Meteor.publish "nearbyObjects", (secretUrl, xPos, yPos) ->
           [ xPos - halfX, yPos + halfY ]
           [ xPos - halfX, yPos - halfY ]
         ]
-  # ,
-  #   fields:
-  #     energy: 0
+
+#
+# Nearby loot
+
+Meteor.publish "nearbyLoot", (secretUrl) ->
+  # TODO: checks
+
+  playerFleet = Fleets.findOne
+    secretUrl: secretUrl
+
+  xPos = playerFleet.loc[0]
+  yPos = playerFleet.loc[1]
+
+  return Loot.find
+    loc:
+      $geoWithin:
+        $polygon: [
+          [ xPos - halfX, yPos - halfY ]
+          [ xPos + halfX, yPos - halfY ]
+          [ xPos + halfX, yPos + halfY ]
+          [ xPos - halfX, yPos + halfY ]
+          [ xPos - halfX, yPos - halfY ]
+        ]
 
 #
 # Indexing
@@ -77,6 +97,12 @@ Meteor.startup ->
     max: Game.galaxyBoundX*2
 
   Objects._ensureIndex
+    loc: "2d"
+  ,
+    min: Game.galaxyBoundX*2 * -1
+    max: Game.galaxyBoundX*2
+
+  Loot._ensureIndex
     loc: "2d"
   ,
     min: Game.galaxyBoundX*2 * -1

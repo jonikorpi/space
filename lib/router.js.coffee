@@ -18,8 +18,9 @@ Router.route "/secret-link/:secretUrl",
     if targetFleet
       Game.fleet = targetFleet
       Game.body = $("body")
-      Meteor.subscribe "nearbyFleets", Game.fleet.secretUrl, Game.fleet.loc[0], Game.fleet.loc[1]
-      Meteor.subscribe "nearbyObjects", Game.fleet.secretUrl, Game.fleet.loc[0], Game.fleet.loc[1]
+      Meteor.subscribe "nearbyFleets", Game.fleet.secretUrl
+      Meteor.subscribe "nearbyObjects", Game.fleet.secretUrl
+      Meteor.subscribe "nearbyLoot", Game.fleet.secretUrl
       Game.bindArrowKeys()
       return targetFleet
     else

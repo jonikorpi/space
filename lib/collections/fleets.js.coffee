@@ -17,6 +17,7 @@ Meteor.methods
       secretUrl: newSecretUrl
       secretInvite: Random.secret()
       createdAt: new Date()
+      energy: 0
       name: "Unnamed Fleet"
       animation: false
       ships: [
@@ -40,6 +41,9 @@ Meteor.methods
     currentX = fleet.loc[0]
     currentY = fleet.loc[1]
 
+    energyCost = Game.hypotenuse(moveX, moveY) * Game.energyPerUnit
+    Meteor.call "addLoot", currentX, currentY, "energy", energyCost
+
     Fleets.update
       secretUrl: secretUrl
     ,
@@ -47,6 +51,7 @@ Meteor.methods
         lastMove: new Date()
         loc: [currentX+moveX, currentY+moveY]
         lastLoc: [currentX, currentY]
+        energy: fleet.energy - energyCost
 
   jumpFleet: (secretUrl, newX, newY, currentX, currentY) ->
     # TODO: checks
@@ -60,8 +65,7 @@ Meteor.methods
       secretUrl: secretUrl
     ,
       $set:
-        moveStarted: moment()
-        moveEnds: moment().add(1, "seconds")
+        lastMove: new Date()
         loc: [newX, newY]
         lastLoc: [currentX, currentY]
 

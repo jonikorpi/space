@@ -135,17 +135,16 @@ Template.header.events
 Template.game.helpers
 
   otherFleets: ->
-    return Fleets.find({
-      _id:
-        $not: Game.fleet._id
-    }, {sort: {createdAt: -1}})
+    return Fleets.find({})
 
   stars: ->
-
     return Objects.find({type: "star"})
 
   planets: ->
     return Objects.find({type: "planet"})
+
+  loots: ->
+    return Loot.find({})
 
 Template.game.events
 
@@ -291,9 +290,6 @@ Template.star.helpers
 Template.star.onRendered ->
   requestAnimationFrame(Game.renderEntitiesIn)
 
-# Template.star.onRendered ->
-  # @.$(".rendering-in").removeClass("rendering-in")
-
 Template.planet.helpers
 
   planetAttributes: ->
@@ -335,6 +331,23 @@ Template.planet.helpers
     }
 
 Template.planet.onRendered ->
+  requestAnimationFrame(Game.renderEntitiesIn)
+
+#
+# Loot
+
+Template.loot.helpers
+
+  lootAttributes: ->
+    offsetX = @loc[0] - Game.fleet.loc[0]
+    offsetY = @loc[1] - Game.fleet.loc[1]
+
+    return {
+      "style": "transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0);
+        -webkit-transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0);"
+    }
+
+Template.loot.onRendered ->
   requestAnimationFrame(Game.renderEntitiesIn)
 
 #

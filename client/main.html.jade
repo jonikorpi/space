@@ -86,6 +86,8 @@ template(name="game")
           +star
         each planets
           +planet
+        each loots
+          +loot
         each otherFleets
           +fleet
         +fleet
@@ -148,9 +150,9 @@ template(name="fleet")
       .debug-line
         strong Started
         span #{createdAt}
-        .debug-line
-          strong Last Move
-          span #{lastMove}
+      .debug-line
+        strong Last Move
+        span #{lastMove}
       .debug-line
         strong ID
         span #{_id}
@@ -160,6 +162,9 @@ template(name="fleet")
       .debug-line
         strong Loc 
         span #{loc}
+      .debug-line
+        strong Energy
+        span #{energy}
       
 template(name="star")
   .star.entity.rendering-in($dyn=starAttributes)
@@ -200,6 +205,21 @@ template(name="planet")
       .debug-line
         strong Max resources 
         span #{maxResources}
+        
+template(name="loot")
+  .loot.entity.rendering-in($dyn=lootAttributes)
+    .loot-model.abs-all
+    .debug-dialog
+      strong #{type}
+      .debug-line
+        strong ID
+        span #{_id}
+      .debug-line
+        strong Loc
+        span #{loc}
+      .debug-line
+        strong Amount 
+        span #{amount}
 
 template(name="cheats")
   .cheats.abs-top-right

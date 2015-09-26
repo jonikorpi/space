@@ -481,6 +481,21 @@ html, body {
 }
 
 //
+// Loot
+
+.loot {
+  
+}
+
+.loot-model {
+  margin: auto;
+  background: $blue;
+  pointer-events: all;
+  width: 10%;
+  height: 10%;
+}
+
+//
 // Fleet controls
 
 .movement-controls {
