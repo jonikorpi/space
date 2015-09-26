@@ -72,14 +72,12 @@ Meteor.startup ->
   Fleets._ensureIndex
     loc: "2d"
     secretUrl: 1
-    _id: 1
   ,
     min: Game.galaxyBoundX*2 * -1
     max: Game.galaxyBoundX*2
 
   Objects._ensureIndex
     loc: "2d"
-    _id: 1
   ,
     min: Game.galaxyBoundX*2 * -1
     max: Game.galaxyBoundX*2

@@ -2,17 +2,9 @@
 
 Meteor.methods
 
-  # setCharactership: (gameID, shipID, slot, team) ->
-  #   slotID = "#{team}.#{slot}"
-  #   console.log "slotID is #{slotID}"
-  #
-  #   Games.update {
-  #     _id: gameID
-  #     "characters.slotID": slotID
-  #   }, $set:
-  #     "characters.$.fleetID": shipID
-
   startFleet: (newSecretUrl, x, y) ->
+    # TODO: checks
+
     unless x
       x = 0 + _.random(-7, 7)
     unless y
@@ -20,11 +12,13 @@ Meteor.methods
 
     Fleets.insert
       loc: [x, y]
+      lastLoc: [x, y+1]
+      lastMove: new Date()
+      angle: 0
       secretUrl: newSecretUrl
       secretInvite: Random.secret()
       createdAt: new Date()
-      lastMove: new Date()
-      name: "Fleet ID-#{Random.id()}"
+      name: "Unnamed Fleet"
       animation: false
       ships: [
         [1, 2, false]
@@ -38,29 +32,68 @@ Meteor.methods
       #   console.log results
       #   console.log error
 
-  moveFleet: (secretUrl, moveX, moveY, originalX, originalY) ->
+  moveFleet: (secretUrl, moveX, moveY) ->
     # TODO: check current position matches
 
-    Fleets.update
+    fleet = Fleets.findOne
       secretUrl: secretUrl
-    ,
-      $set:
-        lastMove: new Date()
-        lastLoc: [originalX, originalY]
-      $inc:
-        "loc.0": moveX
-        "loc.1": moveY
 
-  jumpFleet: (secretUrl, newX, newY) ->
+    # Times
+    # now = moment()
+    # currentTravelDuration = fleet.moveStarted - fleet.moveEnds
+    # timeTraveled = +now - fleet.moveStarted
+    # timeToArrive = fleet.moveEnds - +now
+    # currentProgress = currentTravelDuration / timeTraveled
+
+    # Locations
+    currentX = fleet.loc[0]
+    currentY = fleet.loc[1]
+    # currentLastX = fleet.lastLoc[0]
+    # currentLastY = fleet.lastLoc[1]
+    # realX = currentLastX + (currentLastX - currentX) * currentProgress
+    # realY = currentLastY + (currentLastY - currentY) * currentProgress
+
+    angle = Game.rightAngle(moveX, moveY)
+
+    # Should've paid more attention in maths class…
+    if      moveX <  0 && moveY <  0
+      angle = 270 - angle
+    else if moveX >= 0 && moveY <  0
+      angle = 90 + angle
+    else if moveX >= 0 && moveY >= 0
+      angle = 90 + angle
+    else if moveX <  0 && moveY >= 0
+      angle = 270 - angle
+
+    angle = angle - fleet.angle
+
+    # duration = Game.hypotenuse(moveX, moveY) * Game.fleetSpeed
+
     Fleets.update
       secretUrl: secretUrl
     ,
       $set:
         lastMove: new Date()
-        "lastLoc.0": newX
-        "lastLoc.1": newY
-        "loc.0": newX
-        "loc.1": newY
+        loc: [currentX+moveX, currentY+moveY]
+        lastLoc: [currentX, currentY]
+        angle: angle
+
+  jumpFleet: (secretUrl, newX, newY, currentX, currentY) ->
+    # TODO: checks
+
+    unless currentX
+      currentX = newX
+    unless currentY
+      currentY = newY
+
+    Fleets.update
+      secretUrl: secretUrl
+    ,
+      $set:
+        moveStarted: moment()
+        moveEnds: moment().add(1, "seconds")
+        loc: [newX, newY]
+        lastLoc: [currentX, currentY]
 
   moveToRandomSpot: (secretUrl) ->
     newX = _.random( Game.galaxyBoundX / -10, Game.galaxyBoundX / 10 )

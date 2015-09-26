@@ -30,7 +30,7 @@ Game.setCoordinateScales = ->
 
 Game.moveFleet = (secretUrl, moveX, moveY) ->
   console.log "moveFleet by #{moveX}, #{moveY}"
-  Meteor.call "moveFleet", secretUrl, moveX, moveY, Game.xPos, Game.yPos, (error, results) ->
+  Meteor.call "moveFleet", secretUrl, moveX, moveY, (error, results) ->
     if error
       console.log error
     else
@@ -42,8 +42,8 @@ Game.moveFleet = (secretUrl, moveX, moveY) ->
           playerFleet.off "animationEnd webkitAnimationEnd"
 
 Game.moveBackdrop = (number) ->
-  xPos = Game.xPos * number
-  yPos = Game.yPos * number
+  xPos = Game.fleet.loc[0] * number
+  yPos = Game.fleet.loc[1] * number
   xPosRounded = Math.ceil(xPos / 100)
   yPosRounded = Math.ceil(yPos / 100)
 
@@ -136,18 +136,16 @@ Template.header.events
 Template.game.helpers
 
   otherFleets: ->
-    console.log "finding other fleets"
     return Fleets.find({
       _id:
-        $not: Game.fleetID
+        $not: Game.fleet._id
     }, {sort: {createdAt: -1}})
 
   stars: ->
-    console.log "finding stars"
+
     return Objects.find({type: "star"})
 
   planets: ->
-    console.log "finding planets"
     return Objects.find({type: "planet"})
 
 Template.game.events
@@ -165,7 +163,7 @@ Template.game.events
     moveX = x / Game.coordinateScale
     moveY = y / Game.coordinateScale
 
-    Game.moveFleet Game.secretUrl, moveX, moveY
+    Game.moveFleet Game.fleet.secretUrl, moveX, moveY
 
 Template.game.onRendered ->
   Game.setCoordinateScales()
@@ -192,43 +190,44 @@ Template.fleet.helpers
 
   fleetAttributes: ->
     # Player fleet
-    if Game.secretUrl == this.secretUrl
+    if Game.fleet.secretUrl == this.secretUrl
       return {
         "data-player-fleet": true
       }
 
     # Other fleets
     else
-      offsetX = @loc[0] - Game.xPos
-      offsetY = @loc[1] - Game.yPos
+      # now = moment()
+      # # playerTimeTraveled = Game.fleet.moveStarted - now
+      # # thisTimeTraveled =   @moveStarted - now
+      # playerTimeToArrive =   Game.fleet.moveEnds - +now
+      # thisTimeToArrive =     @moveEnds - +now
+      #
+      # if playerTimeToArrive < 0
+      #   playerTimeToArrive = 0
+      #
+      # if thisTimeToArrive < 0
+      #   thisTimeToArrive = 0
+      #
+      # duration = playerTimeToArrive + thisTimeToArrive
+      #
+      # if duration < 100
+      #   duration = 100
+      #
+      # console.log "#{playerTimeToArrive} - #{thisTimeToArrive} = #{duration}"
+
+      offsetX = @loc[0] - Game.fleet.loc[0]
+      offsetY = @loc[1] - Game.fleet.loc[1]
 
       return {
-        "style": "transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0); -webkit-transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0)"
+        "style": "transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0);
+          -webkit-transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0);"
       }
 
   fleetModelAttributes: ->
-    rotate = 0
-    x = this.loc[0] - this.lastLoc[0]
-    y = this.loc[1] - this.lastLoc[1]
-
-    angle = Game.rightAngle(x, y)
-
-    # Should've paid more attention in maths class…
-    if x < 0 && y < 0
-      rotate = 270 - angle
-    else if x >= 0 && y < 0
-      rotate = 90 + angle
-    else if x >= 0 && y >= 0
-      rotate = 90 + angle
-    else if x <  0 && y >= 0
-      rotate = 270 - angle
-
-    rotate = rotate# - Game.lastRotation
-    #Game.lastRotation = rotate
-    # scale = Game.hypotenuse(x, y)
-
     return {
-      "style": "transform: rotate(#{rotate}deg); -webkit-transform: rotate(#{rotate}deg)"
+      "style": "transform: rotate(#{this.angle}deg);
+        -webkit-transform: rotate(#{this.angle}deg);"
     }
 
   shipAttributes: ->
@@ -245,8 +244,8 @@ Template.fleet.onRendered ->
 Template.star.helpers
 
   starAttributes: ->
-    offsetX = @loc[0] - Game.xPos
-    offsetY = @loc[1] - Game.yPos
+    offsetX = @loc[0] - Game.fleet.loc[0]
+    offsetY = @loc[1] - Game.fleet.loc[1]
 
     return {
       "style": "transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0); -webkit-transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0)"
@@ -288,7 +287,8 @@ Template.star.helpers
       lightness =   76 * (1 - @energy/100000)
 
     return {
-      "style": "background-color: hsl(#{hue}, #{saturation}%, #{lightness}%); color: hsl(#{hue}, #{saturation}%, #{lightness}%);"
+      "style": "background-color: hsl(#{hue}, #{saturation}%, #{lightness}%);
+                           color: hsl(#{hue}, #{saturation}%, #{lightness}%);"
     }
 
 Template.star.onRendered ->
@@ -300,11 +300,12 @@ Template.star.onRendered ->
 Template.planet.helpers
 
   planetAttributes: ->
-    offsetX = @loc[0] - Game.xPos
-    offsetY = @loc[1] - Game.yPos
+    offsetX = @loc[0] - Game.fleet.loc[0]
+    offsetY = @loc[1] - Game.fleet.loc[1]
 
     return {
-      "style": "transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0); -webkit-transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0)"
+      "style": "transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0);
+        -webkit-transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0);"
     }
 
   planetScaling: ->
@@ -312,7 +313,8 @@ Template.planet.helpers
     scale = 0.5+1*sizeFactor
 
     return {
-      "style": "transform: scale(#{scale}); -webkit-transform: scale(#{scale});"
+      "style": "transform: scale(#{scale});
+        -webkit-transform: scale(#{scale});"
     }
 
   planetModel: ->
@@ -331,7 +333,8 @@ Template.planet.helpers
     rotate += Game.rightAngle(offX, offY)
 
     return {
-      "style": "transform: rotate(#{rotate}deg); -webkit-transform: rotate(#{rotate}deg);"
+      "style": "transform: rotate(#{rotate}deg);
+        -webkit-transform: rotate(#{rotate}deg);"
     }
 
 Template.planet.onRendered ->
@@ -343,10 +346,10 @@ Template.planet.onRendered ->
 Template.cheats.events
 
   "click .random-planet": (event) ->
-    Meteor.call "moveToRandomPlanet", Game.secretUrl
+    Meteor.call "moveToRandomPlanet", Game.fleet.secretUrl
 
   "click .random-star": (event) ->
-    Meteor.call "moveToRandomStar", Game.secretUrl
+    Meteor.call "moveToRandomStar", Game.fleet.secretUrl
 
   "click .random-spot": (event) ->
-    Meteor.call "moveToRandomSpot", Game.secretUrl
+    Meteor.call "moveToRandomSpot", Game.fleet.secretUrl
