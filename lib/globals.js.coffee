@@ -13,7 +13,6 @@ Game.starStep2 = 3
 
 Game.starLocMultiplier = 5
 
-Game.fleetSpeed = 500
 Game.coordinateMultiplier = 40
 Game.galaxyBoundX = 180 * Game.coordinateMultiplier
 Game.galaxyBoundY =  90 * Game.coordinateMultiplier

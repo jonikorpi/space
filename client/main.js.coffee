@@ -1,7 +1,6 @@
 #
 # Globals
 
-Game.body = $("body")
 Game.movementPointer = $(".movement-pointer")
 Game.cursorX = 0
 Game.cursorY = 0
@@ -189,45 +188,43 @@ Template.fleet.events
 Template.fleet.helpers
 
   fleetAttributes: ->
-    # Player fleet
+    x = @loc[0]
+    y = @loc[1]
+
+    offsetX = x - Game.fleet.loc[0]
+    offsetY = y - Game.fleet.loc[1]
+
     if Game.fleet.secretUrl == this.secretUrl
-      return {
-        "data-player-fleet": true
-      }
+      isPlayerFleet = true
+      offsetX =
+      offsetY = 0
 
-    # Other fleets
-    else
-      # now = moment()
-      # # playerTimeTraveled = Game.fleet.moveStarted - now
-      # # thisTimeTraveled =   @moveStarted - now
-      # playerTimeToArrive =   Game.fleet.moveEnds - +now
-      # thisTimeToArrive =     @moveEnds - +now
-      #
-      # if playerTimeToArrive < 0
-      #   playerTimeToArrive = 0
-      #
-      # if thisTimeToArrive < 0
-      #   thisTimeToArrive = 0
-      #
-      # duration = playerTimeToArrive + thisTimeToArrive
-      #
-      # if duration < 100
-      #   duration = 100
-      #
-      # console.log "#{playerTimeToArrive} - #{thisTimeToArrive} = #{duration}"
-
-      offsetX = @loc[0] - Game.fleet.loc[0]
-      offsetY = @loc[1] - Game.fleet.loc[1]
-
-      return {
-        "style": "transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0);
-          -webkit-transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0);"
-      }
+    return {
+      "data-player-fleet": isPlayerFleet
+      "style": "transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0);
+        -webkit-transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0);"
+    }
 
   fleetModelAttributes: ->
+    x = @lastLoc[0] - @loc[0]
+    y = @lastLoc[1] - @loc[1]
+    angle = Game.rightAngle(x, y) + 180
+
+    # Should've paid more attention in maths class…
+    if      x <  0 && y <  0
+      angle = 270 - angle
+    else if x >= 0 && y <  0
+      angle = 90 + angle
+    else if x >= 0 && y >= 0
+      angle = 90 + angle
+    else if x <  0 && y >= 0
+      angle = 270 - angle
+
+    # duration = Game.hypotenuse(x, y) * Game.fleetSpeed
+
     return {
-      "style": "transform: rotate(#{this.angle}deg);
-        -webkit-transform: rotate(#{this.angle}deg);"
+      "style": "transform: rotate(#{angle}deg);
+        -webkit-transform: rotate(#{angle}deg);"
     }
 
   shipAttributes: ->

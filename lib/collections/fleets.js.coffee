@@ -14,7 +14,6 @@ Meteor.methods
       loc: [x, y]
       lastLoc: [x, y+1]
       lastMove: new Date()
-      angle: 0
       secretUrl: newSecretUrl
       secretInvite: Random.secret()
       createdAt: new Date()
@@ -38,36 +37,8 @@ Meteor.methods
     fleet = Fleets.findOne
       secretUrl: secretUrl
 
-    # Times
-    # now = moment()
-    # currentTravelDuration = fleet.moveStarted - fleet.moveEnds
-    # timeTraveled = +now - fleet.moveStarted
-    # timeToArrive = fleet.moveEnds - +now
-    # currentProgress = currentTravelDuration / timeTraveled
-
-    # Locations
     currentX = fleet.loc[0]
     currentY = fleet.loc[1]
-    # currentLastX = fleet.lastLoc[0]
-    # currentLastY = fleet.lastLoc[1]
-    # realX = currentLastX + (currentLastX - currentX) * currentProgress
-    # realY = currentLastY + (currentLastY - currentY) * currentProgress
-
-    angle = Game.rightAngle(moveX, moveY)
-
-    # Should've paid more attention in maths class…
-    if      moveX <  0 && moveY <  0
-      angle = 270 - angle
-    else if moveX >= 0 && moveY <  0
-      angle = 90 + angle
-    else if moveX >= 0 && moveY >= 0
-      angle = 90 + angle
-    else if moveX <  0 && moveY >= 0
-      angle = 270 - angle
-
-    angle = angle - fleet.angle
-
-    # duration = Game.hypotenuse(moveX, moveY) * Game.fleetSpeed
 
     Fleets.update
       secretUrl: secretUrl
@@ -76,7 +47,6 @@ Meteor.methods
         lastMove: new Date()
         loc: [currentX+moveX, currentY+moveY]
         lastLoc: [currentX, currentY]
-        angle: angle
 
   jumpFleet: (secretUrl, newX, newY, currentX, currentY) ->
     # TODO: checks
