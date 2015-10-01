@@ -430,11 +430,5 @@ Template.loot.onRendered ->
 
 Template.cheats.events
 
-  "click .random-planet": (event) ->
-    Meteor.call "moveToRandomPlanet", Game.fleet.secretUrl
-
-  "click .random-star": (event) ->
-    Meteor.call "moveToRandomStar", Game.fleet.secretUrl
-
-  "click .random-spot": (event) ->
-    Meteor.call "moveToRandomSpot", Game.fleet.secretUrl
+  # "click .random-planet": (event) ->
+  #   Meteor.call "moveToRandomPlanet", Game.fleet.secretUrl
