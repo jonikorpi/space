@@ -42,7 +42,11 @@ Meteor.methods
     currentY = fleet.loc[1]
 
     energyCost = Game.hypotenuse(moveX, moveY) * Game.energyPerUnit
-    Meteor.call "addLoot", currentX, currentY, "energy", energyCost
+
+    if energyCost < 1000
+      energyCost = 0
+    else
+      Meteor.call "addLoot", currentX, currentY, "energy", energyCost
 
     Fleets.update
       secretUrl: secretUrl
@@ -52,36 +56,3 @@ Meteor.methods
         loc: [currentX+moveX, currentY+moveY]
         lastLoc: [currentX, currentY]
         energy: fleet.energy - energyCost
-
-  jumpFleet: (secretUrl, newX, newY, currentX, currentY) ->
-    # TODO: checks
-
-    unless currentX
-      currentX = newX
-    unless currentY
-      currentY = newY
-
-    Fleets.update
-      secretUrl: secretUrl
-    ,
-      $set:
-        lastMove: new Date()
-        loc: [newX, newY]
-        lastLoc: [currentX, currentY]
-
-  moveToRandomSpot: (secretUrl) ->
-    newX = _.random( Game.galaxyBoundX / -10, Game.galaxyBoundX / 10 )
-    newY = _.random( Game.galaxyBoundY / -10, Game.galaxyBoundY / 10 )
-    Meteor.call "jumpFleet", secretUrl, newX, newY
-
-  moveToRandomStar: (secretUrl) ->
-    randomStar = Objects.findOne {type: "star"},
-      skip: _.random(1, 4550)
-
-    Meteor.call "jumpFleet", secretUrl, randomStar.loc[0]+3, randomStar.loc[1]+1
-
-  moveToRandomPlanet: (secretUrl) ->
-    randomPlanet = Objects.findOne { type: "planet"},
-      skip: _.random(1, 21980)
-
-    Meteor.call "jumpFleet", secretUrl, randomPlanet.loc[0]+3, randomPlanet.loc[1]+1

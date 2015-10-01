@@ -1,6 +1,3 @@
-halfY = Game.ySize * 3
-halfX = Game.xSize * 3
-
 #
 # Player fleet
 
@@ -27,11 +24,11 @@ Meteor.publish "nearbyFleets", (secretUrl) ->
     loc:
       $geoWithin:
         $polygon: [
-          [ xPos - halfX, yPos - halfY ]
-          [ xPos + halfX, yPos - halfY ]
-          [ xPos + halfX, yPos + halfY ]
-          [ xPos - halfX, yPos + halfY ]
-          [ xPos - halfX, yPos - halfY ]
+          [ xPos - Game.halfX, yPos - Game.halfY ]
+          [ xPos + Game.halfX, yPos - Game.halfY ]
+          [ xPos + Game.halfX, yPos + Game.halfY ]
+          [ xPos - Game.halfX, yPos + Game.halfY ]
+          [ xPos - Game.halfX, yPos - Game.halfY ]
         ]
   ,
     fields:
@@ -55,12 +52,16 @@ Meteor.publish "nearbyObjects", (secretUrl) ->
     loc:
       $geoWithin:
         $polygon: [
-          [ xPos - halfX, yPos - halfY ]
-          [ xPos + halfX, yPos - halfY ]
-          [ xPos + halfX, yPos + halfY ]
-          [ xPos - halfX, yPos + halfY ]
-          [ xPos - halfX, yPos - halfY ]
+          [ xPos - Game.mapHalfX, yPos - Game.mapHalfY ]
+          [ xPos + Game.mapHalfX, yPos - Game.mapHalfY ]
+          [ xPos + Game.mapHalfX, yPos + Game.mapHalfY ]
+          [ xPos - Game.mapHalfX, yPos + Game.mapHalfY ]
+          [ xPos - Game.mapHalfX, yPos - Game.mapHalfY ]
         ]
+  ,
+    fields:
+      maxEnergy: 0
+      maxResources: 0
 
 #
 # Nearby loot
@@ -78,11 +79,11 @@ Meteor.publish "nearbyLoot", (secretUrl) ->
     loc:
       $geoWithin:
         $polygon: [
-          [ xPos - halfX, yPos - halfY ]
-          [ xPos + halfX, yPos - halfY ]
-          [ xPos + halfX, yPos + halfY ]
-          [ xPos - halfX, yPos + halfY ]
-          [ xPos - halfX, yPos - halfY ]
+          [ xPos - Game.halfX, yPos - Game.halfY ]
+          [ xPos + Game.halfX, yPos - Game.halfY ]
+          [ xPos + Game.halfX, yPos + Game.halfY ]
+          [ xPos - Game.halfX, yPos + Game.halfY ]
+          [ xPos - Game.halfX, yPos - Game.halfY ]
         ]
 
 #

@@ -3,20 +3,25 @@
 
 @Game = {}
 
-Game.ySize = 17;
-Game.xSize = 33;
+Game.ySize = 13;
+Game.xSize = 21;
+Game.mapScale = 0.01
+
+Game.halfX = Game.xSize * 2
+Game.halfY = Game.ySize * 2
+Game.mapHalfX = Game.halfX / Game.mapScale * 0.5
+Game.mapHalfY = Game.halfX / Game.mapScale * 0.5
+
+Game.coordinateMultiplier = 200
+Game.galaxyBoundX = 180 * Game.coordinateMultiplier
+Game.galaxyBoundY =  90 * Game.coordinateMultiplier
 
 Game.starSpeed = 0.146
 Game.starStep  = 1
 Game.starStep1 = 2
 Game.starStep2 = 3
 
-Game.starLocMultiplier = 5
-
 Game.energyPerUnit = 10
-Game.coordinateMultiplier = 40
-Game.galaxyBoundX = 180 * Game.coordinateMultiplier
-Game.galaxyBoundY =  90 * Game.coordinateMultiplier
 
 Game.sinToDegrees = (sin) ->
   return Math.asin(sin) * 180/Math.PI

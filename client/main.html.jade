@@ -78,9 +78,15 @@ template(name="game")
     
     .movement-controls.abs-all
     
-    .grid-container.no-margins.abs-all
+    .map.grid-container.no-margins.abs-all
       .grid.abs-all
-        .movement-pointer
+        each mapStars
+          +mapStar
+        each mapPlanets
+          +mapPlanet
+    
+    .world.grid-container.no-margins.abs-all
+      .grid.abs-all
         .entity#sizer-entity
         each stars
           +star
@@ -90,8 +96,12 @@ template(name="game")
           +loot
         each otherFleets
           +fleet
+          
+    .player.grid-container.no-margins.abs-all
+      .grid.abs-all
+        .movement-pointer
         +fleet
-        //- button.zoom-in(type="button")
+        
     button.zoom-out.button(type="button") ESC
         
     +cheats
@@ -132,7 +142,7 @@ template(name="backdrop")
   
 template(name="fleet")
   .fleet.entity.rendering-in($dyn=fleetAttributes)
-    .fleet-name #{name}
+    .entity-name.fleet-name #{name}
     .fleet-model.abs-all($dyn=fleetModelAttributes)
       .ships.abs-all
         each ships
@@ -169,7 +179,7 @@ template(name="fleet")
 template(name="star")
   .star.entity.rendering-in($dyn=starAttributes)
     .star-scaler.abs-all($dyn=starScaling)
-      .star-name.abs-center #{name}
+      .entity-name.star-name.abs-center #{name}
       .star-model.abs-all($dyn=starModel)
     .debug-dialog
       strong #{name}
@@ -189,10 +199,50 @@ template(name="star")
 template(name="planet")
   .planet.entity.rendering-in($dyn=planetAttributes)
     .planet-scaler.abs-all($dyn=planetScaling)
-      .planet-name.abs-center #{name}
+      .entity-name.planet-name.abs-center #{name}
       .planet-model.abs-all($dyn=planetModel)
     .debug-dialog
       strong #{name}
+      .debug-line
+        strong ID
+        span #{_id}
+      .debug-line
+        strong Loc
+        span #{loc}
+      .debug-line
+        strong Resources 
+        span #{resources}
+      .debug-line
+        strong Max resources 
+        span #{maxResources}
+        
+template(name="mapStar")
+  .star.entity.map-entity($dyn=mapStarAttributes)
+    .star-scaler.abs-all
+      .entity-name.star-name.abs-center #{name}
+      .star-model.abs-all
+    .debug-dialog
+      strong [MAP] #{name}
+      .debug-line
+        strong ID
+        span #{_id}
+      .debug-line
+        strong Loc
+        span #{loc}
+      .debug-line
+        strong Energy 
+        span #{energy}
+      .debug-line
+        strong Max energy 
+        span #{maxEnergy}
+        
+template(name="mapPlanet")
+  .planet.entity.map-entity($dyn=mapPlanetAttributes)
+    .planet-scaler.abs-all
+      .entity-name.planet-name.abs-center #{name}
+      .planet-model.abs-all
+    .debug-dialog
+      strong [MAP] #{name}
       .debug-line
         strong ID
         span #{_id}

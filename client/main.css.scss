@@ -7,8 +7,9 @@
 $font-size-multiplier: 16/16;
 $line: 1.382rem;
 
-$y-size: 17;
-$x-size: 33;
+$y-size: 13;
+$x-size: 21;
+$map-scale: 0.01;
 $board-fill-ratio: 100;
 $board-height-ratio: $y-size/$x-size;
 
@@ -209,6 +210,40 @@ html, body {
   max-width: $board-fill-ratio * 1vh / $board-height-ratio;
   margin: auto;
   pointer-events: none;
+  transition:
+    transform $main-time $main-easing,
+    opacity $short-time $main-easing,
+    visibility 0ms linear $main-time
+  ;
+}
+
+.map {
+  opacity: 0;
+  transform: scale(2);
+  visibility: hidden;
+
+  .zoomed-out & {
+    opacity: 1;
+    transform: scale(1);
+    visibility: visible;
+    transition-delay: 0ms;
+  }
+}
+
+.world {
+  .zoomed-in & {
+    opacity: 0;
+    transform: scale(2);
+  }
+
+  .zoomed-out & {
+    transform: scale($map-scale);
+    opacity: 0;
+  }
+}
+
+.player {
+
 }
 
 .grid {
@@ -216,11 +251,6 @@ html, body {
   width: 100%;
   height: 0;
   padding-top: 100% * $board-height-ratio;
-  transition: transform $main-time $main-easing;
-
-  .zoomed-in & {
-    transform: scale($y-size);
-  }
 
   // background-image:
   //   radial-gradient( ellipse closest-side, transparent 0%, transparent 76.4%, $backdrop-color 100% ),
@@ -320,7 +350,7 @@ html, body {
   position: absolute;
   left: 50%; top: 50%;
   margin: auto;
-  width: $x-unit;
+  width:  $x-unit;
   height: $y-unit;
   will-change: transform, opacity;
   transform: translate3d(-50%, -50%, 0);
@@ -330,6 +360,26 @@ html, body {
     filter $main-time*2 $main-easing,
     -webkit-filter $main-time*2 $main-easing,
   ;
+}
+
+.map-entity {
+  .star-model {
+    width: 20%;
+    height: 20%;
+    cursor: pointer;
+    pointer-events: all;
+  }
+
+  .planet-model {
+    width: 10%;
+    height: 10%;
+    cursor: pointer;
+    pointer-events: all;
+  }
+}
+
+.entity-name {
+  display: none;
 }
 
 //
@@ -345,8 +395,21 @@ html, body {
 // Fleets
 
 .fleet {
-  .warp & {
 
+}
+
+.fleet[data-player-fleet] {
+  width:  $x-unit * $y-size;
+  height: $y-unit * $y-size;
+  transition-duration: $main-time;
+  transform: translate3d(-50%, -50%, 0) scale(1/$y-size);
+
+  .zoomed-in & {
+    transform: translate3d(-50%, -50%, 0) scale(1);
+  }
+
+  .zoomed-out & {
+    transform: translate3d(-50%, -50%, 0) scale(1/$y-size * $map-scale);
   }
 }
 
@@ -356,17 +419,17 @@ html, body {
   height: 100%;
   pointer-events: all;
   transition: transform $warp-time*0.2 $main-easing;
-}
 
-[data-player-fleet] .fleet-model {
-  cursor: zoom-in;
+  [data-player-fleet] & {
+    cursor: zoom-in;
 
-  .zoomed-in & {
-    cursor: auto;
-  }
+    .zoomed-in & {
+      cursor: auto;
+    }
 
-  .warp & {
-    // animation: warp $main-time $main-easing;
+    .warp & {
+      // animation: warp $main-time $main-easing;
+    }
   }
 }
 
@@ -390,15 +453,10 @@ html, body {
   }
 }
 
-.ships {
-  transform: scale(0.236);
-}
-
 .ship {
   float: left;
   width: 33.333%;
   height: 50%;
-  padding: 1px;
 
   &:first-child {
     margin-left: 33.333 * 0.5%;
@@ -422,15 +480,17 @@ html, body {
 }
 
 .star-model {
-  pointer-events: all;
+  // pointer-events: all;
   width: 100%;
   height: 100%;
   border-radius: 50%;
+  margin: auto;
   // box-shadow:
   //   // 0 0 10vmin currentcolor,
   //   // 0 0 6vmin currentcolor,
   //   // 0 0 4vmin currentcolor,
   // ;
+  background: $bright;
   background-image: radial-gradient(circle, transparent 61.8%, hsla(0,0%,100%, 0.618));
 }
 
@@ -456,8 +516,9 @@ html, body {
 }
 
 .planet-model {
-  pointer-events: all;
-  width: 100%;
+  // pointer-events: all;
+  margin: auto;
+  width:  100%;
   height: 100%;
   border-radius: 50%;
   background: $blue;

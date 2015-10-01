@@ -135,13 +135,43 @@ Template.header.events
 Template.game.helpers
 
   otherFleets: ->
-    return Fleets.find({})
+    return Fleets.find
+      secretUrl:
+        $ne: Game.fleet.secretUrl
 
   stars: ->
-    return Objects.find({type: "star"})
+    xPos = Game.fleet.loc[0]
+    yPos = Game.fleet.loc[1]
+
+    return Objects.find
+      type: "star"
+      "loc.0":
+        $gte: xPos - Game.halfX
+        $lte: xPos + Game.halfX
+      "loc.1":
+        $gte: yPos - Game.halfY
+        $lte: yPos + Game.halfY
 
   planets: ->
-    return Objects.find({type: "planet"})
+    xPos = Game.fleet.loc[0]
+    yPos = Game.fleet.loc[1]
+
+    return Objects.find
+      type: "planet"
+      "loc.0":
+        $gte: xPos - Game.halfX
+        $lte: xPos + Game.halfX
+      "loc.1":
+        $gte: yPos - Game.halfY
+        $lte: yPos + Game.halfY
+
+  mapStars: ->
+    return Objects.find
+      type: "star"
+
+  mapPlanets: ->
+    return Objects.find
+      type: "planet"
 
   loots: ->
     return Loot.find({})
@@ -160,6 +190,10 @@ Template.game.events
 
     moveX = x / Game.coordinateScale
     moveY = y / Game.coordinateScale
+
+    if Game.body.hasClass("zoomed-out")
+      moveX = moveX / Game.mapScale
+      moveY = moveY / Game.mapScale
 
     Game.moveFleet Game.fleet.secretUrl, moveX, moveY
 
@@ -197,11 +231,14 @@ Template.fleet.helpers
       isPlayerFleet = true
       offsetX =
       offsetY = 0
+      style = ""
+    else
+      style = "transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0);
+       -webkit-transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0);"
 
     return {
       "data-player-fleet": isPlayerFleet
-      "style": "transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0);
-        -webkit-transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0);"
+      "style": style
     }
 
   fleetModelAttributes: ->
@@ -240,15 +277,15 @@ Template.fleet.onRendered ->
 Template.star.helpers
 
   starAttributes: ->
-    offsetX = @loc[0] - Game.fleet.loc[0]
-    offsetY = @loc[1] - Game.fleet.loc[1]
+    offsetX = (@loc[0] - Game.fleet.loc[0])
+    offsetY = (@loc[1] - Game.fleet.loc[1])
 
     return {
       "style": "transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0); -webkit-transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0)"
     }
 
   starScaling: ->
-    sizeFactor = @energy/2000
+    sizeFactor = @energy/300
     scale = 1+1*sizeFactor
 
     return {
@@ -290,11 +327,30 @@ Template.star.helpers
 Template.star.onRendered ->
   requestAnimationFrame(Game.renderEntitiesIn)
 
+Template.mapStar.helpers
+
+  mapStarAttributes: ->
+    offsetX = (@loc[0] - Game.fleet.loc[0]) * Game.mapScale
+    offsetY = (@loc[1] - Game.fleet.loc[1]) * Game.mapScale
+
+    return {
+      "style": "transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0);
+        -webkit-transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0)"
+    }
+
+Template.mapStar.events
+
+  "click .star-model": (event, template) ->
+    targetOffset = Math.round(1 + template.data.energy/750)
+    x = template.data.loc[0] - Game.fleet.loc[0] - targetOffset
+    y = template.data.loc[1] - Game.fleet.loc[1] - targetOffset
+    Game.moveFleet Game.fleet.secretUrl, x, y
+
 Template.planet.helpers
 
   planetAttributes: ->
-    offsetX = @loc[0] - Game.fleet.loc[0]
-    offsetY = @loc[1] - Game.fleet.loc[1]
+    offsetX = (@loc[0] - Game.fleet.loc[0])
+    offsetY = (@loc[1] - Game.fleet.loc[1])
 
     return {
       "style": "transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0);
@@ -302,7 +358,7 @@ Template.planet.helpers
     }
 
   planetScaling: ->
-    sizeFactor = @resources/10000
+    sizeFactor = @resources/500
     scale = 0.5+1*sizeFactor
 
     return {
@@ -332,6 +388,25 @@ Template.planet.helpers
 
 Template.planet.onRendered ->
   requestAnimationFrame(Game.renderEntitiesIn)
+
+Template.mapPlanet.helpers
+
+  mapPlanetAttributes: ->
+    offsetX = (@loc[0] - Game.fleet.loc[0]) * Game.mapScale
+    offsetY = (@loc[1] - Game.fleet.loc[1]) * Game.mapScale
+
+    return {
+      "style": "transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0);
+        -webkit-transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0)"
+    }
+
+Template.mapPlanet.events
+
+  "click .planet-model": (event, template) ->
+    targetOffset = Math.round(1 + template.data.resources/450)
+    x = template.data.loc[0] - Game.fleet.loc[0] - targetOffset
+    y = template.data.loc[1] - Game.fleet.loc[1] - targetOffset
+    Game.moveFleet Game.fleet.secretUrl, x, y
 
 #
 # Loot

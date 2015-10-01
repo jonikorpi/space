@@ -16,8 +16,14 @@ Game.bindArrowKeys = ->
       Game.moveFleet Game.fleet.secretUrl,  0,  1
     "s":    ->
       Game.moveFleet Game.fleet.secretUrl,  0,  1
+    "1":  ->
+      Game.body.removeClass().addClass("zoomed-out")
+    "2":  ->
+      Game.body.removeClass()
+    "3":  ->
+      Game.body.removeClass().addClass("zoomed-in")
     "esc":  ->
-      $(".zoom-out").trigger "click"
+      Game.body.removeClass()
     "space": (event) ->
       event.preventDefault()
       $("[data-player-fleet] .fleet-model").trigger "click"

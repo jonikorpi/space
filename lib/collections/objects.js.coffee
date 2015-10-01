@@ -9,12 +9,12 @@ Meteor.methods
     else
       colorToSet = star.properties.bv
 
-    xLoc = Math.round(star.geometry.coordinates[0] * Game.coordinateMultiplier)
-    yLoc = Math.round(star.geometry.coordinates[1] * Game.coordinateMultiplier)
+    xLoc = star.geometry.coordinates[0] * Game.coordinateMultiplier
+    yLoc = star.geometry.coordinates[1] * Game.coordinateMultiplier
 
     energy = 500 + Math.abs(Math.round((1+star.properties.mag*10) * (1+star.properties.bv*100)) )
     energyModifier = Math.abs( Math.round(1 + energy / 200) )
-    planetAmount = 1 + ( Math.abs( Math.round(energy / 5000) ) )
+    planetAmount = 1# + ( Math.abs( Math.round(energy / 5000) ) )
 
     if star.properties.name == ""
       nameToSet = "#{star.properties.desig}-#{star.id}"
