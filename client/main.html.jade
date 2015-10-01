@@ -52,26 +52,36 @@ template(name="loading")
   +header
   h1 Loading…
   
+template(name="home")
+  +header
+  h1 Hello!
+  
 template(name="header")
   .header.abs-top-left.no-margins
     strong
       a(href="/") Starlifter
     button.button.start-fleet(type="button") New fleet
+    
+template(name="status")
+  .status-bar.abs-bottom
+    with fleetStatus
+      span
+        strong #{name}
+      span #{loc}
   
-template(name="home")
-  +header
-  //- 
-  //- p All fleets:
-  //- 
-  //- ul
-  //-   each fleets
-  //-     li
-  //-       a(href=_id) #{_id}
-  
+template(name="views")
+  .views.abs-top-right
+    button.button(type="button" data-button-value="map" $dyn=mapButton) [1] Map
+    button.button(type="button" data-button-value="area" $dyn=areaButton) [2] Area
+    button.button(type="button" data-button-value="fleet" $dyn=fleetButton) [3] Fleet
 
 template(name="game")
-  +header
-  .game.abs-all.no-margins(id=_id)
+  .hud.abs-top.no-margins
+    +header
+    +views
+  .hud.abs-bottom
+    +status
+  .game.abs-all.no-margins(id=_id $dyn=gameAttributes)
     
     .backdrop.abs-all
       +backdrop(xPos=xPos yPox=yPos)
@@ -101,8 +111,6 @@ template(name="game")
       .grid.abs-all
         .movement-pointer
         +fleet
-        
-    button.zoom-out.button(type="button") ESC
         
     +cheats
         
@@ -143,7 +151,7 @@ template(name="backdrop")
 template(name="fleet")
   .fleet.entity.rendering-in($dyn=fleetAttributes)
     .entity-name.fleet-name #{name}
-    .fleet-model.abs-all($dyn=fleetModelAttributes)
+    .fleet-model.entity-model.abs-all($dyn=fleetModelAttributes)
       .ships.abs-all
         each ships
           .ship
@@ -180,7 +188,7 @@ template(name="star")
   .star.entity.rendering-in($dyn=starAttributes)
     .star-scaler.abs-all($dyn=starScaling)
       .entity-name.star-name.abs-center #{name}
-      .star-model.abs-all($dyn=starModel)
+      .star-model.entity-model.abs-all($dyn=starModel)
     .debug-dialog
       strong #{name}
       .debug-line
@@ -200,7 +208,7 @@ template(name="planet")
   .planet.entity.rendering-in($dyn=planetAttributes)
     .planet-scaler.abs-all($dyn=planetScaling)
       .entity-name.planet-name.abs-center #{name}
-      .planet-model.abs-all($dyn=planetModel)
+      .planet-model.entity-model.abs-all($dyn=planetModel)
     .debug-dialog
       strong #{name}
       .debug-line
@@ -220,7 +228,7 @@ template(name="mapStar")
   .star.entity.map-entity($dyn=mapStarAttributes)
     .star-scaler.abs-all
       .entity-name.star-name.abs-center #{name}
-      .star-model.abs-all
+      .star-model.entity-model.abs-all($dyn=mapStarModel)
     .debug-dialog
       strong [MAP] #{name}
       .debug-line
@@ -240,7 +248,7 @@ template(name="mapPlanet")
   .planet.entity.map-entity($dyn=mapPlanetAttributes)
     .planet-scaler.abs-all
       .entity-name.planet-name.abs-center #{name}
-      .planet-model.abs-all
+      .planet-model.entity-model.abs-all
     .debug-dialog
       strong [MAP] #{name}
       .debug-line
@@ -258,7 +266,7 @@ template(name="mapPlanet")
         
 template(name="loot")
   .loot.entity.rendering-in($dyn=lootAttributes)
-    .loot-model.abs-all
+    .loot-model.entity-model.abs-all
     .debug-dialog
       strong #{type}
       .debug-line

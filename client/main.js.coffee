@@ -94,6 +94,17 @@ Game.movePointer = ->
 Game.renderEntitiesIn = ->
   $(".rendering-in").removeClass("rendering-in")
 
+Game.showView = (view) ->
+  switch view
+    when "map"
+      Game.body.attr("data-view", "map")
+    when "area"
+      Game.body.attr("data-view", "area")
+    when "fleet"
+      Game.body.attr("data-view", "fleet")
+
+  Session.set "view", view
+
 #
 # Layout
 
@@ -176,13 +187,12 @@ Template.game.helpers
   loots: ->
     return Loot.find({})
 
+  gameAttributes: ->
+    return {
+      "data-view": Session.get("view")
+    }
+
 Template.game.events
-
-  "click [data-player-fleet] .fleet-model": (event) ->
-    Game.body.addClass("zoomed-in")
-
-  "click .zoom-out": (event) ->
-    Game.body.removeClass("zoomed-in")
 
   "click .movement-controls": (event) ->
     x = Game.cursorX - Game.docWidth * 0.5
@@ -191,7 +201,7 @@ Template.game.events
     moveX = x / Game.coordinateScale
     moveY = y / Game.coordinateScale
 
-    if Game.body.hasClass("zoomed-out")
+    if Session.get("view") == "map"
       moveX = moveX / Game.mapScale
       moveY = moveY / Game.mapScale
 
@@ -285,7 +295,7 @@ Template.star.helpers
     }
 
   starScaling: ->
-    sizeFactor = @energy/300
+    sizeFactor = @energy/200
     scale = 1+1*sizeFactor
 
     return {
@@ -338,9 +348,41 @@ Template.mapStar.helpers
         -webkit-transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0)"
     }
 
+  mapStarModel: ->
+    if @energy < 1000
+      # Blues
+      hue =        215 + (1 + @energy/100000)
+      saturation =  91 * (1 + @energy/100000)
+      lightness =   62 * (1 + @energy/100000)
+    else if @energy < 3000
+      # Whites
+      hue =         45 - (1 + @energy/100000)
+      saturation =  14 * (1 - @energy/100000)
+      lightness =   91 * (1 - @energy/100000)
+    else if @energy < 6000
+      # Yellows
+      hue =         50 - (1 + @energy/100000)
+      saturation =  91 * (1 - @energy/100000)
+      lightness =   85 * (1 - @energy/100000)
+    else if @energy < 8000
+      # Oranges
+      hue =         25 - (1 + @energy/100000)
+      saturation =  91 * (1 - @energy/100000)
+      lightness =   76 * (1 - @energy/100000)
+    else if @energy >= 8000
+      # Reds
+      hue =         10 - (1 + @energy/100000)
+      saturation = 100 * (1 - @energy/100000)
+      lightness =   76 * (1 - @energy/100000)
+
+    return {
+      "style": "background-color: hsl(#{hue}, #{saturation}%, #{lightness}%);
+                           color: hsl(#{hue}, #{saturation}%, #{lightness}%);"
+    }
+
 Template.mapStar.events
 
-  "click .star-model": (event, template) ->
+  "click .star": (event, template) ->
     targetOffset = Math.round(1 + template.data.energy/750)
     x = template.data.loc[0] - Game.fleet.loc[0] - targetOffset
     y = template.data.loc[1] - Game.fleet.loc[1] - targetOffset
@@ -358,7 +400,7 @@ Template.planet.helpers
     }
 
   planetScaling: ->
-    sizeFactor = @resources/500
+    sizeFactor = @resources/300
     scale = 0.5+1*sizeFactor
 
     return {
@@ -402,7 +444,7 @@ Template.mapPlanet.helpers
 
 Template.mapPlanet.events
 
-  "click .planet-model": (event, template) ->
+  "click .planet": (event, template) ->
     targetOffset = Math.round(1 + template.data.resources/450)
     x = template.data.loc[0] - Game.fleet.loc[0] - targetOffset
     y = template.data.loc[1] - Game.fleet.loc[1] - targetOffset
@@ -424,6 +466,43 @@ Template.loot.helpers
 
 Template.loot.onRendered ->
   requestAnimationFrame(Game.renderEntitiesIn)
+
+#
+# HUD
+
+Template.views.helpers
+
+  mapButton: ->
+    if Session.get("view") == "map"
+      return {
+        "data-button-active": true
+      }
+
+  areaButton: ->
+    if Session.get("view") == "area"
+      return {
+        "data-button-active": true
+      }
+
+  fleetButton: ->
+    if Session.get("view") == "fleet"
+      return {
+        "data-button-active": true
+      }
+
+Template.views.events
+
+  "click .button": (event) ->
+    Game.showView $(event.target).attr("data-button-value")
+    console.log event.target
+
+#
+# Status
+
+Template.status.helpers
+
+  fleetStatus: ->
+    return Session.get "fleet"
 
 #
 # Cheats

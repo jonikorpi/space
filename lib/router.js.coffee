@@ -17,7 +17,7 @@ Router.route "/secret-link/:secretUrl",
     targetFleet = Fleets.findOne {secretUrl: @.params.secretUrl}
     if targetFleet
       Session.set "fleet", targetFleet
-      console.log Session.get("fleet")
+      Session.setDefault "view", "area"
       Game.fleet = targetFleet
       Game.body = $("body")
       Meteor.subscribe "nearbyFleets",  Game.fleet.secretUrl, Game.fleet.loc

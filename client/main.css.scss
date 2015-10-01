@@ -174,8 +174,9 @@ code {
 .abs-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
 
 .text-shadow,
-.debug-dialog,
-button.move {
+.hud,
+.button
+.debug-dialog {
   text-shadow:
      1px  1px 1px rgba(#000, 0.5),
     -1px -1px 1px rgba(#000, 0.5),
@@ -222,7 +223,7 @@ html, body {
   transform: scale(2);
   visibility: hidden;
 
-  .zoomed-out & {
+  [data-view="map"] & {
     opacity: 1;
     transform: scale(1);
     visibility: visible;
@@ -231,12 +232,12 @@ html, body {
 }
 
 .world {
-  .zoomed-in & {
+  [data-view="fleet"] & {
     opacity: 0;
     transform: scale(2);
   }
 
-  .zoomed-out & {
+  [data-view="map"] & {
     transform: scale($map-scale);
     opacity: 0;
   }
@@ -272,7 +273,7 @@ html, body {
   // animation: starSway $loop-time $loop-easing infinite;
   transition: transform $main-time $main-easing;
 
-  .zoomed-in & {
+  [data-view="fleet"] & {
     transform: scale3d(1.09, 1.09, 1.09);
   }
 }
@@ -363,18 +364,16 @@ html, body {
 }
 
 .map-entity {
-  .star-model {
-    width: 20%;
-    height: 20%;
-    cursor: pointer;
-    pointer-events: all;
+  pointer-events: all;
+  cursor: pointer;
+
+  &:hover {
+    outline: 2px solid $green;
   }
 
-  .planet-model {
-    width: 10%;
-    height: 10%;
-    cursor: pointer;
-    pointer-events: all;
+  .entity-model {
+    min-width: 2px;
+    min-height: 2px;
   }
 }
 
@@ -404,11 +403,11 @@ html, body {
   transition-duration: $main-time;
   transform: translate3d(-50%, -50%, 0) scale(1/$y-size);
 
-  .zoomed-in & {
+  [data-view="fleet"] & {
     transform: translate3d(-50%, -50%, 0) scale(1);
   }
 
-  .zoomed-out & {
+  [data-view="map"] & {
     transform: translate3d(-50%, -50%, 0) scale(1/$y-size * $map-scale);
   }
 }
@@ -421,12 +420,6 @@ html, body {
   transition: transform $warp-time*0.2 $main-easing;
 
   [data-player-fleet] & {
-    cursor: zoom-in;
-
-    .zoomed-in & {
-      cursor: auto;
-    }
-
     .warp & {
       // animation: warp $main-time $main-easing;
     }
@@ -448,7 +441,7 @@ html, body {
   font-size: 0.75rem;
   transition: transform $main-time $main-easing;
 
-  .zoomed-in & {
+  [data-view="fleet"] & {
     // transform: translateX(-50%) scale(0.236);
   }
 }
@@ -486,12 +479,22 @@ html, body {
   border-radius: 50%;
   margin: auto;
   // box-shadow:
-  //   // 0 0 10vmin currentcolor,
-  //   // 0 0 6vmin currentcolor,
-  //   // 0 0 4vmin currentcolor,
+  //   0 0 3vmin currentcolor,
+  //   0 0 2vmin currentcolor,
+  //   0 0 1vmin currentcolor,
   // ;
   background: $bright;
   background-image: radial-gradient(circle, transparent 61.8%, hsla(0,0%,100%, 0.618));
+
+  .map-entity & {
+    width: 14.6%;
+    height: 14.6%;
+    box-shadow:
+      0 0 3vmin currentcolor,
+      0 0 2vmin currentcolor,
+      0 0 1vmin currentcolor,
+    ;
+  }
 }
 
 .star-name {
@@ -527,6 +530,11 @@ html, body {
     // radial-gradient(circle at 50% 5.6%, transparent 61.8%, hsla(0,0%,0%, 0.5)),
     radial-gradient(circle at 50% 38.2%, darken($green, 9%) 23.6%, transparent 23.6%)
   ;
+
+  .map-entity & {
+    width: 5.6%;
+    height: 5.6%;
+  }
 }
 
 .planet-name {
@@ -561,6 +569,10 @@ html, body {
 
 .movement-controls {
   cursor: crosshair;
+
+  [data-view="fleet"] & {
+    display: none;
+  }
 }
 
 .movement-pointer {
@@ -575,7 +587,7 @@ html, body {
   will-change: opacity;
   transition: opacity $main-time $main-easing $short-time;
 
-  .zoomed-in & {
+  [data-view="fleet"] & {
     opacity: 0;
     transition-delay: 0ms;
   }
@@ -603,7 +615,7 @@ button.move {
     border-color: transparent;
   }
 
-  .zoomed-in & { display: none; }
+  [data-view="fleet"] & { display: none; }
 }
 
 .zoom-out {
@@ -611,7 +623,7 @@ button.move {
   left: $line*0.5; bottom: $line*0.5;
   display: none;
 
-  .zoomed-in & { display: block; }
+  [data-view="fleet"] & { display: block; }
 }
 
 //
@@ -634,12 +646,39 @@ button.move {
 }
 
 //
+// HUD
+
+.hud {
+  z-index: 10;
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.views {
+  padding: $line*0.5;
+}
+
+//
 // Game header
 
 .header {
   z-index: 10;
   padding: $line*0.5;
   font-size: 0.75rem;
+  text-align: left;
+}
+
+//
+// Status
+
+.status-bar {
+  white-space: nowrap;
+  text-align: center;
+  padding: $line*0.5;
+
+  span {
+    margin-left: $line*0.5;
+  }
 }
 
 //
@@ -655,11 +694,13 @@ button.button {
   padding: $line*0.125 $line*0.25;
   border-radius: $line*0.125;
   outline: none;
+  text-shadow: inherit;
 
   &:hover {
     color: $green;
   }
 
+  &[data-button-active],
   &:active {
     color: $bright;
   }

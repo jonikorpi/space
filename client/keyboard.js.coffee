@@ -17,13 +17,13 @@ Game.bindArrowKeys = ->
     "s":    ->
       Game.moveFleet Game.fleet.secretUrl,  0,  1
     "1":  ->
-      Game.body.removeClass().addClass("zoomed-out")
+      Game.showView "map"
     "2":  ->
-      Game.body.removeClass()
+      Game.showView "area"
     "3":  ->
-      Game.body.removeClass().addClass("zoomed-in")
+      Game.showView "fleet"
     "esc":  ->
-      Game.body.removeClass()
+      Game.showView "area"
     "space": (event) ->
       event.preventDefault()
       $("[data-player-fleet] .fleet-model").trigger "click"
