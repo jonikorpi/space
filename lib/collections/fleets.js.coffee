@@ -43,7 +43,7 @@ Meteor.methods
 
     energyCost = Game.hypotenuse(moveX, moveY) * Game.energyPerUnit
 
-    if energyCost < 1000
+    if energyCost# < 1000
       energyCost = 0
     else
       Meteor.call "addLoot", currentX, currentY, "energy", energyCost
