@@ -48,11 +48,24 @@ Meteor.methods
     else
       Meteor.call "addLoot", currentX, currentY, "energy", energyCost
 
+    newX = currentX+moveX
+    newY = currentY+moveY
+
+    if newX < Game.galaxyBoundX*-1
+      newX = Game.galaxyBoundX*-1
+    if newX > Game.galaxyBoundX
+      newX = Game.galaxyBoundX
+
+    if newY < Game.galaxyBoundY*-1
+      newY = Game.galaxyBoundY*-1
+    if newY > Game.galaxyBoundY
+      newY = Game.galaxyBoundY
+
     Fleets.update
       secretUrl: secretUrl
     ,
       $set:
         lastMove: new Date()
-        loc: [currentX+moveX, currentY+moveY]
+        loc: [newX, newY]
         lastLoc: [currentX, currentY]
         energy: fleet.energy - energyCost
