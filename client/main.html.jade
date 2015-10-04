@@ -90,18 +90,18 @@ template(name="game")
     
     .map.grid-container.no-margins.abs-all
       .grid.abs-all
-        each mapStars
-          +mapStar
         each mapPlanets
           +mapPlanet
+        each mapStars
+          +mapStar
     
     .world.grid-container.no-margins.abs-all
       .grid.abs-all
         .entity#sizer-entity
-        each stars
-          +star
         each planets
           +planet
+        each stars
+          +star
         each loots
           +loot
         each otherFleets
