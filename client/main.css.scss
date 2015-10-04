@@ -216,6 +216,8 @@ html, body {
     opacity $short-time $main-easing,
     visibility 0ms linear $main-time
   ;
+
+
 }
 
 .map {
@@ -228,6 +230,18 @@ html, body {
     transform: scale(1);
     visibility: visible;
     transition-delay: 0ms;
+  }
+
+  &:after {
+    content: "";
+    display: block;
+    outline: 1px solid rgba($bright, 0.146);
+    width: 100%;
+    padding-top: 100%;
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    margin: auto;
+    height: 0;
   }
 }
 
