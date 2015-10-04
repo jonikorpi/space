@@ -12,6 +12,16 @@ Meteor.methods
     xLoc = star.geometry.coordinates[0] * Game.coordinateMultiplier
     yLoc = star.geometry.coordinates[1] * Game.coordinateMultiplier
 
+    if xLoc < Game.galaxyBoundX*-1
+      xLoc = Game.galaxyBoundX*-1
+    if xLoc > Game.galaxyBoundX
+      xLoc = Game.galaxyBoundX
+
+    if yLoc < Game.galaxyBoundY*-1
+      yLoc = Game.galaxyBoundY*-1
+    if yLoc > Game.galaxyBoundY
+      yLoc = Game.galaxyBoundY
+
     energy = 500 + Math.abs(Math.round((1+star.properties.mag*10) * (1+star.properties.bv*100)) )
     energyModifier = Math.abs( Math.round(1 + energy / 200) )
     planetAmount = 1# + ( Math.abs( Math.round(energy / 5000) ) )
@@ -48,6 +58,17 @@ Meteor.methods
 
     xPlanet = Math.round(xStar + xLocModifier)
     yPlanet = Math.round(yStar + yLocModifier)
+
+    if xPlanet < Game.galaxyBoundX*-1
+      xPlanet = Game.galaxyBoundX*-1
+    if xPlanet > Game.galaxyBoundX
+      xPlanet = Game.galaxyBoundX
+
+    if yPlanet < Game.galaxyBoundY*-1
+      yPlanet = Game.galaxyBoundY*-1
+    if yPlanet > Game.galaxyBoundY
+      yPlanet = Game.galaxyBoundY
+
     xOff = xStar-xPlanet
     yOff = yStar-yPlanet
 

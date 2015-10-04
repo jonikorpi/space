@@ -94,17 +94,17 @@ Meteor.startup ->
     loc: "2d"
     secretUrl: 1
   ,
-    min: Game.galaxyBoundX*2 * -1
-    max: Game.galaxyBoundX*2
+    min: Game.galaxyBoundX * -1
+    max: Game.galaxyBoundX
 
   Objects._ensureIndex
     loc: "2d"
   ,
-    min: Game.galaxyBoundX*2 * -1
-    max: Game.galaxyBoundX*2
+    min: Game.galaxyBoundX * -1
+    max: Game.galaxyBoundX
 
   Loot._ensureIndex
     loc: "2d"
   ,
-    min: Game.galaxyBoundX*2 * -1
-    max: Game.galaxyBoundX*2
+    min: Game.galaxyBoundX * -1
+    max: Game.galaxyBoundX
