@@ -1,6 +1,7 @@
 #
 # Globals
 
+Game.body = $("body")
 Game.movementPointer = $(".movement-pointer")
 Game.cursorX = 0
 Game.cursorY = 0

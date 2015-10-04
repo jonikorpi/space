@@ -9,8 +9,8 @@ Game.mapScale = 0.01
 
 Game.halfX = Game.xSize * 2
 Game.halfY = Game.ySize * 2
-Game.mapHalfX = Game.halfX / Game.mapScale * 0.25
-Game.mapHalfY = Game.halfX / Game.mapScale * 0.25
+Game.mapHalfX = Game.halfX / Game.mapScale * 0.5
+Game.mapHalfY = Game.halfX / Game.mapScale * 0.5
 
 Game.coordinateMultiplier = 200
 Game.galaxyBoundX = 180 * Game.coordinateMultiplier

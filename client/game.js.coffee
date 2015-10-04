@@ -66,4 +66,5 @@ Template.game.events
     Game.moveFleet Game.fleet.secretUrl, moveX, moveY
 
 Template.game.onRendered ->
+  
   Game.setCoordinateScales()
