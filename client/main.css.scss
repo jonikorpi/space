@@ -378,7 +378,16 @@ html, body {
 }
 
 .entity-name {
-  display: none;
+  opacity: 0;
+  transition: opacity $main-time ease-in $main-time;
+  pointer-events: none;
+
+  .entity:hover & {
+    opacity: 1;
+    transition-timing-function: ease-out;
+    transition-duration: $short-time;
+    transition-delay: 0ms;
+  }
 }
 
 //
@@ -498,10 +507,10 @@ html, body {
 }
 
 .star-name {
-  color: rgba($bright, 0.146);
+  color: $bright;
   left: 100%;
   font-weight: 800;
-  font-size: 3rem;
+  font-size: 2rem;
   line-height: 1;
   transform: translateY(-50%);
   white-space: nowrap;
@@ -538,7 +547,7 @@ html, body {
 }
 
 .planet-name {
-  color: rgba($bright, 0.146);
+  color: $dim;
   left: 100%;
   font-weight: 500;
   line-height: 1;
