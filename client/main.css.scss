@@ -30,7 +30,7 @@ $loop-easing:        ease-in-out;
 $main-time: 300ms;
 $short-time: 124ms;
 $loop-time: $main-time*144;
-$warp-time: $main-time*2;
+$warp-time: $main-time;
 
 //
 // Colors
@@ -371,7 +371,7 @@ html, body {
   transform: translate3d(-50%, -50%, 0);
   transition:
     transform $warp-time $main-easing,
-    opacity $main-time*2 $main-easing,
+           opacity $short-time $main-easing $warp-time,
             filter $main-time $main-easing $warp-time,
     -webkit-filter $main-time $main-easing $warp-time,
   ;
