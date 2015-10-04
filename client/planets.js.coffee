@@ -13,8 +13,8 @@ Template.planet.helpers
     }
 
   planetScaling: ->
-    sizeFactor = @resources/300
-    scale = 0.5+1*sizeFactor
+    sizeFactor = @resources/200
+    scale = 1+1*sizeFactor
 
     return {
       "style": "transform: scale(#{scale});
