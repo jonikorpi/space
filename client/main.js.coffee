@@ -92,7 +92,6 @@ Game.movePointer = ->
     "-webkit-transform": "rotateZ(#{rotate}deg) scaleY(#{scale}) "
 
 Game.renderEntitiesIn = (entity) ->
-  console.log entity
   entity.removeClass("rendering-in")
 
 Game.showView = (view) ->
@@ -280,7 +279,7 @@ Template.fleet.helpers
     }
 
 Template.fleet.onRendered ->
-  Game.renderEntitiesIn( this.$(".rendering-in") )
+  Game.renderEntitiesIn( $(this.firstNode) )
 
 #
 # Objects
@@ -336,7 +335,7 @@ Template.star.helpers
     }
 
 Template.star.onRendered ->
-  Game.renderEntitiesIn( this.$(".rendering-in") )
+  Game.renderEntitiesIn( $(this.firstNode) )
 
 Template.mapStar.helpers
 
@@ -390,7 +389,7 @@ Template.mapStar.events
     Game.moveFleet Game.fleet.secretUrl, x, y
 
 Template.mapStar.onRendered ->
-  Game.renderEntitiesIn( this.$(".rendering-in") )
+  Game.renderEntitiesIn( $(this.firstNode) )
 
 Template.planet.helpers
 
@@ -433,7 +432,7 @@ Template.planet.helpers
     }
 
 Template.planet.onRendered ->
-  Game.renderEntitiesIn( this.$(".rendering-in") )
+  Game.renderEntitiesIn( $(this.firstNode) )
 
 Template.mapPlanet.helpers
 
@@ -455,7 +454,7 @@ Template.mapPlanet.events
     Game.moveFleet Game.fleet.secretUrl, x, y
 
 Template.mapPlanet.onRendered ->
-  Game.renderEntitiesIn( this.$(".rendering-in") )
+  Game.renderEntitiesIn( $(this.firstNode) )
 
 #
 # Loot
@@ -472,7 +471,7 @@ Template.loot.helpers
     }
 
 Template.loot.onRendered ->
-  Game.renderEntitiesIn( this.$(".rendering-in") )
+  Game.renderEntitiesIn( $(this.firstNode) )
 
 #
 # HUD
