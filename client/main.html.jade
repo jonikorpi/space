@@ -226,7 +226,7 @@ template(name="planet")
         
 template(name="mapStar")
   .star.entity.map-entity.rendering-in($dyn=mapStarAttributes)
-    .star-scaler.abs-all
+    .star-scaler.abs-all($dyn=mapStarScaling)
       .entity-name.star-name.abs-center #{name}
       .star-model.entity-model.abs-all($dyn=mapStarModel)
     .debug-dialog

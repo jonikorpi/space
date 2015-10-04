@@ -1,6 +1,39 @@
 #
 # Stars
 
+Game.starColor = (energy) ->
+  if energy < 1000
+    # Blues
+    hue =        215 + (1 + energy/100000)
+    saturation =  91 * (1 + energy/100000)
+    lightness =   85 * (1 + energy/100000)
+  else if energy < 3000
+    # Whites
+    hue =         45 - (1 + energy/100000)
+    saturation =  23 * (1 - energy/100000)
+    lightness =   91 * (1 - energy/100000)
+  else if energy < 6000
+    # Yellows
+    hue =         50 - (1 + energy/100000)
+    saturation =  76 * (1 - energy/100000)
+    lightness =   91 * (1 - energy/100000)
+  else if energy < 8000
+    # Oranges
+    hue =         25 - (1 + energy/100000)
+    saturation =  61 * (1 - energy/100000)
+    lightness =   91 * (1 - energy/100000)
+  else if energy >= 8000
+    # Reds
+    hue =          3 - (1 + energy/100000)
+    saturation = 100 * (1 - energy/100000)
+    lightness =   76 * (1 - energy/100000)
+
+  return {
+    hue: hue
+    saturation: saturation
+    lightness: lightness
+  }
+
 Template.star.helpers
 
   starAttributes: ->
@@ -20,31 +53,10 @@ Template.star.helpers
     }
 
   starModel: ->
-    if @energy < 1000
-      # Blues
-      hue =        215 + (1 + @energy/100000)
-      saturation =  91 * (1 + @energy/100000)
-      lightness =   62 * (1 + @energy/100000)
-    else if @energy < 3000
-      # Whites
-      hue =         45 - (1 + @energy/100000)
-      saturation =  14 * (1 - @energy/100000)
-      lightness =   91 * (1 - @energy/100000)
-    else if @energy < 6000
-      # Yellows
-      hue =         50 - (1 + @energy/100000)
-      saturation =  91 * (1 - @energy/100000)
-      lightness =   85 * (1 - @energy/100000)
-    else if @energy < 8000
-      # Oranges
-      hue =         25 - (1 + @energy/100000)
-      saturation =  91 * (1 - @energy/100000)
-      lightness =   76 * (1 - @energy/100000)
-    else if @energy >= 8000
-      # Reds
-      hue =         10 - (1 + @energy/100000)
-      saturation = 100 * (1 - @energy/100000)
-      lightness =   76 * (1 - @energy/100000)
+    starColor = Game.starColor(@energy)
+    hue = starColor.hue
+    saturation = starColor.saturation
+    lightness = starColor.lightness
 
     return {
       "style": "background-color: hsl(#{hue}, #{saturation}%, #{lightness}%);
@@ -52,7 +64,7 @@ Template.star.helpers
     }
 
 Template.star.onRendered ->
-  Game.renderEntitiesIn( $(this.firstNode) )
+  Game.renderEntitiesIn()
 
 #
 # Map stars
@@ -68,32 +80,19 @@ Template.mapStar.helpers
         -webkit-transform: translate3d(#{-50 + offsetX*100}%, #{-50 + offsetY*100}%, 0)"
     }
 
+  mapStarScaling: ->
+    sizeFactor = @energy/30000
+    scale = 0.09 + Math.abs(0-1*sizeFactor)
+
+    return {
+      "style": "transform: scale(#{scale}); -webkit-transform: scale(#{scale});"
+    }
+
   mapStarModel: ->
-    if @energy < 1000
-      # Blues
-      hue =        215 + (1 + @energy/100000)
-      saturation =  91 * (1 + @energy/100000)
-      lightness =   62 * (1 + @energy/100000)
-    else if @energy < 3000
-      # Whites
-      hue =         45 - (1 + @energy/100000)
-      saturation =  14 * (1 - @energy/100000)
-      lightness =   91 * (1 - @energy/100000)
-    else if @energy < 6000
-      # Yellows
-      hue =         50 - (1 + @energy/100000)
-      saturation =  91 * (1 - @energy/100000)
-      lightness =   85 * (1 - @energy/100000)
-    else if @energy < 8000
-      # Oranges
-      hue =         25 - (1 + @energy/100000)
-      saturation =  91 * (1 - @energy/100000)
-      lightness =   76 * (1 - @energy/100000)
-    else if @energy >= 8000
-      # Reds
-      hue =         10 - (1 + @energy/100000)
-      saturation = 100 * (1 - @energy/100000)
-      lightness =   76 * (1 - @energy/100000)
+    starColor = Game.starColor(@energy)
+    hue = starColor.hue
+    saturation = starColor.saturation
+    lightness = starColor.lightness
 
     return {
       "style": "background-color: hsl(#{hue}, #{saturation}%, #{lightness}%);
@@ -109,4 +108,4 @@ Template.mapStar.events
     Game.moveFleet Game.fleet.secretUrl, x, y
 
 Template.mapStar.onRendered ->
-  Game.renderEntitiesIn( $(this.firstNode) )
+  Game.renderEntitiesIn()

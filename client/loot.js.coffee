@@ -13,4 +13,4 @@ Template.loot.helpers
     }
 
 Template.loot.onRendered ->
-  Game.renderEntitiesIn( $(this.firstNode) )
+  Game.renderEntitiesIn()

@@ -56,4 +56,4 @@ Template.fleet.helpers
     }
 
 Template.fleet.onRendered ->
-  Game.renderEntitiesIn( $(this.firstNode) )
+  Game.renderEntitiesIn()

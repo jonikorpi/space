@@ -42,7 +42,7 @@ Template.planet.helpers
     }
 
 Template.planet.onRendered ->
-  Game.renderEntitiesIn( $(this.firstNode) )
+  Game.renderEntitiesIn()
 
 #
 # Map planet
@@ -67,4 +67,4 @@ Template.mapPlanet.events
     Game.moveFleet Game.fleet.secretUrl, x, y
 
 Template.mapPlanet.onRendered ->
-  Game.renderEntitiesIn( $(this.firstNode) )
+  Game.renderEntitiesIn()
