@@ -358,8 +358,8 @@ html, body {
   transition:
     transform $warp-time $main-easing,
     opacity $main-time*2 $main-easing,
-    filter $main-time*2 $main-easing,
-    -webkit-filter $main-time*2 $main-easing,
+            filter $main-time $main-easing $warp-time,
+    -webkit-filter $main-time $main-easing $warp-time,
   ;
 }
 
