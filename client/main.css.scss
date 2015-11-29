@@ -4,8 +4,25 @@
 //
 // General variables
 
-$font-size-multiplier: 16/16;
-$line: 1.382rem;
+$font-size-multiplier: 16 /16;
+$line: 22 /16*1rem;
+
+$main-easing:        cubic-bezier(0.236, 0.000, 0.236, 1.000);
+$reverse-easing:     cubic-bezier(0.618, 0.000, 0.236, 1.000);
+$loop-easing:        ease-in-out;
+
+$main-time:    200ms;
+$short-time:   124ms;
+$loop-time:   5800ms;
+$warp-time: $main-time;
+
+$spacing-xxs: $line*0.250;
+$spacing-xs:  $line*0.375;
+$spacing-s:   $line*0.500;
+$spacing:     $line*1.000;
+$spacing-l:   $line*1.500;
+$spacing-xl:  $line*2.000;
+$spacing-xxl: $line*2.500;
 
 $y-size: 13;
 $x-size: 21;
@@ -23,75 +40,47 @@ $star-step-2: 3;
 
 $grid-border-width: 1px;
 
-$main-easing:        cubic-bezier(0.236, 0.000, 0.236, 1.000);
-$reverse-easing:     cubic-bezier(0.618, 0.000, 0.236, 1.000);
-$loop-easing:        ease-in-out;
-
-$main-time: 300ms;
-$short-time: 124ms;
-$loop-time: $main-time*144;
-$warp-time: $main-time;
-
 //
 // Colors
 
-$hue: 45;
-$hue-increment: 1.618;
+$hue: 202;
 
-$hue-1:  $hue + (360/$hue-increment) *  1;
-$hue-2:  $hue + (360/$hue-increment) *  2;
-$hue-3:  $hue + (360/$hue-increment) *  3;
-$hue-4:  $hue + (360/$hue-increment) *  4;
-$hue-5:  $hue + (360/$hue-increment) *  5;
-$hue-6:  $hue + (360/$hue-increment) *  6;
-$hue-7:  $hue + (360/$hue-increment) *  7;
-$hue-8:  $hue + (360/$hue-increment) *  8;
-$hue-9:  $hue + (360/$hue-increment) *  9;
-$hue-10: $hue + (360/$hue-increment) * 10;
-$hue-11: $hue + (360/$hue-increment) * 11;
-$hue-12: $hue + (360/$hue-increment) * 12;
-$hue-13: $hue + (360/$hue-increment) * 13;
+$hue-opposite: $hue + (360/2);
+$hue-analog:   $hue - (360/8);
+$hue-analog-2: $hue + (360/8);
+$hue-split:    $hue + (360/2) - (360/8);
+$hue-split-2:  $hue + (360/2) + (360/8);
+$hue-triad:    $hue + (360/3);
+$hue-triad-2:  $hue + (360/3*2);
+$hue-square:   $hue + (360/4);
+$hue-square-2: $hue + (360/4*3);
 
-$background:      #000;
-$off-background:  hsl($hue-1, 38.2%, 14.6%);
-$backdrop-color:  hsl($hue-5, 23.6%, 5.6%);
+$hue-bg:  $hue;
+$hue-fg:  $hue-split-2;
+$hue-alt: $hue-split;
+$colorfulness: 1.0;
 
-$bright: hsl($hue, 23.6%, 76.4%);
-$body:   hsl($hue, 5.6%, 61.8%);
-$dim:    hsl($hue, 3.4%, 50%);
+$dimmer:     hsl($hue-bg, 100%*$colorfulness, 05.6%);
+$emphasizer: hsl($hue-fg, 100%*$colorfulness, 94.4%);
 
-$yellow: hsl($hue,   50%, 61.8%);
-$orange: hsl($hue-8, 50%, 50%);
-$red:    hsl($hue-3, 38.2%, 50.0%);
-$blue:   hsl($hue-4, 50%, 60%);
-$cyan:   hsl($hue-7, 38.2%, 50.0%);
-$green:  hsl($hue-2, 23.6%, 50.0%);
-$purple: hsl($hue-1, 50.0%, 66.6%);
+$background:    hsl($hue-bg,  50.0%*$colorfulness,  9.0%);
+$body:          hsl($hue-fg,   9.0%*$colorfulness, 61.8%);
+$alt-body:      hsl($hue-alt,  9.0%*$colorfulness, 61.8%);
 
-$shadow: hsl($hue-1, 50%, 5.6%);
-$border: hsl($hue-1, 9%, 41.4%);
+$highlight:     hsl($hue-fg,  76.4%, 61.8%);
+$alt-highlight: hsl($hue-alt, 76.4%, 61.8%);
 
-$highlight: hsl($hue, 76.4%, 61.8%);
-$purple-highlight: hsl($hue-1, 38.2%, 50%);
-$blue-highlight: hsl($hue-4, 91%, 66.6%);
+$off-background: mix($emphasizer, $background,    14.6%);
+$border:         mix($emphasizer, $background,    50.0%);
 
-$shadow: hsla($hue-1, 50%, 5.6%, 0.236);
+$aside:          mix($dimmer,     $body,          23.6%);
+$alt-aside:      mix($dimmer,     $alt-body,      23.6%);
+
+$strong:         mix($emphasizer, $body,          23.6%);
+$alt-strong:     mix($emphasizer, $alt-body,      23.6%);
 
 //
 // Media queries
-
-$xs2:  "#{317 / 16 * 1em}";
-$xs:   "#{318 / 16 * 1em}";
-$s:    "#{478 / 16 * 1em}";
-$m:    "#{560 / 16 * 1em}";
-$l:    "#{740 / 16 * 1em}";
-$xl:   "#{960 / 16 * 1em}";
-$xl2: "#{1100 / 16 * 1em}";
-$xl3: "#{1200 / 16 * 1em}";
-$xl4: "#{1400 / 16 * 1em}";
-$xl5: "#{1700 / 16 * 1em}";
-$xl6: "#{1900 / 16 * 1em}";
-$xl7: "#{2300 / 16 * 1em}";
 
 $retina: "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)";
 
@@ -106,88 +95,191 @@ $retina: "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)";
 
 html {
   font-family: "Fira Sans", sans-serif;
+  font-weight: 200;
+}
+
+.size-0 { font-size: 0.813rem; line-height: $line*0.727272727; }
+.size-1 { font-size: 1.000rem; line-height: $line*1.00; }
+.size-2 { font-size: 1.236rem; line-height: $line*1.00; }
+.size-3 { font-size: 1.382rem; line-height: $line*1.00; }
+.size-4 { font-size: 1.618rem; line-height: $line*1.50; }
+.size-5 { font-size: 2.150rem; line-height: $line*1.50; }
+.size-6 { font-size: 2.618rem; line-height: $line*2.00; }
+.size-7 { font-size: 4.236rem; line-height: $line*3.25; }
+
+.lighter   { font-weight: 200; }
+.light     { font-weight: 300; }
+.medium    { font-weight: 400; }
+.strong,
+strong, b  { font-weight: 500; }
+.stronger  { font-weight: 600; }
+.strongest { font-weight: 700; }
+
+.all-caps   { text-transform: uppercase;  }
+.capitalize { text-transform: capitalize; }
+
+a {
+  color: $highlight;
+  text-decoration: none;
+
+  &:hover {
+    color: mix($emphasizer, $highlight, 23.6%);
+  }
+
+  &:active {
+    color: mix($dimmer, $highlight, 23.6%);
+  }
+}
+
+.underlined {
+  background-image: linear-gradient(currentcolor);
+  background-size: 1px 1px;
+  background-position: 0 1.15em;
+  background-repeat: repeat-x;
+  text-shadow:
+    1px 0 0  $background,
+    -1px 0 0 $background
+  ;
+
+  &:hover,
+  &:focus {
+    background-image: none;
+  }
+
+  &:active,
+  &.active {
+    background-image: none;
+    color: inherit;
+  }
+}
+
+::selection {
+  background: $highlight;
+  color: $strong;
+}
+
+::placeholder {
+  color: $aside;
 }
 
 //
-// Basic styles
+// Root styles
+
+* {
+  transition-property: transform, opacity;
+  transition-duration: $main-time;
+  transition-timing-function: $main-easing;
+}
 
 html {
   font-size: 100% * $font-size-multiplier;
-  line-height: $line / 1rem;
+  line-height: $line;
   background: $background;
   color: $body;
-  -webkit-tap-highlight-color: hsla($hue-1, 100%, 61.8%, 0.5);
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 body {
 
 }
 
-a {
-  color: $bright;
-  text-decoration: none;
+//
+// Layout classes
 
-  &:hover {
-    color: hsl($hue-3, 85.4%, 61.8%);
-  }
+.splitter {
+  display: flex;
+  align-items: stretch;
 
-  &:active {
-    color: hsl($hue-4, 85.4%, 61.8%);
-  }
+  &.no-stretch   { align-items: flex-start; }
+  &.center       { align-items: center; }
+  &.justify      { justify-content: space-between; }
+  &.align-center { justify-content: center; }
+  &.align-end    { justify-content: flex-end; }
+  &.wrap         { flex-wrap: wrap; }
+  &.vertical     { flex-direction: column; }
+
+  &.padded        { margin-left: -$spacing-s;  margin-right: -$spacing-s; }
+  &.padded-s      { margin-left: -$spacing-xs; margin-right: -$spacing-xs; }
+  &.half-padded   { margin-left: -$spacing-s;  margin-top:   -$spacing-s; }
+  &.half-padded-s { margin-left: -$spacing-xs; margin-top:   -$spacing-xs; }
 }
 
-h1, h2, h3, h4, h5, h6,
-strong, b {
-  color: hsl($hue, 23.6%, 76.4%);
+.padded   > * { padding-left: $spacing-s;  padding-right: $spacing-s; }
+.padded-s > * { padding-left: $spacing-xs; padding-right: $spacing-xs; }
+
+.padded.wrap > *   { padding-top: $spacing-s;  padding-bottom: $spacing-s; }
+.padded-s.wrap > * { padding-top: $spacing-xs; padding-bottom: $spacing-xs; }
+
+.half-padded > *   { padding: $spacing-s  0 0 $spacing-s; }
+.half-padded-s > * { padding: $spacing-xs 0 0 $spacing-xs; }
+
+.auto-margins-xxs > * + * { margin-top: $spacing-xxs; }
+.auto-margins-xs  > * + * { margin-top: $spacing-xs;  }
+.auto-margins-s   > * + * { margin-top: $spacing-s;   }
+.auto-margins     > * + * { margin-top: $spacing;     }
+.auto-margins-l   > * + * { margin-top: $spacing-l;   }
+.auto-margins-xl  > * + * { margin-top: $spacing-xl;  }
+.auto-margins-xxl > * + * { margin-top: $spacing-xxl; }
+.auto-margins-hairline   > * + * { margin-top: 1px; }
+
+.auto-margins-h-xxs > * + * { display: inline-block; margin-left: $spacing-xxs; }
+.auto-margins-h-xs  > * + * { display: inline-block; margin-left: $spacing-xs;  }
+.auto-margins-h-s   > * + * { display: inline-block; margin-left: $spacing-s;   }
+.auto-margins-h     > * + * { display: inline-block; margin-left: $spacing;     }
+.auto-margins-h-l   > * + * { display: inline-block; margin-left: $spacing-l;   }
+.auto-margins-h-xl  > * + * { display: inline-block; margin-left: $spacing-xl;  }
+.auto-margins-h-xxl > * + * { display: inline-block; margin-left: $spacing-xxl; }
+.auto-margins-h-hairline > * + * { display: inline-block; margin-left: 1px; }
+
+.auto-borders > * + * { border-top: 1px solid $border; }
+
+.auto-fence > *,
+.auto-fence > tr td {
+  border-bottom: 1px solid $border;
 }
 
-hr {
-  border-color: hsl($hue-1, 9%, 23.6%);
+.auto-fence > *:first-child,
+.auto-fence > tr:first-child td {
+  border-top: 1px solid $border;
 }
 
-code {
-  color: hsl($hue-1, 14.6%, 61.8%);
-}
+.padding-xxs { padding: $spacing-xxs; }
+.padding-xs  { padding: $spacing-xs;  }
+.padding-s   { padding: $spacing-s;   }
+.padding     { padding: $spacing;     }
+.padding-l   { padding: $spacing-l;   }
+.padding-xl  { padding: $spacing-xl;  }
+.padding-xxl { padding: $spacing-xxl; }
+.padding-hairline { padding: 1px; }
 
-::selection {
-  background: hsl($hue-2, 91%, 61.8%);
-}
+.margin-xxs { padding: $spacing-xxs; }
+.margin-xs  { padding: $spacing-xs;  }
+.margin-s   { padding: $spacing-s;   }
+.margin     { padding: $spacing;     }
+.margin-l   { padding: $spacing-l;   }
+.margin-xl  { padding: $spacing-xl;  }
+.margin-xxl { padding: $spacing-xxl; }
+.margin-hairline { margin: 1px; }
 
-::placeholder {
-  color: hsl($hue, 9%, 50%);
-}
+.align-left   { text-align: left;   }
+.align-center { text-align: center; }
+.align-right  { text-align: right;  }
 
-.abs-all   { position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
-
-.abs-left   { position: absolute; top: 0; bottom: 0; left:  0; }
-.abs-right  { position: absolute; top: 0; bottom: 0; right: 0; }
-
-.abs-top    { position: absolute; left: 0; right: 0; top:    0; }
-.abs-bottom { position: absolute; left: 0; right: 0; bottom: 0; }
-
-.abs-top-left   { position: absolute; top: 0; left:  0; }
-.abs-top-right  { position: absolute; top: 0; right: 0; }
-
-.abs-bottom-left   { position: absolute; bottom: 0; left:  0; }
-.abs-bottom-right  { position: absolute; bottom: 0; right: 0; }
+.hang-left   { float: left; }
+.hang-right  { float: right; }
 
 .abs-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.abs-all    { position: absolute; left:   0; top:   0; right: 0; bottom: 0; }
 
-.text-shadow,
-.hud,
-.button
-.debug-dialog {
-  text-shadow:
-     1px  1px 1px rgba(#000, 0.5),
-    -1px -1px 1px rgba(#000, 0.5),
-    -1px  1px 1px rgba(#000, 0.5),
-     1px -1px 1px rgba(#000, 0.5),
-     0px -1px 1px rgba(#000, 0.5),
-     0px  1px 1px rgba(#000, 0.5),
-    -1px  0px 1px rgba(#000, 0.5),
-     1px  0px 1px rgba(#000, 0.5)
-  ;
-}
+.abs-left   { position: absolute; top:  0; bottom: 0; left:   0; }
+.abs-right  { position: absolute; top:  0; bottom: 0; right:  0; }
+.abs-top    { position: absolute; left: 0; right:  0; top:    0; }
+.abs-bottom { position: absolute; left: 0; right:  0; bottom: 0; }
+
+.abs-top-left     { position: absolute; top:    0; left:  0; }
+.abs-top-right    { position: absolute; top:    0; right: 0; }
+.abs-bottom-left  { position: absolute; bottom: 0; left:  0; }
+.abs-bottom-right { position: absolute; bottom: 0; right: 0; }
 
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
@@ -216,8 +308,6 @@ html, body {
     opacity $short-time $main-easing,
     visibility 0ms linear $main-time
   ;
-
-
 }
 
 .map {
@@ -231,18 +321,6 @@ html, body {
     visibility: visible;
     transition-delay: 0ms;
   }
-
-  // &:after {
-  //   content: "";
-  //   display: block;
-  //   outline: 1px solid rgba($bright, 0.146);
-  //   width: 100%;
-  //   padding-top: 100%;
-  //   position: absolute;
-  //   left: 0; top: 0; right: 0; bottom: 0;
-  //   margin: auto;
-  //   height: 0;
-  // }
 }
 
 .world {
@@ -266,49 +344,15 @@ html, body {
   width: 100%;
   height: 0;
   padding-top: 100% * $board-height-ratio;
-
-  // background-image:
-  //   radial-gradient( ellipse closest-side, transparent 0%, transparent 76.4%, $backdrop-color 100% ),
-  //   linear-gradient(        rgba($bright, 0.056) 1px, transparent 1px ),
-  //   linear-gradient( 90deg, rgba($bright, 0.056) 1px, transparent 1px ),
-  // ;
-  // background-position: center center;
-  // background-size:
-  //   100% 100%,
-  //   $x-unit $y-unit,
-  //   $x-unit $y-unit,
-  // ;
 }
 
 //
 // Backdrop
 
 .layers {
-  // animation: starSway $loop-time $loop-easing infinite;
-  transition: transform $main-time $main-easing;
-
   [data-view="fleet"] & {
     transform: scale3d(1.09, 1.09, 1.09);
   }
-}
-
-@keyframes starSway {
-  0%, 100% {
-    transform: translate3d(0,0,0);
-  }
-  25% {
-    transform: translate3d(1.3%, 1.3%, 0);
-  }
-  50% {
-    transform: translate3d(-1.3%, 1.3%, 0);
-  }
-  75% {
-    transform: translate3d(-1.3%, -1.3%, 0);
-  }
-}
-
-.backdrop-color {
-  background-color: $backdrop-color;
 }
 
 .layer {
@@ -317,45 +361,9 @@ html, body {
   width: 100%;
   height: 100%;
   transition:
-    all 0ms linear,
     transform $warp-time $main-easing
   ;
   background-size: 100% 100%;
-}
-
-.layer-left   { margin-left: -100vw; }
-.layer-right  { margin-left:  100vw; }
-.layer-top    { margin-top:  -100vh; }
-.layer-bottom { margin-top:   100vh; }
-
-.layer-top-left  { margin-top: -100vh; margin-left: -100vw; }
-.layer-top-right { margin-top: -100vh; margin-left:  100vw; }
-
-.layer-bottom-left  { margin-top: 100vh; margin-left: -100vw; }
-.layer-bottom-right { margin-top: 100vh; margin-left:  100vw; }
-
-.layer-1 {
-  $layer-1-gradients: ();
-  @for $i from 1 through $star-count {
-    $layer-1-gradients: $layer-1-gradients, radial-gradient(circle $star-step*1px   at (random(100)*1% + random(100)/100*1%) (random(100)*1% + random(100)/100*1%), $dim 99%, transparent);
-  }
-  background-image: $layer-1-gradients;
-}
-
-.layer-2 {
-  $layer-2-gradients: ();
-  @for $i from 1 through $star-count/$star-step-1 {
-    $layer-2-gradients: $layer-2-gradients, radial-gradient(circle $star-step-1*1px at (random(100)*1% + random(100)/100*1%) (random(100)*1% + random(100)/100*1%), $body 99%, transparent);
-  }
-  background-image: $layer-2-gradients;
-}
-
-.layer-3 {
-  $layer-3-gradients: ();
-  @for $i from 1 through $star-count/$star-step-2 {
-    $layer-3-gradients: $layer-3-gradients, radial-gradient(circle $star-step-2*1px at (random(100)*1% + random(100)/100*1%) (random(100)*1% + random(100)/100*1%), $bright 99%, transparent);
-  }
-  background-image: $layer-3-gradients;
 }
 
 //
@@ -382,7 +390,7 @@ html, body {
   cursor: pointer;
 
   &:hover {
-    outline: 2px solid $green;
+    outline: 2px solid $alt-highlight;
   }
 
   .entity-model {
@@ -409,8 +417,6 @@ html, body {
 
 .rendering-in {
   opacity: 0;
-          filter: grayscale(100%) blur(2vmin);
-  -webkit-filter: grayscale(100%) blur(2vmin);
 }
 
 //
@@ -444,15 +450,10 @@ html, body {
 
   [data-player-fleet] & {
     .warp & {
-      // animation: warp $main-time $main-easing;
+
     }
   }
 }
-
-// @keyframes warp {
-//   0%, 100% { transform: scale(1) }
-//   50% {      transform: scale(0); }
-// }
 
 
 .fleet-name {
@@ -465,7 +466,7 @@ html, body {
   transition: transform $main-time $main-easing;
 
   [data-view="fleet"] & {
-    // transform: translateX(-50%) scale(0.236);
+
   }
 }
 
@@ -485,7 +486,7 @@ html, body {
 
 .module {
   height: 33.333%;
-  background: $bright;
+  background: $strong;
 }
 
 //
@@ -496,30 +497,20 @@ html, body {
 }
 
 .star-model {
-  // pointer-events: all;
   width: 100%;
   height: 100%;
   border-radius: 50%;
   margin: auto;
-  // box-shadow:
-  //   0 0 3vmin currentcolor,
-  //   0 0 2vmin currentcolor,
-  //   0 0 1vmin currentcolor,
-  // ;
-  background: $bright;
+  background: $strong;
   background-image: radial-gradient(circle, transparent 61.8%, hsla(0,0%,100%, 0.618));
 
   .map-entity & {
-    box-shadow:
-      0 0 3vmin currentcolor,
-      0 0 2vmin currentcolor,
-      0 0 1vmin currentcolor,
-    ;
+
   }
 }
 
 .star-name {
-  color: $bright;
+  color: $strong;
   left: 100%;
   font-weight: 800;
   font-size: 2rem;
@@ -545,11 +536,11 @@ html, body {
   width:  100%;
   height: 100%;
   border-radius: 50%;
-  background: $blue;
+  background: $highlight;
   background-image:
     // radial-gradient(circle at 50% 9%, transparent 61.8%, hsla(0,0%,0%, 0.5)),
     // radial-gradient(circle at 50% 5.6%, transparent 61.8%, hsla(0,0%,0%, 0.5)),
-    radial-gradient(circle at 50% 38.2%, darken($green, 9%) 23.6%, transparent 23.6%)
+    radial-gradient(circle at 50% 38.2%, darken($alt-highlight, 9%) 23.6%, transparent 23.6%)
   ;
 
   .map-entity & {
@@ -559,7 +550,7 @@ html, body {
 }
 
 .planet-name {
-  color: $dim;
+  color: $aside;
   left: 100%;
   font-weight: 500;
   line-height: 1;
@@ -579,7 +570,7 @@ html, body {
 
 .loot-model {
   margin: auto;
-  background: $blue;
+  background: $highlight;
   pointer-events: all;
   width: 10%;
   height: 10%;
@@ -599,7 +590,7 @@ html, body {
 .movement-pointer {
   width: 1px;
   height: 1px;
-  background: $blue;
+  background: $highlight;
   position: absolute;
   left: 50%; bottom: 50%;
   transform-origin: bottom;
@@ -621,11 +612,11 @@ button.move {
   width: 100%;
   height: 100%;
   outline: none;
-  background-color: rgba($blue, 0.236);
+  background-color: rgba($highlight, 0.236);
   background-repeat: none;
   // background-image: radial-gradient(circle at 50% 50%, $blue 23.6%, transparent 23.6%);
   opacity: 0;
-  color: $bright;
+  color: $strong;
   transition: opacity $short-time $main-easing;
 
   &:hover {
@@ -654,7 +645,6 @@ button.move {
   position: absolute;
   left: 61.8%; top: 61.8%;
   width: 261.8%;
-  font-size: 0.625rem;
   display: none;
 
   .debug & {
@@ -671,12 +661,16 @@ button.move {
 
 .hud {
   z-index: 10;
-  font-size: 0.75rem;
   text-align: center;
 }
 
 .views {
   padding: $line*0.5;
+}
+
+.button.button {
+  text-transform: uppercase;
+  font-weight: 500;
 }
 
 //
@@ -685,7 +679,6 @@ button.move {
 .header {
   z-index: 10;
   padding: $line*0.5;
-  font-size: 0.75rem;
   text-align: left;
 }
 
@@ -707,22 +700,4 @@ button.move {
 
 .cheats {
   padding: $line*0.5;
-}
-
-button.button {
-  font-size: 0.75rem;
-  border: 1px solid currentcolor;
-  padding: $line*0.125 $line*0.25;
-  border-radius: $line*0.125;
-  outline: none;
-  text-shadow: inherit;
-
-  &:hover {
-    color: $green;
-  }
-
-  &[data-button-active],
-  &:active {
-    color: $bright;
-  }
 }

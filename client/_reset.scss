@@ -1,6 +1,5 @@
-/////////////////////////////////////////////////////////
+//
 // Normalization & resets for annoyances
-/////////////////////////////////////////////////////////
 
 // Resets annoying things
 * {
@@ -13,19 +12,7 @@
   text-size-adjust: 100%;
 }
 
-// Owl selector spacing
-* + * {
-  margin-top: $line;
-}
-
-.no-margins,
-.no-margins * + *,
-li {
-  margin-top: 0;
-}
-
 ul ul, ul ol, ol ol, ol ul {
-  margin-top: 0;
   padding-left: $line;
 }
 
@@ -87,7 +74,6 @@ button {
 }
 
 button[type="button"] {
-  -webkit-appearance: none;
   appearance: none;
   background: none;
   border: none;
@@ -128,15 +114,13 @@ th {
   padding: 0;
 }
 
-/////////////////////////////////////////////////////////
+//
 // Touchable things (used in addition to FastClick)
-/////////////////////////////////////////////////////////
 
 a,
 button,
 input,
-textarea,
-.touchable {
+textarea {
   -ms-touch-action: manipulation;
       touch-action: manipulation;
 }
