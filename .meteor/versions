@@ -66,7 +66,7 @@ mongo-id@1.0.1
 mongo-livedata@1.0.9
 mquandalle:jade@0.4.5
 mquandalle:jade-compiler@0.4.5
-msavin:mongol@1.6.1
+msavin:mongol@1.6.2
 npm-mongo@1.4.39_1
 observe-sequence@1.0.7
 ordered-dict@1.0.4
