@@ -8,8 +8,6 @@ iron:router
 coffeescript
 fourseven:scss
 mquandalle:jade
-msavin:mongol
-meteorhacks:kadira
 standard-minifiers
 meteor-base
 mobile-experience
@@ -24,6 +22,7 @@ random
 ejson
 spacebars
 check
-reywood:iron-router-ga
 momentjs:moment
 browser-policy
+peerlibrary:reactive-publish
+peerlibrary:reactive-mongo

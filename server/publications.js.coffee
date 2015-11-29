@@ -7,84 +7,69 @@ Meteor.publish "thisFleet", (secretUrl) ->
   }
 
 #
-# Nearby fleets
+# Nearby stuff
 
-Meteor.publish "nearbyFleets", (secretUrl) ->
+Meteor.publish "nearbyStuff", (secretUrl) ->
   # TODO: checks
 
-  playerFleet = Fleets.findOne
-    secretUrl: secretUrl
+  this.autorun (computation) ->
+    playerFleet = Fleets.findOne
+      secretUrl: secretUrl
 
-  xPos = playerFleet.loc[0]
-  yPos = playerFleet.loc[1]
+    xPos = playerFleet.loc[0]
+    yPos = playerFleet.loc[1]
 
-  return Fleets.find
-    secretUrl:
-      $ne: secretUrl
-    loc:
-      $geoWithin:
-        $polygon: [
-          [ xPos - Game.halfX, yPos - Game.halfY ]
-          [ xPos + Game.halfX, yPos - Game.halfY ]
-          [ xPos + Game.halfX, yPos + Game.halfY ]
-          [ xPos - Game.halfX, yPos + Game.halfY ]
-          [ xPos - Game.halfX, yPos - Game.halfY ]
-        ]
-  ,
-    fields:
-      secretUrl: 0
-      createdAt: 0
-      lastMove: 0
+    fleets = Fleets.find
+      secretUrl:
+        $ne: secretUrl
+      loc:
+        $geoWithin:
+          $polygon: [
+            [ xPos - Game.halfX, yPos - Game.halfY ]
+            [ xPos + Game.halfX, yPos - Game.halfY ]
+            [ xPos + Game.halfX, yPos + Game.halfY ]
+            [ xPos - Game.halfX, yPos + Game.halfY ]
+            [ xPos - Game.halfX, yPos - Game.halfY ]
+          ]
+    ,
+      fields:
+        secretUrl: 0
+        createdAt: 0
+        lastMove: 0
 
-#
-# Nearby objects
+    objects = Objects.find
+      loc:
+        $geoWithin:
+          $polygon: [
+            [ xPos - Game.mapHalfX, yPos - Game.mapHalfY ]
+            [ xPos + Game.mapHalfX, yPos - Game.mapHalfY ]
+            [ xPos + Game.mapHalfX, yPos + Game.mapHalfY ]
+            [ xPos - Game.mapHalfX, yPos + Game.mapHalfY ]
+            [ xPos - Game.mapHalfX, yPos - Game.mapHalfY ]
+          ]
+    ,
+      fields:
+        maxEnergy: 0
+        maxResources: 0
 
-Meteor.publish "nearbyObjects", (secretUrl) ->
-  # TODO: checks
+    loot = Loot.find
+      loc:
+        $geoWithin:
+          $polygon: [
+            [ xPos - Game.halfX, yPos - Game.halfY ]
+            [ xPos + Game.halfX, yPos - Game.halfY ]
+            [ xPos + Game.halfX, yPos + Game.halfY ]
+            [ xPos - Game.halfX, yPos + Game.halfY ]
+            [ xPos - Game.halfX, yPos - Game.halfY ]
+          ]
 
-  playerFleet = Fleets.findOne
-    secretUrl: secretUrl
-
-  xPos = playerFleet.loc[0]
-  yPos = playerFleet.loc[1]
-
-  return Objects.find
-    loc:
-      $geoWithin:
-        $polygon: [
-          [ xPos - Game.mapHalfX, yPos - Game.mapHalfY ]
-          [ xPos + Game.mapHalfX, yPos - Game.mapHalfY ]
-          [ xPos + Game.mapHalfX, yPos + Game.mapHalfY ]
-          [ xPos - Game.mapHalfX, yPos + Game.mapHalfY ]
-          [ xPos - Game.mapHalfX, yPos - Game.mapHalfY ]
-        ]
-  ,
-    fields:
-      maxEnergy: 0
-      maxResources: 0
-
-#
-# Nearby loot
-
-Meteor.publish "nearbyLoot", (secretUrl) ->
-  # TODO: checks
-
-  playerFleet = Fleets.findOne
-    secretUrl: secretUrl
-
-  xPos = playerFleet.loc[0]
-  yPos = playerFleet.loc[1]
-
-  return Loot.find
-    loc:
-      $geoWithin:
-        $polygon: [
-          [ xPos - Game.halfX, yPos - Game.halfY ]
-          [ xPos + Game.halfX, yPos - Game.halfY ]
-          [ xPos + Game.halfX, yPos + Game.halfY ]
-          [ xPos - Game.halfX, yPos + Game.halfY ]
-          [ xPos - Game.halfX, yPos - Game.halfY ]
-        ]
+    results = [
+      fleets,
+      objects,
+      loot
+    ]
+    results
+  return
 
 #
 # Indexing
