@@ -14,7 +14,7 @@ $loop-easing:        ease-in-out;
 $main-time:    200ms;
 $short-time:   124ms;
 $loop-time:   5800ms;
-$warp-time: $main-time;
+$warp-time: $main-time*3;
 
 $spacing-xxs: $line*0.250;
 $spacing-xs:  $line*0.375;

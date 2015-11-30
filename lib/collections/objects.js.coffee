@@ -9,8 +9,8 @@ Meteor.methods
     else
       colorToSet = star.properties.bv
 
-    xLoc = star.geometry.coordinates[0] * Game.coordinateMultiplier
-    yLoc = star.geometry.coordinates[1] * Game.coordinateMultiplier
+    xLoc = Math.round(star.geometry.coordinates[0] * Game.coordinateMultiplier)
+    yLoc = Math.round(star.geometry.coordinates[1] * Game.coordinateMultiplier)
 
     if xLoc < Game.galaxyBoundX*-1
       xLoc = Game.galaxyBoundX*-1
@@ -22,12 +22,17 @@ Meteor.methods
     if yLoc > Game.galaxyBoundY
       yLoc = Game.galaxyBoundY
 
-    energy = 500 + Math.abs(Math.round((1+star.properties.mag*10) * (1+star.properties.bv*100)) )
-    energyModifier = Math.abs( Math.round(1 + energy / 200) )
-    planetAmount = 1# + ( Math.abs( Math.round(energy / 5000) ) )
+    baseEnergy = 500
+    energy = baseEnergy + Math.abs(Math.round((1+star.properties.mag*10) * (1+star.properties.bv*100)) )
+
+    energyModifier = Math.abs( Math.round(1 + energy / baseEnergy) )
+    planetCount = 1 # Math.abs( Math.round(energyModifier/3) )
 
     if star.properties.name == ""
-      nameToSet = "#{star.properties.desig}-#{star.id}"
+      if star.properties.con == ""
+        nameToSet = "#{star.properties.desig}-#{star.id}"
+      else
+        nameToSet = "#{star.properties.con}-#{star.properties.desig}"
     else
       nameToSet = star.properties.name
 
@@ -40,7 +45,7 @@ Meteor.methods
 
     console.log "NEW STAR: #{nameToSet}, with #{energy} energy at [#{xLoc},#{yLoc}]."
 
-    for count in [1..planetAmount]
+    for count in [1..planetCount]
       Meteor.call "createPlanet", xLoc, yLoc, energy, energyModifier, count+1, nameToSet
 
 
@@ -49,12 +54,12 @@ Meteor.methods
     yLocModifier = _.random(0, 1)
 
     if xLocModifier == 0
-      xLocModifier = -1
+      xLocModifier = -1 + (-1 * count)
     if yLocModifier == 0
-      yLocModifier = -1
+      yLocModifier = -1 + (-1 * count)
 
-    xLocModifier = xLocModifier * _.random(energyModifier+3, energyModifier*5+3)
-    yLocModifier = yLocModifier * _.random(energyModifier+3, energyModifier*5+3)
+    xLocModifier = (xLocModifier * count) + (xLocModifier * energyModifier)
+    yLocModifier = (yLocModifier * count) + (yLocModifier * energyModifier)
 
     xPlanet = Math.round(xStar + xLocModifier)
     yPlanet = Math.round(yStar + yLocModifier)
