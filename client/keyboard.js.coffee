@@ -27,8 +27,8 @@ Game.bindArrowKeys = ->
     "space": (event) ->
       event.preventDefault()
       $("[data-player-fleet] .fleet-model").trigger "click"
-    ".": ->
-      Game.body.toggleClass("debug")
+    "0": ->
+      Game.toggleDebug()
   , "keyup"
 
 Game.resumeArrowKeys = ->

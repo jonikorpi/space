@@ -18,6 +18,7 @@ Router.route "/secret-link/:secretUrl",
     if targetFleet
       Session.set "fleet", targetFleet
       Session.setDefault "view", "area"
+      Session.setDefault "debug", "false"
       Game.fleet = targetFleet
       Meteor.subscribe "nearbyStuff",  Game.fleet.secretUrl
       Game.bindArrowKeys()

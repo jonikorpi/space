@@ -85,12 +85,7 @@ Game.renderEntities = ->
   $(".rendering-in").removeClass("rendering-in")
 
 Game.showView = (view) ->
-  switch view
-    when "map"
-      Game.body.attr("data-view", "map")
-    when "area"
-      Game.body.attr("data-view", "area")
-    when "fleet"
-      Game.body.attr("data-view", "fleet")
-
   Session.set "view", view
+
+Game.toggleDebug = () ->
+  Session.set "debug", !Session.get "debug"

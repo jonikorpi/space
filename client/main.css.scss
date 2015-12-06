@@ -14,7 +14,7 @@ $loop-easing:        ease-in-out;
 $main-time:  200ms;
 $short-time: $main-time / 1.618;
 $loop-time:  $main-time*30;
-$warp-time:  $main-time*3;
+$warp-time:  $main-time;
 
 $spacing-xxs: $line*0.250;
 $spacing-xs:  $line*0.375;
@@ -25,7 +25,7 @@ $spacing-xl:  $line*2.000;
 $spacing-xxl: $line*2.500;
 $hairline:    1px;
 
-$y-size: 13;
+$y-size: 21;
 $x-size: 21;
 $map-scale: 0.01;
 $board-fill-ratio: 100;
@@ -206,7 +206,6 @@ html, body {
   width: $board-fill-ratio * 1vw;
   max-width: $board-fill-ratio * 1vh / $board-height-ratio;
   margin: auto;
-  pointer-events: none;
   transition:
     transform $main-time $main-easing,
     opacity $short-time $main-easing,
@@ -237,10 +236,6 @@ html, body {
     transform: scale($map-scale);
     opacity: 0;
   }
-}
-
-.player {
-
 }
 
 .grid {
@@ -306,7 +301,6 @@ html, body {
 .entity-name {
   opacity: 0;
   transition: opacity $main-time ease-in $main-time;
-  pointer-events: none;
 
   .entity:hover & {
     opacity: 1;
@@ -349,7 +343,6 @@ html, body {
   margin: auto;
   width: 100%;
   height: 100%;
-  pointer-events: all;
   transition: transform $warp-time*0.2 $main-easing;
 
   [data-player-fleet] & {
@@ -435,7 +428,6 @@ html, body {
 }
 
 .planet-model {
-  // pointer-events: all;
   margin: auto;
   width:  100%;
   height: 100%;
@@ -475,7 +467,6 @@ html, body {
 .loot-model {
   margin: auto;
   background: $highlight;
-  pointer-events: all;
   width: 10%;
   height: 10%;
 }
@@ -531,15 +522,9 @@ button.move {
     border-color: transparent;
   }
 
-  [data-view="fleet"] & { display: none; }
-}
-
-.zoom-out {
-  position: absolute;
-  left: $line*0.5; bottom: $line*0.5;
-  display: none;
-
-  [data-view="fleet"] & { display: block; }
+  .warp & {
+    opacity: 0;
+  }
 }
 
 //
@@ -550,8 +535,10 @@ button.move {
   left: 61.8%; top: 61.8%;
   width: 261.8%;
   display: none;
+  font-size: 0.75em;
+  line-height: 1.382;
 
-  .debug & {
+  [data-debug=true] & {
     display: block;
   }
 }

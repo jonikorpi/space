@@ -3,9 +3,9 @@
 
 @Game = {}
 
-Game.ySize = 13;
+Game.ySize = 21;
 Game.xSize = 21;
-Game.mapScale = 0.1
+Game.mapScale = 0.05
 
 Game.halfX = Game.xSize * 2
 Game.halfY = Game.ySize * 2

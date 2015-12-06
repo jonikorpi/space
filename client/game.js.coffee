@@ -48,6 +48,7 @@ Template.game.helpers
   gameAttributes: ->
     return {
       "data-view": Session.get("view")
+      "data-debug": Session.get("debug")
     }
 
 Template.game.events
@@ -66,5 +67,5 @@ Template.game.events
     Game.moveFleet Game.fleet.secretUrl, moveX, moveY
 
 Template.game.onRendered ->
-  
+
   Game.setCoordinateScales()

@@ -43,7 +43,7 @@ template(name="header")
     button.button.start-fleet(type="button") New fleet
     
 template(name="status")
-  .status-bar.abs-bottom
+  .status-bar.abs-bottom.no-events
     with fleetStatus
       span
         strong #{name}
@@ -68,14 +68,14 @@ template(name="game")
     
     .movement-controls.abs-all
     
-    .map.grid-container.no-margins.abs-all
+    .map.grid-container.no-margins.abs-all.no-events
       .grid.abs-all
         each mapPlanets
           +mapPlanet
         each mapStars
           +mapStar
     
-    .world.grid-container.no-margins.abs-all
+    .world.grid-container.no-margins.abs-all.no-events
       .grid.abs-all
         .entity#sizer-entity
         each planets
@@ -87,7 +87,7 @@ template(name="game")
         each otherFleets
           +fleet
           
-    .player.grid-container.no-margins.abs-all
+    .player.grid-container.no-margins.abs-all.no-events
       .grid.abs-all
         .movement-pointer
         +fleet
