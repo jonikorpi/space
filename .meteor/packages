@@ -26,3 +26,4 @@ momentjs:moment
 browser-policy
 peerlibrary:reactive-publish
 peerlibrary:reactive-mongo
+appcache
