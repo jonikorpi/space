@@ -37,46 +37,46 @@ template(name="home")
   h1 Hello!
   
 template(name="header")
-  .header.abs-top-left.no-margins
+  .header.pos-top-left.no-margins
     strong
       a(href="/") Starlifter
     button.button.start-fleet(type="button") New fleet
     
 template(name="status")
-  .status-bar.abs-bottom.no-events
+  .status-bar.pos-bottom.no-events
     with fleetStatus
       span
         strong #{name}
       span #{loc}
   
 template(name="views")
-  .views.abs-top-right
+  .views.pos-top-right
     button.button(type="button" data-button-value="map" $dyn=mapButton) [1] Map
     button.button(type="button" data-button-value="area" $dyn=areaButton) [2] Area
     button.button(type="button" data-button-value="fleet" $dyn=fleetButton) [3] Fleet
 
 template(name="game")
-  .hud.abs-top.no-margins
+  .hud.pos-top.no-margins
     +header
     +views
-  .hud.abs-bottom
+  .hud.pos-bottom
     +status
-  .game.abs-all.no-margins(id=_id $dyn=gameAttributes)
+  .game.pos-all.no-margins(id=_id $dyn=gameAttributes)
     
-    .backdrop.abs-all
+    .backdrop.pos-all
       +backdrop(xPos=xPos yPox=yPos)
     
-    .movement-controls.abs-all
+    .movement-controls.pos-all
     
-    .map.grid-container.no-margins.abs-all.no-events
-      .grid.abs-all
+    .map.grid-container.no-margins.pos-all.no-events
+      .grid.pos-all
         each mapPlanets
           +mapPlanet
         each mapStars
           +mapStar
     
-    .world.grid-container.no-margins.abs-all.no-events
-      .grid.abs-all
+    .world.grid-container.no-margins.pos-all.no-events
+      .grid.pos-all
         .entity#sizer-entity
         each planets
           +planet
@@ -87,52 +87,52 @@ template(name="game")
         each otherFleets
           +fleet
           
-    .player.grid-container.no-margins.abs-all.no-events
-      .grid.abs-all
+    .player.grid-container.no-margins.pos-all.no-events
+      .grid.pos-all
         .movement-pointer
         +fleet
         
     +cheats
         
 template(name="backdrop")
-  .backdrop-color.abs-all
+  .backdrop-color.pos-all
   
-  .layers.abs-all
-    //- .layer.layer-1.abs-top-left($dyn=layer1)
-    //- .layer.layer-1.abs-top-left.layer-left($dyn=layer1)
-    //- .layer.layer-1.abs-top-left.layer-right($dyn=layer1)
-    //- .layer.layer-1.abs-top-left.layer-top($dyn=layer1)
-    //- .layer.layer-1.abs-top-left.layer-bottom($dyn=layer1)
-    //- .layer.layer-1.abs-top-left.layer-top-left($dyn=layer1)
-    //- .layer.layer-1.abs-top-left.layer-top-right($dyn=layer1)
-    //- .layer.layer-1.abs-top-left.layer-bottom-left($dyn=layer1)
-    //- .layer.layer-1.abs-top-left.layer-bottom-right($dyn=layer1)
+  .layers.pos-all
+    //- .layer.layer-1.pos-top-left($dyn=layer1)
+    //- .layer.layer-1.pos-top-left.layer-left($dyn=layer1)
+    //- .layer.layer-1.pos-top-left.layer-right($dyn=layer1)
+    //- .layer.layer-1.pos-top-left.layer-top($dyn=layer1)
+    //- .layer.layer-1.pos-top-left.layer-bottom($dyn=layer1)
+    //- .layer.layer-1.pos-top-left.layer-top-left($dyn=layer1)
+    //- .layer.layer-1.pos-top-left.layer-top-right($dyn=layer1)
+    //- .layer.layer-1.pos-top-left.layer-bottom-left($dyn=layer1)
+    //- .layer.layer-1.pos-top-left.layer-bottom-right($dyn=layer1)
     //- 
-    //- .layer.layer-2.abs-top-left($dyn=layer2)
-    //- .layer.layer-2.abs-top-left.layer-left($dyn=layer2)
-    //- .layer.layer-2.abs-top-left.layer-right($dyn=layer2)
-    //- .layer.layer-2.abs-top-left.layer-top($dyn=layer2)
-    //- .layer.layer-2.abs-top-left.layer-bottom($dyn=layer2)
-    //- .layer.layer-2.abs-top-left.layer-top-left($dyn=layer2)
-    //- .layer.layer-2.abs-top-left.layer-top-right($dyn=layer2)
-    //- .layer.layer-2.abs-top-left.layer-bottom-left($dyn=layer2)
-    //- .layer.layer-2.abs-top-left.layer-bottom-right($dyn=layer2)
+    //- .layer.layer-2.pos-top-left($dyn=layer2)
+    //- .layer.layer-2.pos-top-left.layer-left($dyn=layer2)
+    //- .layer.layer-2.pos-top-left.layer-right($dyn=layer2)
+    //- .layer.layer-2.pos-top-left.layer-top($dyn=layer2)
+    //- .layer.layer-2.pos-top-left.layer-bottom($dyn=layer2)
+    //- .layer.layer-2.pos-top-left.layer-top-left($dyn=layer2)
+    //- .layer.layer-2.pos-top-left.layer-top-right($dyn=layer2)
+    //- .layer.layer-2.pos-top-left.layer-bottom-left($dyn=layer2)
+    //- .layer.layer-2.pos-top-left.layer-bottom-right($dyn=layer2)
     //- 
-    //- .layer.layer-3.abs-top-left($dyn=layer3)
-    //- .layer.layer-3.abs-top-left.layer-left($dyn=layer3)
-    //- .layer.layer-3.abs-top-left.layer-right($dyn=layer3)
-    //- .layer.layer-3.abs-top-left.layer-top($dyn=layer3)
-    //- .layer.layer-3.abs-top-left.layer-bottom($dyn=layer3)
-    //- .layer.layer-3.abs-top-left.layer-top-left($dyn=layer3)
-    //- .layer.layer-3.abs-top-left.layer-top-right($dyn=layer3)
-    //- .layer.layer-3.abs-top-left.layer-bottom-left($dyn=layer3)
-    //- .layer.layer-3.abs-top-left.layer-bottom-right($dyn=layer3)
+    //- .layer.layer-3.pos-top-left($dyn=layer3)
+    //- .layer.layer-3.pos-top-left.layer-left($dyn=layer3)
+    //- .layer.layer-3.pos-top-left.layer-right($dyn=layer3)
+    //- .layer.layer-3.pos-top-left.layer-top($dyn=layer3)
+    //- .layer.layer-3.pos-top-left.layer-bottom($dyn=layer3)
+    //- .layer.layer-3.pos-top-left.layer-top-left($dyn=layer3)
+    //- .layer.layer-3.pos-top-left.layer-top-right($dyn=layer3)
+    //- .layer.layer-3.pos-top-left.layer-bottom-left($dyn=layer3)
+    //- .layer.layer-3.pos-top-left.layer-bottom-right($dyn=layer3)
   
 template(name="fleet")
   .fleet.entity.rendering-in($dyn=fleetAttributes)
     .entity-name.fleet-name #{name}
-    .fleet-model.entity-model.abs-all($dyn=fleetModelAttributes)
-      .ships.abs-all
+    .fleet-model.entity-model.pos-all($dyn=fleetModelAttributes)
+      .ships.pos-all
         each ships
           .ship
             each this
@@ -166,9 +166,9 @@ template(name="fleet")
       
 template(name="star")
   .star.entity.rendering-in($dyn=starAttributes)
-    .star-scaler.abs-all($dyn=starScaling)
-      .entity-name.star-name.abs-center #{name}
-      .star-model.entity-model.abs-all($dyn=starModel)
+    .star-scaler.pos-all($dyn=starScaling)
+      .entity-name.star-name.pos-center-top-left.translate-half-up-left #{name}
+      .star-model.entity-model.pos-all($dyn=starModel)
     .debug-dialog
       strong #{name}
       .debug-line
@@ -186,9 +186,9 @@ template(name="star")
         
 template(name="planet")
   .planet.entity.rendering-in($dyn=planetAttributes)
-    .planet-scaler.abs-all($dyn=planetScaling)
-      .entity-name.planet-name.abs-center #{name}
-      .planet-model.entity-model.abs-all($dyn=planetModel)
+    .planet-scaler.pos-all($dyn=planetScaling)
+      .entity-name.planet-name.pos-center-top-left.translate-half-up-left #{name}
+      .planet-model.entity-model.pos-all($dyn=planetModel)
     .debug-dialog
       strong #{name}
       .debug-line
@@ -206,9 +206,9 @@ template(name="planet")
         
 template(name="mapStar")
   .star.entity.map-entity.rendering-in($dyn=mapStarAttributes)
-    .star-scaler.abs-all($dyn=mapStarScaling)
-      .entity-name.star-name.abs-center #{name}
-      .star-model.entity-model.abs-all($dyn=mapStarModel)
+    .star-scaler.pos-all($dyn=mapStarScaling)
+      .entity-name.star-name.pos-center-top-left.translate-half-up-left #{name}
+      .star-model.entity-model.pos-all($dyn=mapStarModel)
     .debug-dialog
       strong [MAP] #{name}
       .debug-line
@@ -226,9 +226,9 @@ template(name="mapStar")
         
 template(name="mapPlanet")
   .planet.entity.map-entity.rendering-in($dyn=mapPlanetAttributes)
-    .planet-scaler.abs-all
-      .entity-name.planet-name.abs-center #{name}
-      .planet-model.entity-model.abs-all
+    .planet-scaler.pos-all
+      .entity-name.planet-name.pos-center-top-left.translate-half-up-left #{name}
+      .planet-model.entity-model.pos-all
     .debug-dialog
       strong [MAP] #{name}
       .debug-line
@@ -246,7 +246,7 @@ template(name="mapPlanet")
         
 template(name="loot")
   .loot.entity.rendering-in($dyn=lootAttributes)
-    .loot-model.entity-model.abs-all
+    .loot-model.entity-model.pos-all
     .debug-dialog
       strong #{type}
       .debug-line
@@ -260,5 +260,5 @@ template(name="loot")
         span #{amount}
 
 template(name="cheats")
-  .cheats.abs-top-right
+  .cheats.pos-top-right
     
